@@ -1,3 +1,7 @@
+# maintain: Kamontat Chantrachirathumrong
+# version:  1.2.0
+# since:    03/05/2017
+
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
