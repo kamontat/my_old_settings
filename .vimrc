@@ -1,4 +1,11 @@
-" Setting up Vundle - the vim plugin bundler
+" maintain: Kamontat Chantrachirathumrong
+" version:  2.0.0
+" since:    05/05/2017
+
+"*********************************************************************"
+" First Loading 
+"*********************************************************************"
+
 let isInstall=1
 let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
 if !filereadable(vundle_readme) 
@@ -8,6 +15,10 @@ if !filereadable(vundle_readme)
 	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/vundle
 	isInstall=0
 endif
+
+"*********************************************************************"
+" Vundle Setting
+"*********************************************************************"
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -24,6 +35,7 @@ Plugin 'VundleVim/Vundle.vim'
 "*********************************************************************"
 " Example adding format
 "*********************************************************************"
+
 "" The following are examples of different formats supported.
 "" Keep Plugin commands between vundle#begin/end.
 "" plugin on GitHub repo
@@ -50,7 +62,7 @@ Plugin 'mildred/vim-bufmru'                     " buffer switch                 
 " line plugin
 Plugin 'vim-airline/vim-airline'				" tabbar/bottombar custom             -- https://github.com/vim-airline/vim-airline
 Plugin 'edkolev/tmuxline.vim'                   " other bottombar                     -- https://github.com/edkolev/tmuxline.vim
-Plugin 'edkolev/promptline.vim'                 " other cmdline                       -- https://github.com/edkolev/promptline.vim
+Plugin 'nagromc/promptline.vim'                 " original 'edkolev/promptline.vim'   -- https://github.com/nagromc/promptline.vim
 " theme plugin
 Plugin 'vim-airline/vim-airline-themes'			" theme of tabbar/bottombar           -- https://github.com/vim-airline/vim-airline-themes
 Plugin 'altercation/vim-colors-solarized'		" solarized syntax theme              -- https://github.com/altercation/vim-colors-solarized
@@ -69,17 +81,16 @@ Plugin 'haya14busa/incsearch.vim'				" improves basic search `/`, `?`      -- ht
 Plugin 'haya14busa/incsearch-fuzzy.vim'         " ------------------------------      -- https://github.com/haya14busa/incsearch-fuzzy.vim
 Plugin 'haya14busa/incsearch-easymotion.vim'    " ------------------------------      -- https://github.com/haya14busa/incsearch-easymotion.vim
 
-
 "*********************************************************************"
 " End adding plugin
 "*********************************************************************"
+
 if isInstall == 0
 	echo "Installing Bundle, Please ignore error message"
 	:PluginInstall
 endif
 call vundle#end()            " required
 filetype plugin indent on    " required
-" :PluginInstall
 
 "*********************************************************************"
 " Vundle Helper
@@ -94,9 +105,9 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 "*********************************************************************"
-" Basic setting
+" Default Theme Color & Default Syntax Color
 "*********************************************************************"
-" syntax color 
+
 syntax enable
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
@@ -109,6 +120,10 @@ colorscheme solarized
 " Customize syntax
 highlight! Normal ctermfg=green cterm=NONE
 highlight! LineNr ctermfg=white cterm=NONE
+
+"*********************************************************************"
+" Basic setting
+"*********************************************************************"
 
 set tabstop=4            " tab size
 " set backspace=2          " set backspace bug
@@ -136,11 +151,11 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1 
-" java syle
+" java style
 let g:syntastic_java_checkers = ['checkstyle'] " set checker for java language
 let g:syntastic_java_checkstyle_classpath = '~/.vim/checker/checkstyle-7.7-all.jar'
 let g:syntastic_java_checkstyle_conf_file = '~/.vim/checker/sum_checks.xml'
-" javascript stype
+" javascript style
 let g:syntastic_javascript_checkers = ['jshint']
 
 " vim airline
@@ -162,7 +177,6 @@ let g:tmuxline_preset = {
       \     'x'    : '#(date +"%A %d %B %Y (%X)")',
       \     'z'    : '#h'
       \ }
-" change color on different mode
 " change status of Tmuxline when Vim mode changes
 if exists('$TMUX')
 function! AddTmuxlineStatus()
@@ -199,10 +213,33 @@ endfunction
 au VimEnter * :call AddTmuxlineStatus()
 endif   " exists('$TMUX')
 
+" promptline setting
 let g:airline#extensions#promptline#snapshot_file = "~/.shell_prompt.sh"
+" why?
+" 'a'    : user name
+" 'b'    : host (appear only ssh)
+" 'c'    : directory list (show only last 3)
+" 'x'    : branch (only git exist) | status (count commits, count m/a/u file)
+" 'y'    : show latest commit message (show only 25 first charactor)
+" 'z'    : for linux/mac only (show if battary lower that 50%)
+" 'warn' : show exit error code (if not 0)
+let g:promptline_preset = {
+    \ 'a'    : [ promptline#slices#user() ],                                                                              
+    \ 'b'    : [ promptline#slices#host({ 'only_if_ssh': 1 }) ],
+    \ 'c'    : [ promptline#slices#cwd() ],
+    \ 'x'    : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
+    \ 'y'    : [ '$(git log -1 --pretty=%B 2>/dev/null | cut -c 1-25)' ], 
+    \ 'z'    : [ promptline#slices#battery({ 'threshold': 50 }) ], 
+    \ 'warn' : [ promptline#slices#last_exit_code() ], 
+    \ 'options': {
+        \ 'left_sections' : [ 'a', 'b', 'c', 'warn' ],
+        \ 'right_sections' : [ 'x', 'y'],
+        \ 'left_only_sections' : [ 'a', 'b', 'c', 'x', 'warn']
+    \ }
+\ }
 
 " git gutter
-set updatetime=250 " set checking time around 350 ms
+set updatetime=250 " set checking time around 250 ms
 let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 1
 
@@ -224,22 +261,15 @@ let g:user_emmet_leader_key='<C-M>'       " C=ctrl, M=key `m`
 silent autocmd FileType html,css EmmetInstall
 
 " vim easymotion
-" <Leader>f{char} to move to {char}
-" map  <Leader>f <Plug>(easymotion-bd-f)
-" nmap <Leader>f <Plug>(easymotion-overwin-f)
-
 " s{char}{char} to move to {char}{char}
 nmap s <Plug>(easymotion-overwin-f2)
-
 " Move to line
 map <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>L <Plug>(easymotion-overwin-line)
-
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
-
-" implement basic search
+" Implement basic search
 function! s:incsearch_config(...) abort
 	return incsearch#util#deepextend(deepcopy({
 	  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
@@ -249,7 +279,6 @@ function! s:incsearch_config(...) abort
 	  \   'is_expr': 0
 	  \ }), get(a:, 1, {}))
 endfunction
-
 function! s:config_easyfuzzymotion(...) abort
 	return extend(copy({
 	  \   'converters': [incsearch#config#fuzzyword#converter()],
@@ -261,8 +290,6 @@ function! s:config_easyfuzzymotion(...) abort
 	  \   'is_stay': 1
 	  \ }), get(a:, 1, {}))
 endfunction
-
-" error occurred
 noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
 noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
 noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
