@@ -125,17 +125,17 @@ highlight! LineNr ctermfg=white cterm=NONE
 " Basic setting
 "*********************************************************************"
 
-set tabstop=4            " tab size
-" set backspace=2          " set backspace bug
+set tabstop=4                " tab size
+" set backspace=2            " set backspace bug
 set backspace=indent,eol,start
-set expandtab          " use `space` instead of `tab`
-set shiftwidth=4         " tab when >> occurred
-set number               " show line number
+set expandtab                " use `space` instead of `tab`
+set shiftwidth=4             " tab when >> occurred
+set number                   " show line number
 set smartindent
 set autoindent
 set softtabstop=4
-set shell=/bin/bash
-let mapleader=" "          " set lender key
+set shell=/bin/bash          " default shell in bash
+let mapleader=" "            " set lender key
 " set list lcs=tab:\|\       " (here is a space)
 " set list lcs+=space:·      " set . instead space
 
@@ -269,6 +269,10 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
+" line too
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)
+
 " Implement basic search
 function! s:incsearch_config(...) abort
 	return incsearch#util#deepextend(deepcopy({
