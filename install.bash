@@ -79,12 +79,19 @@ function set_shell {
         else 
             chsh -s /bin/$1 $user
         fi
-        printf "default shell is $shell\n"
+        printf "changeing default shell to $shell\nTo save change you need to restart your computer"
         return 0 # true
     else 
-        printf "current default shell is $shell\n"
-        return 1 # false
+        printf "current default shell is $SHELL\n"
     fi
+}
+
+function install_fonts {
+    git clone https://github.com/powerline/fonts.git fonts
+    cd fonts
+    ./install.sh
+    cd ..
+    rm -rf fonts
 }
 
 # -----------------------------------------------
@@ -111,7 +118,7 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 # clone project
 # -----------------------------------------------
-
+printf "Starting clone project... \n"
 replace_file ~/.bashrc ./.bashrc
 replace_file ~/.bash_profile ./.bash_profile
 replace_file ~/.profile ./.profile
@@ -131,8 +138,20 @@ set_default_shell
 # -----------------------------------------------
 
 
+
+# -----------------------------------------------
+# install everything
+# -----------------------------------------------
+printf "Starting install... \n"
+printf "Starting install fonts..\n"
+install_fonts 
+
+printf "Starting install vim plugin..\n"
+vim +PluginInstall +qall
+
+
 # -----------------------------------------------
 # install everything
 # -----------------------------------------------
 
-# vim +PluginInstall +qall
+printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline'"
