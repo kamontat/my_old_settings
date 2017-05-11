@@ -15,7 +15,7 @@ while getopts 'AYs:u:h' flag; do
     Y) ans="Y" ;;
     s) shell=$OPTARG ;;
     u) user=$OPTARG ;;
-    h) printf "available option \n\tA - run as admin\n\tY - always say 'yes'\n\ts - default shell\n\tu - user of shell" && exit 0 ;;
+    h) printf "available option \n\tA - run as admin\n\tY - always say 'yes'\n\ts<SHELL> - default shell\n\tu<USER> - user of shell" && exit 0 ;;
     *) error "Unexpected option ${flag} run -h for more information" ;;
   esac
 done
@@ -151,7 +151,14 @@ vim +PluginInstall +qall
 
 
 # -----------------------------------------------
-# install everything
+# extra help
 # -----------------------------------------------
 
-printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline'"
+printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
+prinif "set on your terminal.\n"
+
+printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
+
+printf "Thank you for loading my vim setting.\n"
+printf "\tcreate by 'Kamontat Chantrachirathumrong.\n"
+
