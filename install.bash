@@ -87,10 +87,13 @@ function set_shell {
 }
 
 function install_fonts {
-    git clone https://github.com/powerline/fonts.git fonts
-    cd fonts
-    ./install.sh
-    cd ..
+    if [ -d fonts ]; then 
+        rm -rf fonts 
+    fi
+    git clone https://github.com/powerline/fonts.git fonts ;
+    cd fonts ;
+    ./install.sh ;
+    cd .. ;
     rm -rf fonts
 }
 
@@ -142,13 +145,15 @@ set_default_shell
 # -----------------------------------------------
 # install everything
 # -----------------------------------------------
-printf "Starting install... \n"
+printf "\nStarting install... \n"
 printf "Starting install fonts..\n"
 install_fonts 
 
 printf "Starting install vim plugin..\n"
 vim +PluginInstall +qall
 
+printf "Starting create promeline..\n"
+vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 
 # -----------------------------------------------
 # extra help
