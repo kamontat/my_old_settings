@@ -2,6 +2,8 @@
 set -e
 cd "$(dirname "$0")"
 
+source ./resource/color_constants
+
 # variable init
 shell=""
 user=$(whoami)
@@ -15,7 +17,7 @@ while getopts 'AYs:u:h' flag; do
     Y) ans="Y" ;;
     s) shell=$OPTARG ;;
     u) user=$OPTARG ;;
-    h) printf "available option \n\tA - run as admin\n\tY - always say 'yes'\n\ts<SHELL> - default shell\n\tu<USER> - user of shell" && exit 0 ;;
+    h) printf "available option \n\t$RED \bA$RESET - run as admin\n\t$RED \bY$RESET - always say 'yes'\n\t$RED \bs<SHELL>$RESET - default shell\n\t$RED \bu<USER>$RESET - user of shell\n" && exit 0 ;;
     *) error "Unexpected option ${flag} run -h for more information" ;;
   esac
 done
