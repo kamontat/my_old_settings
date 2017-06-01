@@ -162,7 +162,7 @@ vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 # -----------------------------------------------
 
 printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
-prinif "set on your terminal.\n"
+printf "set on your terminal.\n"
 
 printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
 
