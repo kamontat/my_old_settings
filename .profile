@@ -29,7 +29,6 @@ export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Ho
 export PATH="$JAVA_HOME/bin:$PATH"                                                     	     # java path
 
 # new key
-alias vim='/usr/local/Cellar/vim/8.0.0589/bin/vim'
 alias c='clear'
 alias srm='sudo rm -rf'
 alias lsa='ls -la'
