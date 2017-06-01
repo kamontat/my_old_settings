@@ -1,19 +1,19 @@
 " maintain: Kamontat Chantrachirathumrong
-" version:  2.0.0
-" since:    05/05/2017
+" version:  2.0.1
+" since:    01/06/2017
 
 "*********************************************************************"
 " First Loading 
 "*********************************************************************"
 
-let isInstall=1
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+let is_install = 1
+let vundle_readme = expand('~/.vim/bundle/Vundle.vim/README.md')
 if !filereadable(vundle_readme) 
 	echo "Installing Vundle.."
 	echo ""
 	silent !mkdir -p ~/.vim/bundle
-	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/vundle
-	isInstall=0
+	silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	is_install = 0
 endif
 
 "*********************************************************************"
@@ -58,34 +58,34 @@ Plugin 'VundleVim/Vundle.vim'
 "*********************************************************************"
 
 Plugin 'bling/vim-bufferline'					" show list of buffer in command bar  -- https://github.com/bling/vim-bufferline
-Plugin 'mildred/vim-bufmru'                     " buffer switch                       -- https://github.com/mildred/vim-bufmru
+Plugin 'mildred/vim-bufmru'                                     " buffer switch                       -- https://github.com/mildred/vim-bufmru
 " line plugin
 Plugin 'vim-airline/vim-airline'				" tabbar/bottombar custom             -- https://github.com/vim-airline/vim-airline
-Plugin 'edkolev/tmuxline.vim'                   " other bottombar                     -- https://github.com/edkolev/tmuxline.vim
-Plugin 'nagromc/promptline.vim'                 " original 'edkolev/promptline.vim'   -- https://github.com/nagromc/promptline.vim
+Plugin 'edkolev/tmuxline.vim'                                   " other bottombar                     -- https://github.com/edkolev/tmuxline.vim
+Plugin 'nagromc/promptline.vim'                                 " original 'edkolev/promptline.vim'   -- https://github.com/nagromc/promptline.vim
 " theme plugin
-Plugin 'vim-airline/vim-airline-themes'			" theme of tabbar/bottombar           -- https://github.com/vim-airline/vim-airline-themes
-Plugin 'altercation/vim-colors-solarized'		" solarized syntax theme              -- https://github.com/altercation/vim-colors-solarized
+Plugin 'vim-airline/vim-airline-themes'			        " theme of tabbar/bottombar           -- https://github.com/vim-airline/vim-airline-themes
+Plugin 'altercation/vim-colors-solarized'	                " solarized syntax theme              -- https://github.com/altercation/vim-colors-solarized
 " coding
-Plugin 'vim-syntastic/syntastic'                " syntax checking                     -- https://github.com/vim-syntastic/syntastic
+Plugin 'vim-syntastic/syntastic'                                " syntax checking                     -- https://github.com/vim-syntastic/syntastic
 " html plugin
 Plugin 'jiangmiao/auto-pairs'					" auto insert },>,)                   -- https://github.com/jiangmiao/auto-pairs
-Plugin 'alvan/vim-closetag'						" auto close http tag                 -- https://github.com/alvan/vim-closetag
-Plugin 'mattn/emmet-vim'						" improves HTML & CSS workflow        -- https://github.com/mattn/emmet-vim
+Plugin 'alvan/vim-closetag'					" auto close http tag                 -- https://github.com/alvan/vim-closetag
+Plugin 'mattn/emmet-vim'					" improves HTML & CSS workflow        -- https://github.com/mattn/emmet-vim
 " git workflow 
-Plugin 'jreybert/vimagit'                       " git workflow                        -- https://github.com/jreybert/vimagit
+Plugin 'jreybert/vimagit'                                       " git workflow                        -- https://github.com/jreybert/vimagit
 Plugin 'airblade/vim-gitgutter'					" git diff and reverse                -- https://github.com/airblade/vim-gitgutter
 " searching plugin
-Plugin 'easymotion/vim-easymotion'              " improves motion of the vim editor   -- https://github.com/easymotion/vim-easymotion
+Plugin 'easymotion/vim-easymotion'                              " improves motion of the vim editor   -- https://github.com/easymotion/vim-easymotion
 Plugin 'haya14busa/incsearch.vim'				" improves basic search `/`, `?`      -- https://github.com/haya14busa/incsearch.vim
-Plugin 'haya14busa/incsearch-fuzzy.vim'         " ------------------------------      -- https://github.com/haya14busa/incsearch-fuzzy.vim
-Plugin 'haya14busa/incsearch-easymotion.vim'    " ------------------------------      -- https://github.com/haya14busa/incsearch-easymotion.vim
+Plugin 'haya14busa/incsearch-fuzzy.vim'                         " ------------------------------      -- https://github.com/haya14busa/incsearch-fuzzy.vim
+Plugin 'haya14busa/incsearch-easymotion.vim'                    " ------------------------------      -- https://github.com/haya14busa/incsearch-easymotion.vim
 
 "*********************************************************************"
 " End adding plugin
 "*********************************************************************"
 
-if isInstall == 0
+if is_install == 0
 	echo "Installing Bundle, Please ignore error message"
 	:PluginInstall
 endif
