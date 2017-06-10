@@ -40,7 +40,6 @@ export GRAPHVIZ_DOT=/usr/local/bin/dot
 
 # custom alias
 # new key
-alias vim='/usr/local/Cellar/vim/8.0.0589/bin/vim'
 alias c='clear'
 alias srm='sudo rm -rf'
 alias lsa='ls -la'
