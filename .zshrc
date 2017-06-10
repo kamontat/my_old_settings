@@ -20,6 +20,7 @@ compinit
 
 [[ -s "$HOME/.profile" ]] && source ~/.profile
 
-tmux; clear # auto into tmux
-source ~/.shell_prompt.sh
+source $HOME/.shell_prompt.sh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+tmux; clear # auto into tmux

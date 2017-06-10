@@ -2,7 +2,7 @@
 set -e
 cd "$(dirname "$0")"
 
-source ./resource/color_constants
+source ./resource/color_raw_constants.sh
 
 # variable init
 shell=""
@@ -24,6 +24,7 @@ done
 
 version=${BASH_VERSION:0:1}
 printf "Bash version: $version, \nExpected: version [3|4]\n"
+echo ""
 
 # function
 function replace_file {
@@ -92,10 +93,10 @@ function install_fonts {
     if [ -d fonts ]; then 
         rm -rf fonts 
     fi
-    git clone https://github.com/powerline/fonts.git fonts ;
-    cd fonts ;
-    ./install.sh ;
-    cd .. ;
+    git clone https://github.com/powerline/fonts.git fonts &&
+    cd fonts &&
+    ./install.sh &&
+    cd .. &&
     rm -rf fonts
 }
 
@@ -111,6 +112,7 @@ fi
 if [[ $admin == "Y" ]]; then 
     printf "Enter administrator password: "
     read -s pass
+    echo ""
     printf "run as administrator.\n"
 fi
 
@@ -123,19 +125,19 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 # clone project
 # -----------------------------------------------
+echo ""
 printf "Starting clone project... \n"
 replace_file ~/.bashrc ./.bashrc
 replace_file ~/.bash_profile ./.bash_profile
 replace_file ~/.profile ./.profile
-# if zsh exist
-if [[ -f /bin/zsh ]]; then
-    replace_file ~/.zshrc ./.zshrc
-fi
+replace_file ~/.vimrc ./.vimrc
+[ -f /bin/zsh ] && replace_file ~/.zshrc ./.zshrc
 
 # -----------------------------------------------
 # set shell
 # -----------------------------------------------
 
+echo ""
 set_default_shell
 
 # -----------------------------------------------
@@ -147,13 +149,16 @@ set_default_shell
 # -----------------------------------------------
 # install everything
 # -----------------------------------------------
+echo ""
 printf "\nStarting install... \n"
 printf "Starting install fonts..\n"
 install_fonts 
 
+echo ""
 printf "Starting install vim plugin..\n"
 vim +PluginInstall +qall
 
+echo ""
 printf "Starting create promeline..\n"
 vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 
@@ -161,6 +166,7 @@ vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 # extra help
 # -----------------------------------------------
 
+echo ""
 printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
 printf "set on your terminal.\n"
 
