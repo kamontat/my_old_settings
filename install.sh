@@ -128,11 +128,11 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 echo ""
 printf "Starting clone project... \n"
-replace_file ~/.bashrc ./.bashrc
-replace_file ~/.bash_profile ./.bash_profile
-replace_file ~/.profile ./.profile
-replace_file ~/.vimrc ./.vimrc
-[ -f /bin/zsh ] && replace_file ~/.zshrc ./.zshrc
+replace_file ./.bashrc ~/.bashrc 
+replace_file ./.bash_profile ~/.bash_profile 
+replace_file ./.profile ~/.profile 
+replace_file ./.vimrc ~/.vimrc 
+[ -f /bin/zsh ] && replace_file ./.zshrc ~/.zshrc 
 
 # -----------------------------------------------
 # set shell
