@@ -1,3 +1,4 @@
+#!/bin/bash
 # constants project: https://gist.github.com/717f75e6b87606940017adf385274044.git
 # creator:           Kamontat Chantrachirathumrong 
 
