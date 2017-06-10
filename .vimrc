@@ -6,14 +6,15 @@
 " First Loading 
 "*********************************************************************"
 
-let isInstall=1
 let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme) 
+if !filereadable(vundle_readme)
 	echo "Installing Vundle.."
 	echo ""
 	silent !mkdir -p ~/.vim/bundle
 	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
-	isInstall=0
+	
+	echo "Installing Bundle, Please ignore error message"
+	:PluginInstall
 endif
 
 "*********************************************************************"
@@ -86,10 +87,6 @@ Plugin 'haya14busa/incsearch-easymotion.vim'    " ------------------------------
 " End adding plugin
 "*********************************************************************"
 
-if isInstall == 0
-	echo "Installing Bundle, Please ignore error message"
-	:PluginInstall
-endif
 call vundle#end()            " required
 filetype plugin indent on    " required
 
