@@ -10,11 +10,13 @@ user=$(whoami)
 admin=""
 pass=""
 
+force_yes=false
+
 # option
 while getopts 'AYs:u:h' flag; do
   case "${flag}" in
     A) admin="Y" ;;
-    Y) ans="Y" ;;
+    Y) force_yes=true ;;
     s) shell=$OPTARG ;;
     u) user=$OPTARG ;;
     h) printf "available option \n\t$RED \bA$RESET - run as admin\n\t$RED \bY$RESET - always say 'yes'\n\t$RED \bs<SHELL>$RESET - default shell\n\t$RED \bu<USER>$RESET - user of shell\n" && exit 0 ;;
@@ -27,35 +29,34 @@ printf "Bash version: $version, \nExpected: version [3|4]\n"
 echo ""
 
 # function
-function replace_file {
-    if copy_by_ans $2 $1; then
-        printf "replaced ($1 -> $2).\n"
-        return
-    fi
-    if [ -f $1 ]; then
-        printf "exist: replace by $2? [Y|n]"
-        read -n 1 ans
-        echo "" # new line
-    fi
-
-    if copy_by_ans $2 $1; then
-        printf "replaced ($1 -> $2).\n"
-        ans=""
+function copy {
+    if [[ $pass != "" ]]; then
+        echo "$pass" | sudo -S cp $1 $2
     else 
-        printf "used old $1.\n"
+        cp $1 $2
     fi
 }
 
-function copy_by_ans {
-    if [[ $ans == "Y" ]]; then
-        if [[ $pass != "" ]]; then
-            echo "$pass" | sudo -S cp $1 $2
+function replace_file {
+    # force copy
+    $force_yes && copy $1 $2 && echo 0 && exit 0
+    # is exist
+    if [ -f $1 ]; then
+        printf "exist: do you want to replace $2 ? [Y|n]"
+        read -n 1 ans
+        echo "" # new line
+        # replace 
+        if [[ $ans == "Y" ]]; then
+            copy $1 $2
+            printf "replaced ($1 -> $2).\n"
+        # not replace
         else 
-            cp $1 $2
+            printf "used old $1.\n"
         fi
-         return 0
+    # not exist
     else
-        return 1
+        copy $1 $2
+        printf "copy to $1.\n"
     fi
 }
 
