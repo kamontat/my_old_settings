@@ -42,7 +42,7 @@ function replace_file {
         printf "replaced ($1 -> $2).\n"
         ans=""
     else 
-        printf "used old one.\n"
+        printf "used old $1.\n"
     fi
 }
 
