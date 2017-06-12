@@ -42,7 +42,9 @@ export GRAPHVIZ_DOT=/usr/local/bin/dot
 # new key
 alias c='clear'
 alias srm='sudo rm -rf'
-alias lsa='ls -la'
+alias la='ls -la'
 alias cdd='cd ~/Desktop'
 alias gitcm='git checkout master'
 alias ssht='ssh ubuntu@ec2-13-58-224-212.us-east-2.compute.amazonaws.com'
+alias sysinfo='neofetch --config ~/.config/neofetch/config'
+alias ui='ranger'

@@ -6,15 +6,14 @@
 " First Loading 
 "*********************************************************************"
 
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme)
+let isInstall=1
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if !filereadable(vundle_readme) 
 	echo "Installing Vundle.."
 	echo ""
 	silent !mkdir -p ~/.vim/bundle
-	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
-	
-	echo "Installing Bundle, Please ignore error message"
-	:PluginInstall
+	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/vundle
+	isInstall=0
 endif
 
 "*********************************************************************"
@@ -87,6 +86,10 @@ Plugin 'haya14busa/incsearch-easymotion.vim'    " ------------------------------
 " End adding plugin
 "*********************************************************************"
 
+if isInstall == 0
+	echo "Installing Bundle, Please ignore error message"
+	:PluginInstall
+endif
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -227,11 +230,11 @@ let g:promptline_preset = {
     \ 'c'    : [ promptline#slices#cwd() ],
     \ 'x'    : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ],
     \ 'y'    : [ '$(git log -1 --pretty=%B 2>/dev/null | cut -c 1-25)' ], 
-    \ 'z'    : [ promptline#slices#battery({ 'threshold': 80 }) ], 
+    \ 'z'    : [ promptline#slices#battery({ 'threshold': 100 }) ], 
     \ 'warn' : [ promptline#slices#last_exit_code() ], 
     \ 'options': {
         \ 'left_sections' : [ 'a', 'b', 'c', 'warn' ],
-        \ 'right_sections' : [ 'x', 'y'],
+        \ 'right_sections' : [ 'x', 'y', 'z' ],
         \ 'left_only_sections' : [ 'a', 'b', 'c', 'x', 'warn']
     \ }
 \ }
