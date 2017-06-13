@@ -31,13 +31,13 @@ echo ""
 # function
 function copy {
     if [[ $pass != "" ]]; then
-        echo "$pass" | sudo -S cp $1 $2
+        echo "$pass" | sudo -S cp -rf $1 $2
     else 
-        cp $1 $2
+        cp -rf $1 $2
     fi
 }
 
-function replace_file {
+function replace {
     # force copy
     $force_yes && copy $1 $2 && echo 0 && exit 0
     # is exist
@@ -128,11 +128,12 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 echo ""
 printf "Starting clone project... \n"
-replace_file ./.bashrc ~/.bashrc 
-replace_file ./.bash_profile ~/.bash_profile 
-replace_file ./.profile ~/.profile 
-replace_file ./.vimrc ~/.vimrc 
-[ -f /bin/zsh ] && replace_file ./.zshrc ~/.zshrc 
+replace ./.bashrc ~/.bashrc 
+replace ./.bash_profile ~/.bash_profile 
+replace ./.profile ~/.profile 
+replace ./.vimrc ~/.vimrc 
+[ -f /bin/zsh ] && replace ./.zshrc ~/.zshrc 
+[ -f /bin/zsh ] && replace ./.zsh ~/.zsh
 
 # -----------------------------------------------
 # set shell
@@ -162,6 +163,11 @@ vim +PluginInstall +qall
 echo ""
 printf "Starting create promeline..\n"
 vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
+
+echo ""
+printf "Loading newest SHELL setting\n"
+source ~/.bash_profile
+[-f /bin/zsh ] && source ~/.zshrc
 
 # -----------------------------------------------
 # extra help
