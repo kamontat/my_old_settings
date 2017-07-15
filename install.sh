@@ -183,7 +183,7 @@ vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 echo ""
 printf "Loading newest SHELL setting\n"
 source ~/.bash_profile
-[-f /bin/zsh ] && source ~/.zshrc
+[ -f /bin/zsh ] && source ~/.zshrc
 
 # -----------------------------------------------
 # extra help
