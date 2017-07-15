@@ -47,14 +47,17 @@ function replace {
     $force_yes && copy $1 $2 && echo 0 && exit 0
     # is exist
     if [ -f $1 ]; then
-        printf "exist: do you want to replace $2 ? [Y|n]"
+        printf "${RED}exist${RESET}: Do you want to replace $2? [Y(es)|n(o)|S(how)] "
         read -n 1 ans
         echo "" # new line
         # replace 
-        if [[ $ans == "Y" ]]; then
+        if [[ $ans == "Y" ]] || [[ $ans == "yes" ]] || [[ $ans == "y" ]] || [[ $ans == "Yes" ]]; then
             copy $1 $2
             printf "replaced ($1 -> $2).\n"
         # not replace
+        elif [[ $ans == "S" ]] || [[ $ans == "show" ]] || [[ $ans == "s" ]] || [[ $ans == "Show" ]]; then
+            cat $1
+            replace $1 $2 
         else 
             printf "used old $1.\n"
         fi
@@ -133,12 +136,18 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 echo ""
 printf "Starting clone project... \n"
+
+printf "Install '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
 replace ./.bashrc ~/.bashrc 
+printf "Install '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
 replace ./.bash_profile ~/.bash_profile 
+printf "Install '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
 replace ./.profile ~/.profile 
+printf "Install '.vimrc' contain 'plugin install' and 'vim setting'\n"
 replace ./.vimrc ~/.vimrc 
-[ -f /bin/zsh ] && replace ./.zshrc ~/.zshrc 
-[ -f /bin/zsh ] && replace ./.zsh ~/.zsh
+
+[ -f /bin/zsh ] && printf "Install '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
+[ -f /bin/zsh ] && prinf "Install '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
 
 # -----------------------------------------------
 # set shell
