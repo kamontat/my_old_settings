@@ -171,7 +171,7 @@ printf "Starting install fonts..\n"
 install_fonts 
 
 echo ""
-printf "Starting install vim plugin..\n"
+printf "Starting install vim plugin.. (ignore the error at first time)\n"
 vim +PluginInstall +qall
 
 echo ""
@@ -191,8 +191,11 @@ echo ""
 printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
 printf "set on your terminal.\n"
 
-printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
+printf "you must change your name in '.profile' at line 5\n"
+printf "the terminal might return the error out at the first time, so you can ignore it!\n"
+printf "But if you run vim and still error, issue to me at (https://github.com/kamontat/my_vim/issues)\n"
+
+# printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
 
 printf "Thank you for loading my vim setting.\n"
 printf "\tcreate by 'Kamontat Chantrachirathumrong.\n"
-
