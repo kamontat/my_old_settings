@@ -23,6 +23,6 @@ compinit
 source $HOME/.shell_prompt.sh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-tmux; clear # auto into tmux
+# tmux; clear # auto into tmux
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
