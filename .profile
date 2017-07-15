@@ -20,7 +20,6 @@ export PATH="/usr/local/bin:$PATH"                                              
 export PATH="/usr/local/sbin:$PATH"                                                          # local sbin
 export PATH="/usr/local/git/bin:$PATH"                                                       # git
 export PATH="/usr/local/sbin:$PATH"                                                          # new local sbin folder
-
 # custom path
 # set python3 location
 export PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:$PATH"                    # python version 3.5
@@ -44,7 +43,13 @@ alias c='clear'
 alias srm='sudo rm -rf'
 alias la='ls -la'
 alias cdd='cd ~/Desktop'
+alias cdp='cd ~/Desktop/my-code-project'
 alias gitcm='git checkout master'
 alias ssht='ssh ubuntu@ec2-13-58-224-212.us-east-2.compute.amazonaws.com'
 alias sysinfo='neofetch --config ~/.config/neofetch/config'
 alias ui='ranger'
+# git alias
+alias gits='git status'
+alias gitd='git diff'
+alias gita='git add'
+alias gitc='git commit'
