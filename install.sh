@@ -145,6 +145,8 @@ printf "Install '.profile' contain 'all export constants' and 'alias (shortcut k
 replace ./.profile ~/.profile 
 printf "Install '.vimrc' contain 'plugin install' and 'vim setting'\n"
 replace ./.vimrc ~/.vimrc 
+printf "Install '.tmux.conf' contain 'tmux configuration'\n"
+replace ./.tmux.conf ~/.tmux.conf 
 
 [ -f /bin/zsh ] && printf "Install '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
 [ -f /bin/zsh ] && prinf "Install '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
