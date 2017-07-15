@@ -33,6 +33,11 @@ function copy {
     if [[ $pass != "" ]]; then
         echo "$pass" | sudo -S cp -rf $1 $2
     else 
+        # save cache if file exist
+        if [[ -f $2 ]] || [[ -d $2 ]]; then
+            cp -rf $2 $2.cache
+        fi
+        # copy
         cp -rf $1 $2
     fi
 }
