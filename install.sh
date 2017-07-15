@@ -44,27 +44,30 @@ function copy {
 
 function replace {
     # force copy
-    $force_yes && copy $1 $2 && echo 0 && exit 0
-    # is exist
-    if [ -f $1 ]; then
-        printf "${RED}exist${RESET}: Do you want to replace $2? [Y(es)|n(o)|S(how)] "
-        read -n 1 ans
-        echo "" # new line
-        # replace 
-        if [[ $ans == "Y" ]] || [[ $ans == "yes" ]] || [[ $ans == "y" ]] || [[ $ans == "Yes" ]]; then
+    if $force_yes; then
+        copy $1 $2 && printf "${RED}force${RESET} replace $2\n"
+    else 
+        # is exist
+        if [ -f $1 ]; then
+            printf "${RED}exist${RESET}: Do you want to replace $2? [Y(es)|n(o)|S(how)] "
+            read -n 1 ans
+            echo "" # new line
+            # replace 
+            if [[ $ans == "Y" ]] || [[ $ans == "yes" ]] || [[ $ans == "y" ]] || [[ $ans == "Yes" ]]; then
+                copy $1 $2
+                printf "replaced ($1 -> $2).\n"
+            # not replace
+            elif [[ $ans == "S" ]] || [[ $ans == "show" ]] || [[ $ans == "s" ]] || [[ $ans == "Show" ]]; then
+                printf "$BLUE$(cat $1)$RESET\n"
+                replace $1 $2 
+            else 
+                printf "used old $1.\n"
+            fi
+        # not exist
+        else
             copy $1 $2
-            printf "replaced ($1 -> $2).\n"
-        # not replace
-        elif [[ $ans == "S" ]] || [[ $ans == "show" ]] || [[ $ans == "s" ]] || [[ $ans == "Show" ]]; then
-            cat $1
-            replace $1 $2 
-        else 
-            printf "used old $1.\n"
+            printf "copy to $1.\n"
         fi
-    # not exist
-    else
-        copy $1 $2
-        printf "copy to $1.\n"
     fi
 }
 
@@ -137,19 +140,19 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 echo ""
 printf "Starting clone project... \n"
 
-printf "Install '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
+printf "\nInstall '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
 replace ./.bashrc ~/.bashrc 
-printf "Install '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
+printf "\nInstall '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
 replace ./.bash_profile ~/.bash_profile 
-printf "Install '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
+printf "\nInstall '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
 replace ./.profile ~/.profile 
-printf "Install '.vimrc' contain 'plugin install' and 'vim setting'\n"
+printf "\nInstall '.vimrc' contain 'plugin install' and 'vim setting' (cannot show!!)\n"
 replace ./.vimrc ~/.vimrc 
-printf "Install '.tmux.conf' contain 'tmux configuration'\n"
+printf "\nInstall '.tmux.conf' contain 'tmux configuration (cannot show!!)'\n"
 replace ./.tmux.conf ~/.tmux.conf 
 
-[ -f /bin/zsh ] && printf "Install '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
-[ -f /bin/zsh ] && prinf "Install '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
+[ -f /bin/zsh ] && printf "\nInstall '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
+[ -f /bin/zsh ] && printf "\nInstall '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
 
 # -----------------------------------------------
 # set shell
@@ -183,7 +186,7 @@ vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 echo ""
 printf "Loading newest SHELL setting\n"
 source ~/.bash_profile
-[ -f /bin/zsh ] && source ~/.zshrc
+[ -f /bin/zsh ] && zsh && source ~/.zshrc
 
 # -----------------------------------------------
 # extra help
