@@ -32,8 +32,8 @@ export PATH="$HOME/.rvm/rubies/ruby-2.4.0/bin:$PATH"                            
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"          # java home
 export PATH="$JAVA_HOME/bin:$PATH"                                                     	     # java path
 
-export ANDROID_HOME="/Users/kamontat/Library/Android/sdk"
-export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+export ANDROID_HOME="~/Library/Android/sdk"                                                  # android home
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"                         # android path
 
 export GRAPHVIZ_DOT=/usr/local/bin/dot
 
