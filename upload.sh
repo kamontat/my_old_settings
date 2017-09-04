@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 function copy {
     if [[ $pass != "" ]]; then
         echo "$pass" | sudo -S cp -rf $1 $2
-    else 
+    else
         cp -rf $1 $2
     fi
 }
@@ -16,7 +16,7 @@ if [[ $admin == "" ]]; then
     read -n 1 admin
     echo ""
 fi
-if [[ $admin == "Y" ]]; then 
+if [[ $admin == "Y" ]]; then
     printf "Enter administrator password: "
     read -s pass
     echo ""
@@ -27,12 +27,13 @@ fi
 # save project
 # -----------------------------------------------
 
-copy ~/.bashrc ./.bashrc 
-copy ~/.bash_profile ./.bash_profile 
-copy ~/.profile ./.profile 
-copy ~/.vimrc ./.vimrc 
-copy ./.zshrc ~/.zshrc 
-copy ./.zsh ~/.zsh
+copy ~/.bashrc ./.bashrc
+copy ~/.bash_profile ./.bash_profile
+copy ~/.profile ./.profile
+copy ~/.vimrc ./.vimrc
+copy ~/.zshrc ./.zshrc
+copy ~/.zsh ./.zsh
+copy ~/.vim_runtime ./.vim_runtime
 
 # -----------------------------------------------
 # extra help
