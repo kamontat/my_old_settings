@@ -13,3 +13,4 @@ you must read install output clearly!!
 2. [vim-plug](https://github.com/junegunn/vim-plug)
 3. [zplug](https://github.com/zplug/zplug)
 4. [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+5. [tpm](https://github.com/tmux-plugins/tpm)
