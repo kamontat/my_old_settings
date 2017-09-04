@@ -32,8 +32,8 @@ export PATH="/usr/local/opt/openssl/bin:$PATH"                                  
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"          # java home
 export PATH="$JAVA_HOME/bin:$PATH"                                                     	     # java path
 
-export ANDROID_HOME="/Users/kamontat/Library/Android/sdk"
-export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+export ANDROID_HOME="~/Library/Android/sdk"                                                  # android home
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"                         # android path
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
@@ -56,17 +56,17 @@ alias srm='sudo rm -rf'
 alias la='ls -la'
 alias cdd='cd ~/Desktop'
 alias cdp='cd ~/Desktop/my-code-project'
-alias ssht='ssh ubuntu@ec2-13-58-224-212.us-east-2.compute.amazonaws.com'
 alias sysinfo='neofetch --config ~/.config/neofetch/config'
 alias ui='ranger'
 # git alias
 alias g='git'
-alias gits='git status'
-alias gitd='git diff'
-alias gita='git add'
-alias gitc='git checkout'
-alias gitb='git branch'
-alias gitcm='git checkout master'
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gco='git checkout'
+alias gb='git branch'
+alias gcm='git checkout master'
 alias ge='git-extras'
 # angular custom
 alias ngg='git clone https://github.com/Template-Generating/angular-4-browser-sync.git'

@@ -1,18 +1,18 @@
 " maintain: Kamontat Chantrachirathumrong
-" version:  2.0.0
-" since:    05/05/2017
+" version:  2.0.1
+" since:    15/07/2017
 
 "*********************************************************************"
 " First Loading 
 "*********************************************************************"
 
 let isInstall=1
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-if !filereadable(vundle_readme) 
+let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
+if !filereadable(vundle_readme)
 	echo "Installing Vundle.."
 	echo ""
 	silent !mkdir -p ~/.vim/bundle
-	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/vundle
+	silent !git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
 	isInstall=0
 endif
 

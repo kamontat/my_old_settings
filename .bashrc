@@ -11,4 +11,4 @@
 # added of bash prompt (vim) setting
 [ -f $HOME/.shell_prompt.sh ] && source $HOME/.shell_prompt.sh
 
-clear
+# clear

@@ -33,30 +33,41 @@ function copy {
     if [[ $pass != "" ]]; then
         echo "$pass" | sudo -S cp -rf $1 $2
     else 
+        # save cache if file exist
+        if [[ -f $2 ]] || [[ -d $2 ]]; then
+            cp -rf $2 $2.cache
+        fi
+        # copy
         cp -rf $1 $2
     fi
 }
 
 function replace {
     # force copy
-    $force_yes && copy $1 $2 && echo 0 && exit 0
-    # is exist
-    if [ -f $1 ]; then
-        printf "exist: do you want to replace $2 ? [Y|n]"
-        read -n 1 ans
-        echo "" # new line
-        # replace 
-        if [[ $ans == "Y" ]]; then
+    if $force_yes; then
+        copy $1 $2 && printf "${RED}force${RESET} replace $2\n"
+    else 
+        # is exist
+        if [ -f $1 ]; then
+            printf "${RED}exist${RESET}: Do you want to replace $2? [Y(es)|n(o)|S(how)] "
+            read -n 1 ans
+            echo "" # new line
+            # replace 
+            if [[ $ans == "Y" ]] || [[ $ans == "yes" ]] || [[ $ans == "y" ]] || [[ $ans == "Yes" ]]; then
+                copy $1 $2
+                printf "replaced ($1 -> $2).\n"
+            # not replace
+            elif [[ $ans == "S" ]] || [[ $ans == "show" ]] || [[ $ans == "s" ]] || [[ $ans == "Show" ]]; then
+                printf "$BLUE$(cat $1)$RESET\n"
+                replace $1 $2 
+            else 
+                printf "used old $1.\n"
+            fi
+        # not exist
+        else
             copy $1 $2
-            printf "replaced ($1 -> $2).\n"
-        # not replace
-        else 
-            printf "used old $1.\n"
+            printf "copy to $1.\n"
         fi
-    # not exist
-    else
-        copy $1 $2
-        printf "copy to $1.\n"
     fi
 }
 
@@ -128,12 +139,20 @@ accept_shells=($(cat /etc/shells | grep -v "#"))
 # -----------------------------------------------
 echo ""
 printf "Starting clone project... \n"
+
+printf "\nInstall '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
 replace ./.bashrc ~/.bashrc 
+printf "\nInstall '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
 replace ./.bash_profile ~/.bash_profile 
+printf "\nInstall '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
 replace ./.profile ~/.profile 
+printf "\nInstall '.vimrc' contain 'plugin install' and 'vim setting' (cannot show!!)\n"
 replace ./.vimrc ~/.vimrc 
-[ -f /bin/zsh ] && replace ./.zshrc ~/.zshrc 
-[ -f /bin/zsh ] && replace ./.zsh ~/.zsh
+printf "\nInstall '.tmux.conf' contain 'tmux configuration (cannot show!!)'\n"
+replace ./.tmux.conf ~/.tmux.conf 
+
+[ -f /bin/zsh ] && printf "\nInstall '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
+[ -f /bin/zsh ] && printf "\nInstall '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
 
 # -----------------------------------------------
 # set shell
@@ -157,7 +176,7 @@ printf "Starting install fonts..\n"
 install_fonts 
 
 echo ""
-printf "Starting install vim plugin..\n"
+printf "Starting install vim plugin.. (ignore the error at first time)\n"
 vim +PluginInstall +qall
 
 echo ""
@@ -167,7 +186,7 @@ vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 echo ""
 printf "Loading newest SHELL setting\n"
 source ~/.bash_profile
-[-f /bin/zsh ] && source ~/.zshrc
+[ -f /bin/zsh ] && zsh && source ~/.zshrc
 
 # -----------------------------------------------
 # extra help
@@ -177,8 +196,11 @@ echo ""
 printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
 printf "set on your terminal.\n"
 
-printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
+printf "you must change your name in '.profile' at line 5\n"
+printf "the terminal might return the error out at the first time, so you can ignore it!\n"
+printf "But if you run vim and still error, issue to me at (https://github.com/kamontat/my_vim/issues)\n"
+
+# printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
 
 printf "Thank you for loading my vim setting.\n"
 printf "\tcreate by 'Kamontat Chantrachirathumrong.\n"
-
