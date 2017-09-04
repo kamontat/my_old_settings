@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/Users/kamontat/.vim'
 let g:netrw_dirhist_2='/Users/kamontat/.vim/plugged/YouCompleteMe'
 let g:netrw_dirhist_3='/Users/kamontat/.oh-my-zsh'
+let g:netrw_dirhist_4='/Users/kamontat/.vim'
+let g:netrw_dirhist_5='/Users/kamontat/Desktop/my-code-project/code/script_code/my_vim/.vim'
+let g:netrw_dirhist_6='/Users/kamontat/Desktop/my-code-project/code/script_code/my_vim/.vim/.vim'
