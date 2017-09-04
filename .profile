@@ -2,6 +2,9 @@
 # version:  1.2.1
 # since:    11/06/1017
 
+# vim key
+set -o vi
+
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source $HOME/.rvm/scripts/rvm
 
@@ -9,6 +12,11 @@
 export USER="kamontat"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+# User configuration
+export MANPATH="/usr/local/man:$MANPATH"
+export ARCHFLAGS="-arch x86_64"
+export EDITOR='nvim'
 
 # default path
 # set bin library location
@@ -39,6 +47,9 @@ export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"            
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.rvm/gems/ruby-2.4.1/bin:$PATH"
 
+# go lang
+export PATH=$PATH:/usr/local/go/bin
+
 export GRAPHVIZ_DOT=/usr/local/bin/dot
 
 export NVM_DIR="$HOME/.nvm"
@@ -68,7 +79,13 @@ alias gco='git checkout'
 alias gb='git branch'
 alias gcm='git checkout master'
 alias ge='git-extras'
+alias gl='git log --oneline --graph --color --all --decorate'
 # angular custom
 alias ngg='git clone https://github.com/Template-Generating/angular-4-browser-sync.git'
-alias v='vim'
+# vim
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+alias vis="sudo nvim"
+# rails 
 alias r='rails'

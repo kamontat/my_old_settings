@@ -32,8 +32,8 @@ copy ~/.bash_profile ./.bash_profile
 copy ~/.profile ./.profile
 copy ~/.vimrc ./.vimrc
 copy ~/.zshrc ./.zshrc
-# copy ~/.zsh ./.zsh
-copy ~/.vim_runtime ./.vim_runtime
+copy ~/.vim ./.vim
+copy ~/.config/nvim/init.vim ./.config/nvim/init.vim
 
 # -----------------------------------------------
 # extra help
