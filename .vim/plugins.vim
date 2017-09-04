@@ -72,6 +72,12 @@ Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'christoomey/vim-tmux-navigator'
 
+" searching plug
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
 " WakaTime Time Tracker
 Plug 'wakatime/vim-wakatime'
 
@@ -196,3 +202,41 @@ let g:gitgutter_enabled=0
 
 let g:polyglot_disabled = ['elm', 'javascript', 'jsx']
 
+" vim easymotion
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+" line too
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)
+
+" Implement basic search
+function! s:incsearch_config(...) abort
+	return incsearch#util#deepextend(deepcopy({
+	  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+	  \   'keymap': {
+	  \     "\<CR>": '<Over>(easymotion)'
+	  \   },
+	  \   'is_expr': 0
+	  \ }), get(a:, 1, {}))
+endfunction
+function! s:config_easyfuzzymotion(...) abort
+	return extend(copy({
+	  \   'converters': [incsearch#config#fuzzyword#converter()],
+	  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+	  \   'keymap': {
+	  \	 	"\<CR>": '<Over>(easymotion)'
+	  \	  },
+	  \   'is_expr': 0,
+	  \   'is_stay': 1
+	  \ }), get(a:, 1, {}))
+endfunction
+noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion()) 
