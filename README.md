@@ -1,5 +1,6 @@
 # Vim plugin
 Precondition: vim 8.0 or more
+Or: [NeoVim](https://github.com/neovim/neovim)
 
 # Warning
 you must read install output clearly!!
