@@ -5,6 +5,7 @@ call plug#begin()
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/nerdcommenter'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Airline (Status Line)
 Plug 'vim-airline/vim-airline'
@@ -71,6 +72,10 @@ Plug 'sophacles/vim-bundle-mako'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'christoomey/vim-tmux-navigator'
+
+" git ignore
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+Plug 'fszymanski/fzf-gitignore', {'do': ':UpdateRemotePlugins'}
 
 " searching plug
 Plug 'easymotion/vim-easymotion'
@@ -160,6 +165,10 @@ let g:NERDTreeWinSize=25
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
+map <leader>no :NERDTreeFocus<cr>
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-multiple-cursors

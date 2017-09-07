@@ -27,14 +27,18 @@ fi
 # save project
 # -----------------------------------------------
 
-copy ~/.bashrc .
-copy ~/.bash_profile .
-copy ~/.profile .
-copy ~/.vimrc .
-copy ~/.zshrc .
-copy ~/.vim .
-copy ~/.config/nvim/init.vim .
-copy ~/.tmux.conf .
+if [ $1 != "" ]; then
+  copy $1 .
+else
+  copy ~/.bashrc .
+  copy ~/.bash_profile .
+  copy ~/.profile .
+  copy ~/.vimrc .
+  copy ~/.zshrc .
+  copy ~/.vim .
+  copy ~/.config/nvim/init.vim .
+  copy ~/.tmux.conf .
+fi
 
 # -----------------------------------------------
 # extra help

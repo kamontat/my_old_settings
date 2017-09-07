@@ -140,3 +140,5 @@ zplug load
 #
 # Example aliases
 [ -s "$HOME/.profile" ] && source $HOME/.profile
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
