@@ -64,7 +64,7 @@ export NVM_DIR="$HOME/.nvm"
 
 ### python package management
 # added by Anaconda3 4.4.0 installer
-export PATH="/Users/kamontat/anaconda3/bin:$PATH"
+export PATH="$PATH:$HOME/anaconda3/bin"
 
 # postgres setting 
 if [ ! -d /etc/paths.d ]; then
@@ -86,6 +86,7 @@ alias cdp='cd ~/Desktop/my-code-project'
 alias sysinfo='neofetch --config ~/.config/neofetch/config'
 alias ui='ranger'
 # git alias
+alias git='hub'
 alias g='git'
 alias gs='git status'
 alias gd='git diff'
@@ -96,6 +97,10 @@ alias gb='git branch'
 alias gcm='git checkout master'
 alias ge='git-extras'
 alias gl='git log --oneline --graph --color --all --decorate'
+alias gitex='source activate py35 && gitsome'
+alias gitignore='git ignore-io'
+# my dot template (https://github.com/kamontat/dot-github-mini)
+alias dotgithub='~/.github/dotgithub'
 # angular custom
 alias ngg='git clone https://github.com/Template-Generating/angular-4-browser-sync.git'
 # vim

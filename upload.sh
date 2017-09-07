@@ -27,7 +27,7 @@ fi
 # save project
 # -----------------------------------------------
 
-if [ $1 != "" ]; then
+if [[ $1 != "" ]]; then
   copy $1 .
 else
   copy ~/.bashrc .
