@@ -4,6 +4,7 @@ set -e # force exit if nonzero code
 
 cd "$(dirname "$0")"
 
+cache_folder="caches"
 cache_postfix="cache"
 
 validate_version() {
@@ -93,7 +94,10 @@ copy() {
 # @explain    - save cache (as DayMonthYearHour)
 # @params - 1 - file or folder
 cache() {
-    copy "$1" "$1.$(date +%d%m%y%H).$cache_postfix"
+    local t
+    t="$(dirname "$1")/$cache_folder/${1##*/}"
+    # echo "$t"
+    copy "$1" "$t.$(date +%d%m%y%H).$cache_postfix"
 }
 
 # @explain    - try to move setting file to location
