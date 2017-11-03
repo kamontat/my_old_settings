@@ -228,10 +228,9 @@ Available option:
     esac
 done
 
-# Usage 
+# Usage
 
 # move_setting ./file1 ~/location
-
 
 # -----------------------------------------------
 # clone project
