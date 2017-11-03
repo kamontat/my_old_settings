@@ -150,6 +150,7 @@ Available option:
     ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
     ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
 "
+                    exit 0
                     ;;
                 *)
                     if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
