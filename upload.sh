@@ -27,21 +27,6 @@ validate_version "$version"
 # echo "$version"
 
 # -------------------------------------------------
-# Prompt
-# -------------------------------------------------
-
-# ref: https://askubuntu.com/a/30157/8698
-# if [ "$(id -u)" -ne 0 ]; then
-#     echo "run as $user! ->
-#     I suggest you to run as root by add 'sudo ./install.sh'"
-#     printf "Do you sure? [y|n] "
-#     read -rn 1 ans
-#     [[ $ans == "n" ]] && exit 1
-# else
-#     echo "run as Administrator!"
-# fi
-
-# -------------------------------------------------
 # Functions
 # -------------------------------------------------
 
@@ -155,6 +140,16 @@ Available option:
                 color*)
                     no_argument
                     source ./color.sh true
+                    ;;
+                help)
+                    no_argument
+                    echo "
+./upload.sh -[C] -[v<VERSION>] -[h]
+
+Available option:
+    ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
+    ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
+"
                     ;;
                 *)
                     if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
