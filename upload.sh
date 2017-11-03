@@ -149,6 +149,7 @@ Available option:
 Available option:
     ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
     ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
+    ${C_FG_1}-${C_UL}h${C_RE_UL}          | --${C_UL}help${C_RE_AL}                     - show this command
 "
                     exit 0
                     ;;
