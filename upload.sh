@@ -1,21 +1,29 @@
 #!/bin/bash
-set -e
+# set -x # debug
+set -e # force exit if nonzero code
 
 cd "$(dirname "$0")"
 
+cache_postfix="cache"
+
 validate_version() {
-    regex="^v[0-9]\{1,\}$"
-    
-    [[ "$1" =~ $regex ]] || exit 1
+    local t
+    t=$(echo "$1" | grep -o -E "v([^.a-zA-Z ]+)")
+    [[ $1 != "$t" ]] && echo "$1 is not valid version" && exit 1
+    return 0
 }
 
-# must be v1 v2 v3 ... 
+# must be v1 v2 v3 ...
 # without any dot prefix or more
-old_version="${$(git tag)##*$'\n'}"
-validate_version $old_version
+t="$(git tag)"
+old_version="${t##*$'\n'}"
+validate_version "$old_version"
 
-new_version="v$((${version##v} + 1))"
-validate_version $new_version
+version="v$((${old_version##v} + 1))"
+validate_version "$version"
+
+# echo "$old_version"
+# echo "$version"
 
 # -------------------------------------------------
 # Prompt
@@ -23,7 +31,7 @@ validate_version $new_version
 
 # ref: https://askubuntu.com/a/30157/8698
 # if [ "$(id -u)" -ne 0 ]; then
-#     echo "run as $user! -> 
+#     echo "run as $user! ->
 #     I suggest you to run as root by add 'sudo ./install.sh'"
 #     printf "Do you sure? [y|n] "
 #     read -rn 1 ans
@@ -96,37 +104,19 @@ move_setting() {
     result="$2"
     [ -d "$result" ] && result="$result/${file##*/}"
 
-    # force copy
-    if $always_yes; then
-        cache "$result" &&
-            copy "$file" "$result" &&
-            echo "${C_FG_1}force${C_RE_AL} replace $result" || return $?
-        return 0
-    fi
-
     # copy
     if [ ! -f "$result" ]; then
         copy "$file" "$result" && echo "${C_FG_1}copy${C_RE_AL} $file -> $result" || return $?
         return 0
     fi
     # replace
-    printf "%s ${C_FG_1}exist!${C_RE_AL} -> Do you want to replace %s?\n [y(es)|n(o)|s(how)] " "$file" "$result"
-    read -rn 1 ans
-    echo "" # new line
-    # replace
-    if [[ $ans == "y" ]]; then
-        cache "$result" &&
-            copy "$file" "$result" &&
-            echo "${C_FG_1}replaced${C_RE_AL} ($file -> $result)" || return $?
-        # not replace
-    elif [[ $ans == "s" ]]; then
-        echo 'start """ '
-        cat "$file" && echo ""
-        echo '""" end.'
-        move_setting "$file" "$result"
-    else
-        echo "use ${C_FG_1}old${C_RE_AL} file ($result)"
-    fi
+    cache "$result" &&
+        copy "$file" "$result" &&
+        echo "${C_FG_1}replaced${C_RE_AL} ($file -> $result)" || return $?
+}
+
+move_setting_here() {
+    move_setting "$1" .
 }
 
 # -------------------------------------------------
@@ -136,19 +126,15 @@ move_setting() {
 # option
 while getopts 'Cv:h-:' flag; do
     case "${flag}" in
-        Y) always_yes=true ;;
         C) source ./color.sh true ;;
-        v) new_version=$OPTARG ;;
-        u) user=$OPTARG ;;
+        v) version=$OPTARG ;;
         h)
             echo "
-./install.sh [C] [A|Y|[s<SHELL>|u<USER>]] [h]
+./upload.sh -[C] -[v<VERSION>] -[h]
 
 Available option:
-    ${C_FG_1}-${C_UL}Y${C_RE_UL}        | --${C_UL}yes${C_RE_AL}           - always say 'yes'
-    ${C_FG_1}-${C_UL}C${C_RE_UL}        | --${C_UL}color${C_RE_AL}         - add color
-    ${C_FG_1}-${C_UL}s<SHELL>${C_RE_UL} | --${C_UL}shell=<SHELL>${C_RE_AL} - input default shell
-    ${C_FG_1}-${C_UL}u<USER>${C_RE_UL}  | --${C_UL}user=<USER>${C_RE_AL}   - input default user
+    ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
+    ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
 "
             exit 0
             ;;
@@ -158,21 +144,13 @@ Available option:
             NEXT_PARAMS="${!OPTIND}" # OPTIND -> pointer to next parameter
             set_key_value_long_option
             case "${OPTARG}" in
-                yes*)
-                    no_argument
-                    always_yes=true
+                version*)
+                    require_argument
+                    version="${LONG_OPTVAL}"
                     ;;
                 color*)
                     no_argument
                     source ./color.sh true
-                    ;;
-                shell*)
-                    require_argument
-                    shell="$LONG_OPTVAL"
-                    ;;
-                user*)
-                    require_argument
-                    user="$LONG_OPTVAL"
                     ;;
                 *)
                     if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
@@ -186,28 +164,30 @@ Available option:
     esac
 done
 
-
 # -----------------------------------------------
 # save project
 # -----------------------------------------------
 
-if [[ $1 != "" ]]; then
-    copy $1 .
-else
-    copy ~/.bashrc .
-    copy ~/.bash_profile .
-    copy ~/.profile .
-    copy ~/.vimrc .
-    copy ~/.zshrc .
-    copy ~/.vim .
-    copy ~/.config/nvim/init.vim .
-    copy ~/.tmux.conf .
-fi
+[ -f "$1" ] && move_setting_here "$1" && exit 0
+[ -d "$1" ] && move_setting_here "$1" && exit 0
+
+file_settings=(
+    "$HOME/.bashrc"
+    "$HOME/.bash_profile"
+    "$HOME/.profile"
+    "$HOME/.vimrc"
+    "$HOME/.zshrc"
+)
+
+for each in "${file_settings[@]}"; do
+    echo "upload -> $each"
+    move_setting_here "$each"
+done
 
 # -----------------------------------------------
 # extra help
 # -----------------------------------------------
 
-echo "complete -- log at 'out.log'"
+# echo "complete -- log at 'out.log'"
 
-echo $(date) >>out.log
+# echo $(date) >>out.log

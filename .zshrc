@@ -1,12 +1,12 @@
 bindkey -v
 
-[ -s "$HOME/.profile" ] && source $HOME/.profile
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/kamontat/.oh-my-zsh
+# Make sure prompt is able to be generated properly.
+setopt prompt_subst
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -106,6 +106,8 @@ zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "plugins/urltools", from:oh-my-zsh
 zplug "plugins/web-search", from:oh-my-zsh
 zplug "plugins/yarn", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/fasd", from:oh-my-zsh
 
 # Custom Plugins
 zplug "b4b4r07/emoji-cli"
@@ -120,7 +122,51 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
 
-zplug "eendroroy/alien", as:theme
+# Theme 1
+# zplug "eendroroy/alien", as:theme
+# Theme 2 
+# zplug "caiogondim/bullet-train.zsh", use:bullet-train.zsh-theme, defer:3 
+# BULLETTRAIN_STATUS_EXIT_SHOW=true
+# Theme 3
+zplug denysdovhan/spaceship-zsh-theme, use:spaceship.zsh, from:github, as:theme
+
+# vi_mode
+SPACESHIP_PROMPT_ORDER=(
+  time
+  user
+  host
+  hg
+  package
+  node
+  ruby
+  elixir
+  xcode
+  swift
+  golang
+  php
+  rust
+  julia
+  docker
+  aws
+  venv
+  conda
+  pyenv
+  dotnet
+  ember
+  line_sep
+  dir
+  git
+  exec_time
+  line_sep
+  battery
+  exit_code
+  jobs
+  char
+)
+
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_BATTERY_ALWAYS_SHOW=true
+SPACESHIP_EXIT_CODE_SHOW=true
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -133,12 +179,4 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
 [ -s "$HOME/.profile" ] && source $HOME/.profile
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

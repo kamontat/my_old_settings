@@ -34,7 +34,6 @@ let g:ctrlp_cmd = 'CtrlP'
 filetype plugin on
 syntax enable
 
-set encoding=utf8
 set number
 
 set background=dark
@@ -43,4 +42,4 @@ set shiftwidth=2
 set tabstop=2
 
 " one
-colorscheme material-theme
+colorscheme carbonized-dark
