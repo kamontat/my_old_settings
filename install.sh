@@ -245,6 +245,15 @@ done
 # miniconda
 # ...
 
+# install homebrew (MacOS-only)
+# xcode-select --install
+# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# install neofetch (https://github.com/dylanaraps/neofetch)
+
+# install ranger (https://github.com/ranger/ranger)
+
+
 # -----------------------------------------------
 # clone project
 # -----------------------------------------------
