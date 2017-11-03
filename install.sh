@@ -232,6 +232,19 @@ done
 
 # move_setting ./file1 ~/location
 
+# install OH-MY-ZSH
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# vim awesome
+# git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+# sh ~/.vim_runtime/install_awesome_vimrc.sh
+
+# install version management / package management
+# nvm
+# rvm 
+# miniconda
+# ...
+
 # -----------------------------------------------
 # clone project
 # -----------------------------------------------

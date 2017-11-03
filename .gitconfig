@@ -1,0 +1,39 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	email = kamontat_c@hotmail.com
+	name = Kamontat Chantrachirathumrong
+	signingkey = D66989F82B0E807E
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+	editor = nvim
+[alias]
+	com = commit
+	d = diff
+	branch-graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches
+[color]
+	ui = true
+[credential]
+	helper = osxkeychain
+[log]
+	abbrevCommit = true
+	date = relative
+	decorate = auto
+	graphColors = "#ed4d3b,#f1c714,#6495ed,#ffc0cb,#fff7cc,#cef7f2,#c7dba7,#a7dbd5,#008000,#bba7db"
+[format]
+# %C(ul red)%h%C(reset)            - commit hash
+# %C(#ffe34c)%d%C(reset)           - refs
+# %C(bold #6495ed)<%an %ae>%Creset - author
+# %C(#fbb829)(%cr)%Creset          - date
+# %s                               - message 1 line
+# %B                               - full commit message
+# %n                               - new line
+	pretty = "%C(ul red)%h%C(reset) %C(#ffe34c)%d%C(reset) %nBy %C(bold #6495ed)<%an %ae>%Creset - %C(#fbb829)(%cr)%Creset %n%B%n"
+[commit]
+	gpgSign = true
+[tag]
+	forceSignAnnotated = true

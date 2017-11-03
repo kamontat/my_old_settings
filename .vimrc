@@ -1,3 +1,7 @@
+" maintain: Kamontat Chantrachirathumrong
+" version:  2.0.1
+" since:    04/11/2017
+
 source ~/.vim/basic.vim
 source ~/.vim/filetype.vim
 source ~/.vim/plugins.vim

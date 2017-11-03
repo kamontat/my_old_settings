@@ -23,6 +23,8 @@ validate_version "$old_version"
 version="v$((${old_version##v} + 1))"
 validate_version "$version"
 
+auto=false
+
 # echo "$old_version"
 # echo "$version"
 
@@ -108,23 +110,30 @@ move_setting_here() {
     move_setting "$1" .
 }
 
+help() {
+    echo "
+./upload.sh -[C] -[v<VERSION>] -[h]
+
+Available option:
+    ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
+    ${C_FG_1}-${C_UL}A${C_RE_UL}          | --${C_UL}auto${C_RE_AL}                     - auto push result to github
+    ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
+    ${C_FG_1}-${C_UL}h${C_RE_UL}          | --${C_UL}help${C_RE_AL}                     - show this command
+"
+}
+
 # -------------------------------------------------
 # Application
 # -------------------------------------------------
 
 # option
-while getopts 'Cv:h-:' flag; do
+while getopts 'ACv:h-:' flag; do
     case "${flag}" in
+        A) auto=true ;;
         C) source ./color.sh true ;;
         v) version=$OPTARG ;;
         h)
-            echo "
-./upload.sh -[C] -[v<VERSION>] -[h]
-
-Available option:
-    ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
-    ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
-"
+            help
             exit 0
             ;;
         -)
@@ -137,20 +146,17 @@ Available option:
                     require_argument
                     version="${LONG_OPTVAL}"
                     ;;
-                color*)
+                auto)
+                    no_argument
+                    auto=true
+                    ;;
+                color)
                     no_argument
                     source ./color.sh true
                     ;;
                 help)
                     no_argument
-                    echo "
-./upload.sh -[C] -[v<VERSION>] -[h]
-
-Available option:
-    ${C_FG_1}-${C_UL}C${C_RE_UL}          | --${C_UL}color${C_RE_AL}                    - add color
-    ${C_FG_1}-${C_UL}v<VERSION>${C_RE_UL} | --${C_UL}version<VERSION>${C_RE_AL}         - upload with spectify version (default=auto)
-    ${C_FG_1}-${C_UL}h${C_RE_UL}          | --${C_UL}help${C_RE_AL}                     - show this command
-"
+                    help
                     exit 0
                     ;;
                 *)
@@ -173,11 +179,15 @@ done
 [ -d "$1" ] && move_setting_here "$1" && exit 0
 
 file_settings=(
+    "$HOME/.vimrc"
+    "$HOME/.zshrc"
+    "$HOME/.inputrc"
     "$HOME/.bashrc"
     "$HOME/.bash_profile"
     "$HOME/.profile"
-    "$HOME/.vimrc"
-    "$HOME/.zshrc"
+    "$HOME/.vim"
+    "$HOME/.gitconfig"
+    "$HOME/.tmux.conf"
 )
 
 for each in "${file_settings[@]}"; do
@@ -191,7 +201,12 @@ git commit -m "🔖 Dump version: $version"
 
 echo "tag: $version"
 git tag $version
-# git push --tag
+
+# update data in github
+if $auto; then
+    git push
+    git push --tag
+fi
 
 # -----------------------------------------------
 # extra help

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # maintain: Kamontat Chantrachirathumrong
-# version:  1.4.0
-# since:    18/10/2017
+# version:  1.5.0
+# since:    04/11/2017
 
 # vim key
 set -o vi
@@ -150,7 +150,8 @@ alias ga='git add'
 alias gc='git commit'
 alias gcm='gc -m'
 alias gcm-sign='gc -S -m'
-alias gt='git tag -a'
+alias gt='git tag'
+alias gta='git tag -a'
 alias gt-sign='git tag -s'
 alias gco='git checkout'
 alias gcod='git checkout dev'
