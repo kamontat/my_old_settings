@@ -97,7 +97,7 @@ cache() {
 move_setting() {
     file="$1"
     result="$2"
-    [ -d "$result" ] && result="$result/${file##*/}"
+    [ -d "$result" ] && [ ! -d "$file" ] result="$result/${file##*/}"
 
     # copy
     if [ ! -f "$result" ]; then
