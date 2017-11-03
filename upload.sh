@@ -202,11 +202,13 @@ git commit -m "🔖 Dump version: $version"
 echo "tag: $version"
 git tag $version
 
+echo "$auto"
+
 # update data in github
-if $auto; then
-    git push
-    git push --tag
-fi
+# if $auto; then
+# git push
+# git push --tag
+# fi
 
 # -----------------------------------------------
 # extra help
