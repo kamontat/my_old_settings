@@ -201,9 +201,11 @@ for each in "${file_settings[@]}"; do
 done
 
 # setup brew
+echo "upload -> homebrew"
 brew list | while read cask; do echo "$cask"; done >"$dependencies_folder$homebrew_dep"
 
 # setup pip
+echo "upload -> pip"
 pip freeze >"$dependencies_folder$python_dep"
 
 # setup git and github
@@ -221,11 +223,3 @@ if $auto; then
     git push
     git push --tag
 fi
-
-# -----------------------------------------------
-# extra help
-# -----------------------------------------------
-
-# echo "complete -- log at 'out.log'"
-
-# echo $(date) >>out.log
