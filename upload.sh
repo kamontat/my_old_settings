@@ -4,8 +4,12 @@ set -e # force exit if nonzero code
 
 cd "$(dirname "$0")"
 
-cache_folder="caches"
+cache_folder="caches/"
 cache_postfix="cache"
+
+dependencies_folder="dependencies/"
+homebrew_dep="home_brew_list.txt"
+python_dep="python_list.txt"
 
 validate_version() {
     local t
@@ -82,7 +86,7 @@ copy() {
 # @params - 1 - file or folder
 cache() {
     local t
-    t="$(dirname "$1")/$cache_folder/${1##*/}"
+    t="$(dirname "$1")/$cache_folder${1##*/}"
     # echo "$t"
     copy "$1" "$t.$(date +%d%m%y%H).$cache_postfix"
 }
@@ -188,12 +192,21 @@ file_settings=(
     "$HOME/.vim"
     "$HOME/.gitconfig"
     "$HOME/.tmux.conf"
+    "$HOME/.config/neofetch"
 )
 
 for each in "${file_settings[@]}"; do
     echo "upload -> $each"
     move_setting_here "$each"
 done
+
+# setup brew
+brew list | while read cask; do echo "$cask"; done >"$dependencies_folder$homebrew_dep"
+
+# setup pip
+pip freeze >"$dependencies_folder$python_dep"
+
+# setup git and github
 
 echo ">> commit..."
 git add .
