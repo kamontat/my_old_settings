@@ -195,12 +195,12 @@ for each in "${file_settings[@]}"; do
     move_setting_here "$each"
 done
 
-# echo ">> commit..."
-# git add .
-# git commit -m "🔖 Dump version: $version"
+echo ">> commit..."
+git add .
+git commit -m "🔖 Dump version: $version"
 
-# echo ">> tag: $version"
-# git tag $version
+echo ">> tag: $version"
+git tag $version
 
 # update data in github
 if $auto; then
