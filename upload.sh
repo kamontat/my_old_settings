@@ -97,15 +97,21 @@ cache() {
 move_setting() {
     file="$1"
     result="$2"
-    [ -d "$result" ] && [ -f "$file" ] && result="$result/${file##*/}"
 
-    echo "$file"
-    echo "$result"
-    return 0
+    # echo "(1) - $file"
+    # echo "(1) - $result"
+    [ -d "$result" ] &&
+        result="$result/${file##*/}"
+    [[ ${file##*/} == "${result##*/}" ]] &&
+        [ -d "$result" ] &&
+        result="$(dirname "$result")"
+    # echo "(2) - $file"
+    # echo "(2) - $result"
+    # return 0
 
     # copy
     if [ ! -f "$result" ]; then
-        copy "$file" "$result" && echo "${C_FG_1}copy${C_RE_AL} $file -> $result" || return $?
+        copy "$file" "$result" && echo "${C_FG_1}copy${C_RE_AL} ($file -> $result)" || return $?
         return 0
     fi
     # replace
@@ -212,17 +218,16 @@ brew list | while read cask; do echo "$cask"; done >"$dependencies_folder$homebr
 echo "upload -> pip"
 pip freeze >"$dependencies_folder$python_dep"
 
-# setup git and github
-
-echo ">> commit..."
-git add .
-git commit -m "🔖 Dump version: $version"
-
-echo ">> tag: $version"
-git tag $version
-
-# update data in github
 if $auto; then
+    # setup git and github
+    echo ">> commit..."
+    git add .
+    git commit -m "🔖 Dump version: $version"
+
+    echo ">> tag: $version"
+    git tag $version
+
+    # update data in github
     echo ">> upload data to github.."
     git push
     git push --tag

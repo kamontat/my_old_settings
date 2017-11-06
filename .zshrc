@@ -5,6 +5,10 @@ bindkey -v
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/kamontat/.oh-my-zsh
+LC_CTYPE="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 # Make sure prompt is able to be generated properly.
 setopt prompt_subst
 

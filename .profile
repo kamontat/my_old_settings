@@ -9,8 +9,9 @@ set -o vi
 
 # set default variable
 export USER="kamontat"
-export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 # User configuration
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -85,7 +86,6 @@ fi
 # travis script install gem
 [ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # ----------------------------------------------
 # helper function
