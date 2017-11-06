@@ -37,10 +37,14 @@ COLOR_VERSION="v4.3.1"
 utils_name="color_util.sh"
 utils_file="https://github.com/kamontat/bash-color/releases/download/$COLOR_VERSION/$utils_name"
 
+red_color() {
+    echo "${C_FG_1}$1${C_RE_AL}"
+}
+
 # api function from (utils file)
 # @explain    - download file and save in the same name same location
 # @params - 1 - url of downloaded file
-function load {
+load() {
     name="$(get_name_from_url $1)"
     curl -o $COLOR_LOCATION/$name -sL -N $1
     chmod 755 $COLOR_LOCATION/$name
@@ -48,7 +52,7 @@ function load {
 
 # @params - 1 - file url
 # @return     - name of file in url
-function get_name_from_url {
+get_name_from_url() {
     echo "${1##*/}"
 }
 
@@ -57,9 +61,9 @@ function get_name_from_url {
 [ -f "$COLOR_LOCATION/$utils_name" ] || load $utils_file
 
 if $1; then
-    [ -f "$COLOR_LOCATION/$utils_name" ] && source /dev/stdin <<< "$($COLOR_LOCATION/$utils_name load $COLOR_VERSION)" || return 7
+    [ -f "$COLOR_LOCATION/$utils_name" ] && source /dev/stdin <<<"$($COLOR_LOCATION/$utils_name load $COLOR_VERSION)" || return 7
 else
-    [ -f "$COLOR_LOCATION/$utils_name" ] && source /dev/stdin <<< "$($COLOR_LOCATION/$utils_name reset $COLOR_VERSION)" || return 7
+    [ -f "$COLOR_LOCATION/$utils_name" ] && source /dev/stdin <<<"$($COLOR_LOCATION/$utils_name reset $COLOR_VERSION)" || return 7
     [[ $SILENT -eq 0 ]] && printf "Turn off color mode\n"
 fi
 [ -n "$C_COMPLETE" ] || C_COMPLETE=0
