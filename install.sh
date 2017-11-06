@@ -1,85 +1,144 @@
 #!/bin/bash
 set -e
+
 cd "$(dirname "$0")"
 
-source ./resource/color_raw_constants.sh
+# -------------------------------------------------
+# Constants
+# -------------------------------------------------
 
-# variable init
+accept_shells=($(grep -v "#" </etc/shells))
+cache_postfix="my_setting_cache"
+
+# -------------------------------------------------
+# Variables
+# -------------------------------------------------
+
 shell=""
 user=$(whoami)
-admin=""
-pass=""
 
-force_yes=false
+always_yes=false
 
-# option
-while getopts 'AYs:u:h' flag; do
-  case "${flag}" in
-    A) admin="Y" ;;
-    Y) force_yes=true ;;
-    s) shell=$OPTARG ;;
-    u) user=$OPTARG ;;
-    h) printf "available option \n\t$RED \bA$RESET - run as admin\n\t$RED \bY$RESET - always say 'yes'\n\t$RED \bs<SHELL>$RESET - default shell\n\t$RED \bu<USER>$RESET - user of shell\n" && exit 0 ;;
-    *) error "Unexpected option ${flag} run -h for more information" ;;
-  esac
-done
+# -------------------------------------------------
+# Prompt
+# -------------------------------------------------
 
-version=${BASH_VERSION:0:1}
-printf "Bash version: $version, \nExpected: version [3|4]\n"
-echo ""
+# ref: https://askubuntu.com/a/30157/8698
+if [ "$(id -u)" -ne 0 ]; then
+    echo "run as $user! -> 
+    I suggest you to run as root by add 'sudo ./install.sh'"
+    printf "Do you sure? [y|n] "
+    read -rn 1 ans
+    [[ $ans == "n" ]] && exit 1
+else
+    echo "run as Administrator!"
+fi
 
-# function
-function copy {
-    if [[ $pass != "" ]]; then
-        echo "$pass" | sudo -S cp -rf $1 $2
-    else 
-        # save cache if file exist
-        if [[ -f $2 ]] || [[ -d $2 ]]; then
-            cp -rf $2 $2.cache
-        fi
-        # copy
-        cp -rf $1 $2
+# -------------------------------------------------
+# Functions
+# -------------------------------------------------
+
+# @explain    - exit non zero code with message
+# @params - 1 - error message
+#           2 - error code
+throw() {
+    printf "%s\n" "$1" && exit $2
+}
+
+# @explain    - exit non zero code if long opt value is empty
+# @require    - throw method in helper_api
+# @params - 1 - error message
+#           2 - error code
+# @return     - message and code handle by $?
+throw_if_empty() {
+    [ -n "$LONG_OPTVAL" ] && return 0 || throw "$1" $2
+}
+
+# @explain    - get key and value automatially
+# @require    - use in `getopts` only
+set_key_value_long_option() {
+    if [[ $OPTARG =~ "=" ]]; then
+        LONG_OPTVAL="${OPTARG#*=}"
+        LONG_OPTARG="${OPTARG%=$LONG_OPTVAL}"
+    else
+        LONG_OPTARG="$OPTARG"
+        LONG_OPTVAL="$NEXT_PARAMS"
+        OPTIND=$((OPTIND + 1))
     fi
 }
 
-function replace {
+# @explain    - get key and value automatially
+# @require    - use in `getopts` only
+require_argument() {
+    throw_if_empty "'$LONG_OPTARG' require argument" 9
+}
+
+no_argument() {
+    OPTIND=$((OPTIND - 1))
+}
+
+# @explain    - copy file to other location
+# @params - 1 - file or folder
+#           2 - output location
+copy() {
+    cp -rf "$1" "$2"
+}
+
+# @explain    - save cache (as DayMonthYearHour)
+# @params - 1 - file or folder
+cache() {
+    copy "$1" "$1.$(date +%d%m%y%H).$cache_postfix"
+}
+
+# @explain    - try to move setting file to location
+# @params - 1 - setting file / folder
+#           2 - result location
+move_setting() {
+    file="$1"
+    result="$2"
+    [ -d "$result" ] && result="$result/${file##*/}"
+
     # force copy
-    if $force_yes; then
-        copy $1 $2 && printf "${RED}force${RESET} replace $2\n"
-    else 
-        # is exist
-        if [ -f $1 ]; then
-            printf "${RED}exist${RESET}: Do you want to replace $2? [Y(es)|n(o)|S(how)] "
-            read -n 1 ans
-            echo "" # new line
-            # replace 
-            if [[ $ans == "Y" ]] || [[ $ans == "yes" ]] || [[ $ans == "y" ]] || [[ $ans == "Yes" ]]; then
-                copy $1 $2
-                printf "replaced ($1 -> $2).\n"
-            # not replace
-            elif [[ $ans == "S" ]] || [[ $ans == "show" ]] || [[ $ans == "s" ]] || [[ $ans == "Show" ]]; then
-                printf "$BLUE$(cat $1)$RESET\n"
-                replace $1 $2 
-            else 
-                printf "used old $1.\n"
-            fi
-        # not exist
-        else
-            copy $1 $2
-            printf "copy to $1.\n"
-        fi
+    if $always_yes; then
+        cache "$result" &&
+            copy "$file" "$result" &&
+            echo "${C_FG_1}force${C_RE_AL} replace $result" || return $?
+        return 0
+    fi
+
+    # copy
+    if [ ! -f "$result" ]; then
+        copy "$file" "$result" && echo "${C_FG_1}copy${C_RE_AL} $file -> $result" || return $?
+        return 0
+    fi
+    # replace
+    printf "%s ${C_FG_1}exist!${C_RE_AL} -> Do you want to replace %s?\n [y(es)|n(o)|s(how)] " "$file" "$result"
+    read -rn 1 ans
+    echo "" # new line
+    # replace
+    if [[ $ans == "y" ]]; then
+        cache "$result" &&
+            copy "$file" "$result" &&
+            echo "${C_FG_1}replaced${C_RE_AL} ($file -> $result)" || return $?
+        # not replace
+    elif [[ $ans == "s" ]]; then
+        echo 'start """ '
+        cat "$file" && echo ""
+        echo '""" end.'
+        move_setting "$file" "$result"
+    else
+        echo "use ${C_FG_1}old${C_RE_AL} file ($result)"
     fi
 }
 
-function set_default_shell {
-    if [[ shell != "" ]]; then 
-        if set_shell $shell; then 
+set_default_shell() {
+    if [[ shell != "" ]]; then
+        if set_shell $shell; then
             return
         fi
     fi
     str=""
-    for shell in "${accept_shells[@]}" 
-    do
+    for shell in "${accept_shells[@]}"; do
         str="$str|${shell#/bin/}"
     done
     printf "set default shell[${str#|}|n]"
@@ -87,120 +146,179 @@ function set_default_shell {
     set_shell $shell
 }
 
-function set_shell {
+set_shell() {
     if [[ -f /bin/$1 ]]; then
         if [[ $pass != "" ]]; then
             echo "$pass" | sudo -S chsh -s /bin/$1 $user
-        else 
+        else
             chsh -s /bin/$1 $user
         fi
         printf "changeing default shell to $shell\nTo save change you need to restart your computer"
         return 0 # true
-    else 
+    else
         printf "current default shell is $SHELL\n"
     fi
 }
 
-function install_fonts {
-    if [ -d fonts ]; then 
-        rm -rf fonts 
+install_fonts() {
+    if [ -d fonts ]; then
+        rm -rf fonts
     fi
     git clone https://github.com/powerline/fonts.git fonts &&
-    cd fonts &&
-    ./install.sh &&
-    cd .. &&
-    rm -rf fonts
+        cd fonts &&
+        ./install.sh &&
+        cd .. &&
+        rm -rf fonts
 }
 
-# -----------------------------------------------
-# root
-# -----------------------------------------------
+# -------------------------------------------------
+# Application
+# -------------------------------------------------
 
-if [[ $admin == "" ]]; then
-    printf "run as administrator (suggest 'yes'): [Y|n]"
-    read -n 1 admin
-    echo ""
-fi
-if [[ $admin == "Y" ]]; then 
-    printf "Enter administrator password: "
-    read -s pass
-    echo ""
-    printf "run as administrator.\n"
-fi
+# option
+while getopts 'YCs:u:h-:' flag; do
+    case "${flag}" in
+        Y) always_yes=true ;;
+        C) source ./color.sh true ;;
+        s) shell=$OPTARG ;;
+        u) user=$OPTARG ;;
+        h)
+            echo "
+./install.sh [C] [A|Y|[s<SHELL>|u<USER>]] [h]
 
-# -----------------------------------------------
-# global variable
-# -----------------------------------------------
+Available option:
+    ${C_FG_1}-${C_UL}Y${C_RE_UL}        | --${C_UL}yes${C_RE_AL}           - always say 'yes'
+    ${C_FG_1}-${C_UL}C${C_RE_UL}        | --${C_UL}color${C_RE_AL}         - add color
+    ${C_FG_1}-${C_UL}s<SHELL>${C_RE_UL} | --${C_UL}shell=<SHELL>${C_RE_AL} - input default shell
+    ${C_FG_1}-${C_UL}u<USER>${C_RE_UL}  | --${C_UL}user=<USER>${C_RE_AL}   - input default user
+"
+            exit 0
+            ;;
+        -)
+            LONG_OPTARG=
+            LONG_OPTVAL=
+            NEXT_PARAMS="${!OPTIND}" # OPTIND -> pointer to next parameter
+            set_key_value_long_option
+            case "${OPTARG}" in
+                yes*)
+                    no_argument
+                    always_yes=true
+                    ;;
+                color*)
+                    no_argument
+                    source ./color.sh true
+                    ;;
+                shell*)
+                    require_argument
+                    shell="$LONG_OPTVAL"
+                    ;;
+                user*)
+                    require_argument
+                    user="$LONG_OPTVAL"
+                    ;;
+                *)
+                    if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
+                        echo "Unexpected option '$LONG_OPTARG', run -h for more information"
+                        exit 9
+                    fi
+                    ;;
+            esac
+            ;;
+        *) echo "Unexpected option ${flag} run -h for more information" >&2 ;;
+    esac
+done
 
-accept_shells=($(cat /etc/shells | grep -v "#"))
+# Usage
+
+# move_setting ./file1 ~/location
+
+# install OH-MY-ZSH
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# vim awesome
+# git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+# sh ~/.vim_runtime/install_awesome_vimrc.sh
+
+# install version management / package management
+# nvm
+# rvm 
+# miniconda
+# ...
+
+# install homebrew (MacOS-only)
+# xcode-select --install
+# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# install neofetch (https://github.com/dylanaraps/neofetch)
+
+# install ranger (https://github.com/ranger/ranger)
+
 
 # -----------------------------------------------
 # clone project
 # -----------------------------------------------
-echo ""
-printf "Starting clone project... \n"
+# echo ""
+# printf "Starting clone project... \n"
 
-printf "\nInstall '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
-replace ./.bashrc ~/.bashrc 
-printf "\nInstall '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
-replace ./.bash_profile ~/.bash_profile 
-printf "\nInstall '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
-replace ./.profile ~/.profile 
-printf "\nInstall '.vimrc' contain 'plugin install' and 'vim setting' (cannot show!!)\n"
-replace ./.vimrc ~/.vimrc 
-printf "\nInstall '.tmux.conf' contain 'tmux configuration (cannot show!!)'\n"
-replace ./.tmux.conf ~/.tmux.conf 
+# printf "\nInstall '.bashrc' contain 'travis setting' and 'bash prompt (vim) setting' \n"
+# replace ./.bashrc ~/.bashrc
+# printf "\nInstall '.bash_profile' contain 'bash loader' and 'iterm integration'\n"
+# replace ./.bash_profile ~/.bash_profile
+# printf "\nInstall '.profile' contain 'all export constants' and 'alias (shortcut key)'\n"
+# replace ./.profile ~/.profile
+# printf "\nInstall '.vimrc' contain 'plugin install' and 'vim setting' (cannot show!!)\n"
+# replace ./.vimrc ~/.vimrc
+# printf "\nInstall '.tmux.conf' contain 'tmux configuration (cannot show!!)'\n"
+# replace ./.tmux.conf ~/.tmux.conf
 
-[ -f /bin/zsh ] && printf "\nInstall '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc 
-[ -f /bin/zsh ] && printf "\nInstall '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
+# [ -f /bin/zsh ] && printf "\nInstall '.zshrc' contain 'zsh script config' and 'vim setting'\n" && replace ./.zshrc ~/.zshrc
+# [ -f /bin/zsh ] && printf "\nInstall '.zsh' contain 'zsh plugin'\n" && replace ./.zsh ~/.zsh
 
 # -----------------------------------------------
 # set shell
 # -----------------------------------------------
 
-echo ""
-set_default_shell
+# echo ""
+# set_default_shell
 
 # -----------------------------------------------
 # vim setting
 # -----------------------------------------------
 
-
-
 # -----------------------------------------------
 # install everything
 # -----------------------------------------------
-echo ""
-printf "\nStarting install... \n"
-printf "Starting install fonts..\n"
-install_fonts 
+# echo ""
+# printf "\nStarting install... \n"
+# printf "Starting install fonts..\n"
+# install_fonts
 
-echo ""
-printf "Starting install vim plugin.. (ignore the error at first time)\n"
-vim +PluginInstall +qall
+# echo ""
+# printf "Starting install vim plugin.. (ignore the error at first time)\n"
+# vim +PluginInstall +qall
 
-echo ""
-printf "Starting create promeline..\n"
-vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
+# echo ""
+# printf "Starting create promeline..\n"
+# vim -c ":PromptlineSnapshot! ~/.shell_prompt.sh airline" -c ":q"
 
-echo ""
-printf "Loading newest SHELL setting\n"
-source ~/.bash_profile
-[ -f /bin/zsh ] && zsh && source ~/.zshrc
+# echo ""
+# printf "Loading newest SHELL setting\n"
+# source ~/.bash_profile
+# [ -f /bin/zsh ] && zsh && source ~/.zshrc
 
 # -----------------------------------------------
 # extra help
 # -----------------------------------------------
 
-echo ""
-printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
-printf "set on your terminal.\n"
+# echo ""
+# printf "The fonts of this setting is 'DefaVu Sans Mono for Powerline' "
+# printf "set on your terminal.\n"
 
-printf "you must change your name in '.profile' at line 5\n"
-printf "the terminal might return the error out at the first time, so you can ignore it!\n"
-printf "But if you run vim and still error, issue to me at (https://github.com/kamontat/my_vim/issues)\n"
+# printf "you must change your name in '.profile' at line 5\n"
+# printf "the terminal might return the error out at the first time, so you can ignore it!\n"
+# printf "But if you run vim and still error, issue to me at (https://github.com/kamontat/my_vim/issues)\n"
 
 # printf "some plugin need extra install, so see more in '~/.vimrc' file.\n"
 
-printf "Thank you for loading my vim setting.\n"
-printf "\tcreate by 'Kamontat Chantrachirathumrong.\n"
+# printf "Thank you for loading my vim setting.\n"
+# printf "\tcreate by 'Kamontat Chantrachirathumrong.\n"
