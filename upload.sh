@@ -204,11 +204,16 @@ file_settings=(
     "$HOME/.tmux.conf"
     "$HOME/.config/neofetch"
     "$HOME/.config/nvim/init.vim"
+    "$HOME/.SpaceVim.d/init.vim"
 )
 
 for each in "${file_settings[@]}"; do
-    echo "upload -> $each"
-    move_setting_here "$each"
+    if [ -f $each ] || [ -f $each ]; then
+        echo "upload -> $each"
+        move_setting_here "$each"
+    else 
+        echo "NOT EXIST -> $each"
+    fi
 done
 
 # setup brew
