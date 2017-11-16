@@ -46,4 +46,4 @@ set shiftwidth=2
 set tabstop=2
 
 " one
-colorscheme carbonized-dark
+colorscheme wombat256i

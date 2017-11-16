@@ -1,6 +1,19 @@
 " Initialize vim-plug
 
-call plug#begin()
+""""""""""""""""""""""""""""""
+" => YCM
+""""""""""""""""""""""""""""""
+function! BuildYCM(info)
+    " info is a dictionary with 3 fields
+    " - name:   name of the plugin
+    " - status: 'installed', 'updated', or 'unchanged'
+    " - force:  set on PlugInstall! or PlugUpdate!
+    if a:info.status == 'installed' || a:info.force
+        !/usr/local/bin/python2 install.py --clang-completer --go-completer --js-completer
+    endif
+endfunction
+
+call plug#begin('~/.vim/plugged')
 " Nerdtree and Nerdcommenter
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
@@ -25,11 +38,12 @@ Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'lilydjwg/colorizer'
+Plug 'flazz/vim-colorschemes'
 Plug 'Galooshi/vim-import-js'
 Plug 'ElmCast/elm-vim'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'ervandew/supertab'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'evanmiller/nginx-vim-syntax'
 Plug 'godlygeek/tabular'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'joshdick/onedark.vim'
@@ -74,6 +88,9 @@ Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'christoomey/vim-tmux-navigator'
 
+" language analysis
+Plug 'ternjs/tern_for_vim'
+
 " git ignore
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'fszymanski/fzf-gitignore', {'do': ':UpdateRemotePlugins'}
@@ -91,11 +108,12 @@ call plug#end()
 
 filetype plugin indent on
 
+
 " Vim JSX
 let g:jsx_ext_required = 0
 
 " YCM
-let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/local/bin/python2'
 
 " Set utf8 as standard encoding and en_US as the standard language
 set guifont=Fura\ Code\ Light\ Nerd\ Font\ Complete\ Mono:h12

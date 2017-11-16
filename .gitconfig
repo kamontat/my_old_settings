@@ -6,7 +6,7 @@
 [user]
 	email = kamontat_c@hotmail.com
 	name = Kamontat Chantrachirathumrong
-	signingkey = D66989F82B0E807E
+	signingkey = 27774548F3C96C8E
 [core]
 	excludesfile = ~/.gitignore_global
 	autocrlf = input

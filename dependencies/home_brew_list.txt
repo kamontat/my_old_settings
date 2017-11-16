@@ -2,6 +2,7 @@ autoconf
 automake
 bash
 cabextract
+cairo
 cloc
 cmake
 codeclimate
@@ -14,11 +15,16 @@ freetype
 gcal
 gd
 gdbm
+gdk-pixbuf
 gettext
 git-extras
 git-lfs
+glib
 gmp
+gobject-introspection
+graphite2
 graphviz
+harfbuzz
 htop
 httpie
 hub
@@ -29,6 +35,7 @@ jenv
 jpeg
 kotlin
 libevent
+libffi
 libgpg-error
 libksba
 libpng
@@ -42,7 +49,6 @@ libxml2
 libyaml
 mpfr
 msgpack
-mysql
 neofetch
 neovim
 node
@@ -51,7 +57,9 @@ oniguruma
 openssl
 openssl@1.1
 p7zip
+pango
 pcre
+pixman
 pkg-config
 pv
 python
@@ -75,8 +83,6 @@ unrar
 vim
 watchman
 webp
-wine
-winetricks
 xz
 yarn
 zplug

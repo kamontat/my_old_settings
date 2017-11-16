@@ -25,7 +25,7 @@ always_yes=false
 
 # ref: https://askubuntu.com/a/30157/8698
 if [ "$(id -u)" -ne 0 ]; then
-    echo "run as $user! -> 
+    echo "run as $user! ->
     I suggest you to run as root by add 'sudo ./install.sh'"
     printf "Do you sure? [y|n] "
     read -rn 1 ans
@@ -239,9 +239,12 @@ done
 # git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 # sh ~/.vim_runtime/install_awesome_vimrc.sh
 
+# npm package
+# - gitmoji
+
 # install version management / package management
 # nvm
-# rvm 
+# rvm
 # miniconda
 # ...
 
@@ -284,6 +287,8 @@ done
 # -----------------------------------------------
 # vim setting
 # -----------------------------------------------
+
+# https://github.com/SpaceVim/SpaceVim
 
 # -----------------------------------------------
 # install everything

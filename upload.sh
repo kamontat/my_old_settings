@@ -203,6 +203,7 @@ file_settings=(
     "$HOME/.gitconfig"
     "$HOME/.tmux.conf"
     "$HOME/.config/neofetch"
+    "$HOME/.config/nvim/init.vim"
 )
 
 for each in "${file_settings[@]}"; do

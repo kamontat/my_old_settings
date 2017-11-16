@@ -184,3 +184,7 @@ fi
 zplug load
 
 [ -s "$HOME/.profile" ] && source $HOME/.profile
+
+setopt COMBINING_CHARS
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
