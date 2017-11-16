@@ -208,7 +208,7 @@ file_settings=(
 )
 
 for each in "${file_settings[@]}"; do
-    if [ -f $each ] || [ -f $each ]; then
+    if [ -f $each ] || [ -d $each ]; then
         echo "upload -> $each"
         move_setting_here "$each"
     else 
