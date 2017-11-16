@@ -1,20 +1,29 @@
-
-# Created by https://www.gitignore.io/api/vim
-
-### Vim ###
-# swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-v][a-z]
-[._]sw[a-p]
-# session
-Session.vim
-# temporary
-.netrwhist
-*~
-# auto-generated tag files
+doc/tags
+wiki/.git
+*.class
+.floo
+.flooignore
+*.netrwhist
+*-rplugin~
+*rplugin.vim
+.SpaceVim.log
+docs/_site/*
+docs/Gemfile.lock
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+.TAGS
+!TAGS/
 tags
-
-# End of https://www.gitignore.io/api/vim
-
-plugged/
+.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+GSYMS
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+build/
+.coverage.covimerage
