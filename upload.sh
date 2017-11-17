@@ -10,6 +10,7 @@ cache_postfix="cache"
 dependencies_folder="dependencies/"
 homebrew_dep="home_brew_list.txt"
 python_dep="python_list.txt"
+npm_dep="node_list.txt"
 
 validate_version() {
     local t
@@ -229,6 +230,10 @@ brew list | while read cask; do echo "$cask"; done >"$dependencies_folder$homebr
 # setup pip
 echo "upload -> pip"
 pip freeze >"$dependencies_folder$python_dep"
+
+# setup npm
+echo "upload -> npm"
+npm ls -g --depth=0 | tr -d "├" | tr -d "└" | tr -d "─" | tr -d " " > "$dependencies_folder$npm_dep"
 
 if $auto; then
     # setup git and github
