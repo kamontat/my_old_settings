@@ -211,7 +211,7 @@ file_settings=(
     "$HOME/.tmux.conf"
     "$HOME/.config/neofetch"
     # "$HOME/.config/nvim/init.vim"
-    "$HOME/.SpaceVim.d/*"
+    "$HOME/.SpaceVim.d"
 )
 
 for each in "${file_settings[@]}"; do
