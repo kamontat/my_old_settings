@@ -12,6 +12,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Make sure prompt is able to be generated properly.
 setopt prompt_subst
 
+setopt COMBINING_CHARS
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -184,7 +186,9 @@ fi
 zplug load
 
 [ -s "$HOME/.profile" ] && source $HOME/.profile
-
-setopt COMBINING_CHARS
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+printf "which mode [s(cript)|v(im)]: "
+read -k ans
+[[ $ans == "v" ]] && vim
+return 0

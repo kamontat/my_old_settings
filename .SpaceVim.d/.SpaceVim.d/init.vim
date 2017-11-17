@@ -28,51 +28,70 @@ call SpaceVim#layers#load('lang#xml')
 " layer support 
 " ####################################
 call SpaceVim#layers#load('incsearch')
-call SpaceVim#layers#load('shell')   
-call SpaceVim#layers#load('vim')   
+call SpaceVim#layers#load('shell')
+call SpaceVim#layers#load('vim')
 call SpaceVim#layers#load('tools#screensaver')
-call SpaceVim#layers#load('core#statusline')
+call SpaceVim#layers#load('autocomplete')
 
 " ####################################
 " default setting
 " ####################################
-let g:spacevim_enable_vimfiler_welcome = 1
-let g:spacevim_enable_debug = 1
-let g:deoplete#auto_complete_delay = 150
-let g:spacevim_enable_tabline_filetype_icon = 1
-let g:spacevim_enable_statusline_display_mode = 0
-let g:spacevim_enable_os_fileformat_icon = 1
+
+" types:
+" 0: 1 ➛ ➊
+" 1: 1 ➛ ➀
+" 2: 1 ➛ ⓵
+" 3: 1 ➛ ¹
+" 4: 1 ➛ 1
 let g:spacevim_buffer_index_type = 1
-let g:neomake_vim_enabled_makers = []
+let g:spacevim_windows_index_type = 0
+let g:spacevim_enable_statusline_display_mode = 1
+let g:spacevim_enable_cursorcolumn = 1
+let g:spacevim_enable_tabline_filetype_icon = 1
+let g:spacevim_enable_os_fileformat_icon = 1
+let g:spacevim_enable_googlesuggest = 1
+
+
+let g:spacevim_enable_vimfiler_welcome = 1
+let g:spacevim_enable_vimfiler_gitstatus = 1
+let g:spacevim_enable_vimfiler_filetypeicon = 1
 
 " ####################################
-" vim setting
+" Custom Plugin
 " ####################################
-" use space as `<Leader>`
-" let mapleader = "\\"
-" Set windows shortcut leader [Window], default is `s`
-" let g:spacevim_windows_leader = 's'
-" Set unite work flow shortcut leader [Unite], default is `f`
-" let g:spacevim_unite_leader = 'f'
+
+let g:spacevim_custom_plugins = [
+\ ['wakatime/vim-wakatime'],
+\ ]
 
 " ####################################
-" theme setting
+" " SpaceVim theme
 " ####################################
 let g:spacevim_statusline_separator = 'slant'
 let g:spacevim_colorscheme = 'onedark'
 let g:spacevim_colorscheme_bg = 'dark'
+
 let g:spacevim_guifont = 'FuraCode\ Nerd\ Font\ Mono\ 16'
 
 " ####################################
-" code setting
+" SpaceVim Language 
+" ####################################
+" let g:spacevim_vim_help_language = 'cn'
+" let g:spacevim_language = 'en_CA.utf8'
+
+" ####################################
+" SpaceVim code
 " ####################################
 let g:spacevim_default_indent = 4
-
-let g:spacevim_enable_vimfiler_gitstatus = 1
+let g:spacevim_github_username = "kamontat"
+let g:spacevim_lint_on_save = 1
 
 " ####################################
 " misc
 " ####################################
+let g:deoplete#auto_complete_delay = 150
+let g:neomake_vim_enabled_makers = []
+
 if executable('vimlint')
     call add(g:neomake_vim_enabled_makers, 'vimlint') 
 endif
@@ -86,4 +105,9 @@ endif
 
 let g:clang2_placeholder_next = ''
 let g:clang2_placeholder_prev = ''
+
+" ####################################
+" Vim setting
+" ####################################
+set clipboard=unnamed       " <C-c> | y is the same clipboard
 
