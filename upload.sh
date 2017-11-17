@@ -82,8 +82,15 @@ copy() {
     cp -rf "$1" "$2"
 }
 
+# @explain    - get name of the path
+# @params - 1 - the path
+# @return     - name of folder and fil eon the path
+get_file_name() {
+    echo "${1##*/}"
+}
+
 # @explain    - save cache (as DayMonthYearHour)
-# @params - 1 - file or folder
+# @param - 1 - file or folder
 cache() {
     local t
     t="$(dirname "$1")/$cache_folder${1##*/}"
@@ -121,7 +128,7 @@ move_setting() {
 }
 
 move_setting_here() {
-    move_setting "$1" .
+    move_setting "$1" "./$(get_file_name "$1")"
 }
 
 help() {
@@ -204,7 +211,7 @@ file_settings=(
     "$HOME/.tmux.conf"
     "$HOME/.config/neofetch"
     # "$HOME/.config/nvim/init.vim"
-    "$HOME/.SpaceVim.d"
+    "$HOME/.SpaceVim.d/*"
 )
 
 for each in "${file_settings[@]}"; do
