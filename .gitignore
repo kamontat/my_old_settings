@@ -1,6 +1,7 @@
-.zsh/zsh-syntax-highlighting
 
 *color*
 !color.sh
+
+!**/colors/*.vim
 
 *.cache
