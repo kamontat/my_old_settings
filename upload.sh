@@ -215,7 +215,7 @@ file_settings=(
 
 for each in "${file_settings[@]}"; do
     if [ -f $each -o -d $each ]; then
-        printf "upload -> $each"
+        printf "upload -> "
         move_setting_here "$each"
     else 
         echo "${C_FG_2}no-exist${C_RE_AL} -> $each"
