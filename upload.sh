@@ -20,7 +20,7 @@ validate_version() {
 
 # must be v1 v2 v3 ...
 # without any dot prefix or more
-t="$(git tag)"
+t="$(git tag --list --sort v:refname)"
 old_version="${t##*$'\n'}"
 validate_version "$old_version"
 
@@ -29,8 +29,7 @@ validate_version "$version"
 
 auto=false
 
-# echo "$old_version"
-# echo "$version"
+echo "update -> $old_version to $version"
 
 # -------------------------------------------------
 # Functions
@@ -216,10 +215,10 @@ file_settings=(
 
 for each in "${file_settings[@]}"; do
     if [ -f $each -o -d $each ]; then
-        echo "upload -> $each"
+        printf "upload -> $each"
         move_setting_here "$each"
     else 
-        echo "NOT EXIST -> $each"
+        echo "${C_FG_2}no-exist${C_RE_AL} -> $each"
     fi
 done
 
