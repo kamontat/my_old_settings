@@ -193,17 +193,17 @@ done
 [ -d "$1" ] && move_setting_here "$1" && exit 0
 
 file_settings=(
-    "$HOME/.vimrc"
+    # "$HOME/.vimrc"
     "$HOME/.zshrc"
     "$HOME/.inputrc"
     "$HOME/.bashrc"
     "$HOME/.bash_profile"
     "$HOME/.profile"
-    "$HOME/.vim"
+    # "$HOME/.vim"
     "$HOME/.gitconfig"
     "$HOME/.tmux.conf"
     "$HOME/.config/neofetch"
-    "$HOME/.config/nvim/init.vim"
+    # "$HOME/.config/nvim/init.vim"
     "$HOME/.SpaceVim.d"
 )
 
