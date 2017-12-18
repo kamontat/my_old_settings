@@ -212,6 +212,7 @@ file_settings=(
     "$HOME/.config/neofetch"
     # "$HOME/.config/nvim/init.vim"
     "$HOME/.SpaceVim.d"
+    "$HOME/.my-zsh"
 )
 
 for each in "${file_settings[@]}"; do
