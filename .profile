@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2155
 
 # maintain: Kamontat Chantrachirathumrong
 # version:  1.5.0
@@ -15,20 +16,21 @@ export LC_ALL="en_US.UTF-8"
 
 # User configuration
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+export MANPATH="/usr/local/bin/_NDD_FOLDER/man:$MANPATH"
 export ARCHFLAGS="-arch x86_64"
 export EDITOR='nvim'
 export VISUAL='nvim'
 
 # default path
 # set bin library location
-export PATH="/usr/bin:$PATH"                                                                 # user bin
-export PATH="/bin:$PATH"                                                                     # bin
-export PATH="/usr/sbin:$PATH"                                                                # user sbin
-export PATH="/sbin:$PATH"                                                                    # sbin
-export PATH="/usr/local/bin:$PATH"                                                           # local bin
-export PATH="/usr/local/sbin:$PATH"                                                          # local sbin
-export PATH="/usr/local/git/bin:$PATH"                                                       # git
-export PATH="/usr/local/sbin:$PATH"                                                          # new local sbin folder
+export PATH="/usr/bin:$PATH"                # user bin
+export PATH="/bin:$PATH"                    # bin
+export PATH="/usr/sbin:$PATH"               # user sbin
+export PATH="/sbin:$PATH"                   # sbin
+export PATH="/usr/local/bin:$PATH"          # local bin
+export PATH="/usr/local/sbin:$PATH"         # local sbin
+export PATH="/usr/local/git/bin:$PATH"      # git
+export PATH="/usr/local/sbin:$PATH"         # new local sbin folder
 
 # ----------------------------------------------
 # custom path
@@ -61,7 +63,8 @@ export PATH="$PATH:$HOME/.rvm/bin"                                              
 ### node package management
 if [ -d "$HOME/.nvm" ]; then
     export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"                                            # node version management
+    # shellcheck disable=SC1090
+    [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                                            # node version management
     # [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
@@ -84,6 +87,7 @@ if [ ! -d /etc/paths.d ]; then
 fi
 
 # travis script install gem
+# shellcheck disable=SC1090
 [ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
 
@@ -103,6 +107,7 @@ function cat-syntax {
         # highlight syntax
         t=$(pygmentize "$1" 2>/dev/null || pygmentize -l text "$1")
         # add line number
+        # shellcheck disable=SC1001
         T=$(echo "$t" | \cat -n)
         # if have $2
         if [ ! -x "$2" ]; then
@@ -120,6 +125,16 @@ function cat-syntax {
 # copy file context to copy/paste (cmd-c and cmd-v)
 copy_file() {
     [ -f "$1" ] && pbcopy < "$1" || return 2
+}
+
+# countdown
+countdown () {
+    time="$1"; shift
+    termdown "$time" -v "Veena" "$@"
+}
+
+timer() {
+    termdown
 }
 
 # ----------------------------------------------
@@ -141,6 +156,7 @@ alias sysinfo='neofetch --config ~/.config/neofetch/config'
 alias ui='ranger'
 alias atime='gnomon'
 alias stime='gnomon'
+alias batt='system_profiler SPPowerDataType'
 # git alias
 alias git='hub'
 alias g='git'
@@ -205,3 +221,16 @@ command -v "code" >/dev/null 2>&1 || alias code='code-insiders'
 # rails 
 alias r='rails'
 
+# mac setting
+# if uname -s | grep -q Darwin; then
+    # add recent application
+    # defaults write com.apple.dock persistent-others \
+    #     -array-add '{ "tile-data" = { "list-type" = 1; }; "tile-type" = "recents-tile"; }'
+    
+    # add space to dock
+    # defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
+    
+    # scroll to open app in dock
+    # defaults write com.apple.dock scroll-to-open -bool true && \
+    # killall Dock
+# fi

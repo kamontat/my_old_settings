@@ -10,3 +10,8 @@
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
+
+[ -f "$HOME/.profile" ] && source $HOME/.profile

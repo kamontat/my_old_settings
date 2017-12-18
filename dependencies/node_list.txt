@@ -12,7 +12,9 @@ UNMETPEERDEPENDENCYeslint-plugin-import@2.8.0
 eslint-plugin-jsx-a11y@2.2.3
 UNMETPEERDEPENDENCYeslint-plugin-react@6.10.3
 forever@0.15.3
-gitmoji-cli@1.8.2
+gitmoji-cli@1.8.7
+gnomon@1.5.0
+gtop@0.1.5
 gulp@3.9.1
 gulp-cli@1.4.0
 harp@0.23.0

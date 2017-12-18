@@ -7,6 +7,7 @@ cairo
 cloc
 cmake
 codeclimate
+colordiff
 coreutils
 ctags
 emacs-plus
@@ -23,6 +24,7 @@ git-extras
 git-lfs
 glib
 gmp
+gnu-sed
 gnutls
 gobject-introspection
 graphite2
@@ -67,6 +69,7 @@ openssl
 openssl@1.1
 p11-kit
 p7zip
+pandoc
 pango
 pcre
 pixman
