@@ -1,11 +1,15 @@
 #!/bin/bash
+
 # set -x # debug
 set -e # force exit if nonzero code
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit 1
 
 cache_folder="caches/"
 cache_postfix="cache"
+
+[ ! -d "$cache_folder" ] &&
+    mkdir "$cache_folder" 2>/dev/null
 
 dependencies_folder="dependencies/"
 homebrew_dep="home_brew_list.txt"
@@ -219,11 +223,11 @@ for each in "${file_settings[@]}"; do
     ret=1
     test -f "$each" &&
         printf "upload -> " &&
-        move_setting_file_here "$each" && ret=0
+        move_setting_here "$each" && ret=0
 
     test -d "$each" &&
         printf "upload -> " &&
-        move_setting_folder_here "$each" && ret=0
+        move_setting_here "$each" && ret=0
 
     if [ $ret -ne 0 ]; then
         echo "${C_FG_2}no-exist${C_RE_AL} -> $each"
@@ -231,15 +235,15 @@ for each in "${file_settings[@]}"; do
 done
 
 # setup brew
-echo "upload -> homebrew"
+echo "upload -> ${C_FG_1}homebrew${C_RE_AL}"
 brew list | while read -r cask; do echo "$cask"; done >"$dependencies_folder$homebrew_dep"
 
 # setup pip
-echo "upload -> pip"
+echo "upload -> ${C_FG_1}pip${C_RE_AL}"
 pip freeze >"$dependencies_folder$python_dep"
 
 # setup npm
-echo "upload -> npm"
+echo "upload -> ${C_FG_1}npm${C_RE_AL}"
 npm ls -g --depth=0 | tr -d "├" | tr -d "└" | tr -d "─" | tr -d " " >"$dependencies_folder$npm_dep"
 
 if $auto; then
