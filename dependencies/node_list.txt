@@ -18,7 +18,7 @@ gtop@0.1.5
 gulp@3.9.1
 gulp-cli@1.4.0
 harp@0.23.0
-import-js@2.8.0
+import-js@2.10.0
 ip-location-cli@1.0.0
 jshint@2.9.5
 jsonfui@1.2.6

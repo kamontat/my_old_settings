@@ -230,14 +230,27 @@ done
 
 # Usage
 
-# move_setting ./file1 ~/location
-
 # install OH-MY-ZSH
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+[ ! -d "$HOME/.oh-my-zsh" ] &&
+    echo "${C_FG_1}Installing..${C_RE_AL} oh-my-Zsh" &&
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# log "installing..." "BASH"
+move_setting ./.bashrc ~/.bashrc
+move_setting ./.bash_profile ~/.bash_profile
+# log "installing..." "ZSH"
+move_setting ./.zshrc ~/.zshrc
+move_setting ./.my-zsh ~/.my-zsh
+# log "installing..." "ETC"
+move_setting ./.inputrc ~/.inputrc
+move_setting ./.profile ~/.profile
 
 # vim awesome
-# git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-# sh ~/.vim_runtime/install_awesome_vimrc.sh
+if test -d ~/.vim_runtime; then
+    echo "${C_FG_1}Installing..${C_RE_AL} vim runtime"
+    git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime &&
+        sh ~/.vim_runtime/install_awesome_vimrc.sh
+fi
 
 # npm package
 # - gitmoji
@@ -249,13 +262,19 @@ done
 # ...
 
 # install homebrew (MacOS-only)
-# xcode-select --install
-# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if uname -a | grep -iq darwin; then
+    if command -v brew; then
+        echo "${C_FG_1}Homebrew${C_RE_AL} exist!"
+    else
+        echo "${C_FG_1}Installing..${C_RE_AL} homebrew"
+        xcode-select --install
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+fi
 
 # install neofetch (https://github.com/dylanaraps/neofetch)
 
 # install ranger (https://github.com/ranger/ranger)
-
 
 # -----------------------------------------------
 # clone project

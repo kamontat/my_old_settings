@@ -39,6 +39,7 @@ imagemagick@6
 jemalloc
 jenv
 jpeg
+jq
 kotlin
 libcroco
 libevent
@@ -57,6 +58,7 @@ libuv
 libvterm
 libxml2
 libyaml
+mas
 mpfr
 msgpack
 neofetch

@@ -205,6 +205,7 @@ alias dotgithub='~/.github/dotgithub'
 # bash template (https://github.com/Template-Generating/script-genrating)
 alias template='bash <(curl -sL https://github.com/Template-Generating/script-genrating/raw/master/template.sh)'
 alias color-test='bash <(curl -sL https://raw.githubusercontent.com/kamontat/bash-color/master/color_test.sh)'
+alias split='bash <(curl -sL https://gist.github.com/kamontat/97ea3378c5d323b9b430aeda8b5f80df/raw/f1f0e3c2a2712c74a30c33d3247deb3f5dd96724/sep.sh)'
 # angular custom
 alias ngg='git clone https://github.com/Template-Generating/angular-4-browser-sync.git'
 # vim

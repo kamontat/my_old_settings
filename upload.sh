@@ -128,7 +128,7 @@ move_setting() {
 }
 
 move_setting_here() {
-    move_setting "$1" "./$(get_file_name "$1")"
+    move_setting "$1" "."
 }
 
 help() {
@@ -216,17 +216,23 @@ file_settings=(
 )
 
 for each in "${file_settings[@]}"; do
-    if [ -f $each -o -d $each ]; then
-        printf "upload -> "
-        move_setting_here "$each"
-    else 
+    ret=1
+    test -f "$each" &&
+        printf "upload -> " &&
+        move_setting_file_here "$each" && ret=0
+
+    test -d "$each" &&
+        printf "upload -> " &&
+        move_setting_folder_here "$each" && ret=0
+
+    if [ $ret -ne 0 ]; then
         echo "${C_FG_2}no-exist${C_RE_AL} -> $each"
     fi
 done
 
 # setup brew
 echo "upload -> homebrew"
-brew list | while read cask; do echo "$cask"; done >"$dependencies_folder$homebrew_dep"
+brew list | while read -r cask; do echo "$cask"; done >"$dependencies_folder$homebrew_dep"
 
 # setup pip
 echo "upload -> pip"
@@ -234,7 +240,7 @@ pip freeze >"$dependencies_folder$python_dep"
 
 # setup npm
 echo "upload -> npm"
-npm ls -g --depth=0 | tr -d "├" | tr -d "└" | tr -d "─" | tr -d " " > "$dependencies_folder$npm_dep"
+npm ls -g --depth=0 | tr -d "├" | tr -d "└" | tr -d "─" | tr -d " " >"$dependencies_folder$npm_dep"
 
 if $auto; then
     # setup git and github
