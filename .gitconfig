@@ -4,9 +4,9 @@
 	process = git-lfs filter-process
 	required = true
 [user]
-	email = kamontat_c@hotmail.com
+	email = kamontat.c@hotmail.com
 	name = Kamontat Chantrachirathumrong
-	signingkey = 27774548F3C96C8E
+	# signingkey = 27774548F3C96C8E
 [core]
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
