@@ -31,4 +31,8 @@ export RESOURCES_DMG="${RESOURCES}/dmg_files"
 export RESOURCES_DOT="${RESOURCES}/dot_files"
 export RESOURCES_OTH="${RESOURCES}/others"
 
-export TEMP="/tmp"
+export TMP="/tmp"
+export TEMP="/tmp/mysn" # my setting of net
+mkdir "$TEMP" &>/dev/null
+
+return 0
