@@ -7,6 +7,20 @@
 #/ -------------------------------------------------
 #/ Description:  This is index of the setting script
 #/               Every subscript / subcommand must run by ths file first.
+#/ -------------------------------------------------
+#/ Options:      --help             | -h >> for help command
+#/               --user             | -u >> (required) specify user
+#/               --shell            | -s >> (optional) specify shell
+#/               --all              | -a >> for every setting
+#/               --only-font        | -f >> for run 'font' setting only
+#/               --only-brew        | -n >> for run 'brew' setting only
+#/               --only-mac-setting | -m >> for run 'mac' setting only
+#/               --all              | -a >> for every setting
+#/ -------------------------------------------------
+#/ Example:      ./index.sh --help                      >> for helping command
+#/               sudo ./index.sh --all --user $(whoami) >> run every setting
+#/               ./index.sh -bu $(whoami)               >> run only 'brew' setting
+#/ -------------------------------------------------
 #/ Create by:    Kamontat Chantrachirathumrong
 #/ Since:        10 Mar 2561
 #/ -------------------------------------------------
@@ -67,7 +81,7 @@ while getopts 'bfhms:u:-:' flag; do
             case "${OPTARG}" in
                 help)
                     no_argument
-                    help "$0" && exit 0 
+                    help "${SCRIPTS}/index.sh" && exit 0
                     ;;
                 only-font)
                     no_argument
@@ -76,6 +90,14 @@ while getopts 'bfhms:u:-:' flag; do
                 only-brew)
                     no_argument
                     b=true
+                    ;;
+                only-mac-setting)
+                    no_argument
+                    m=true
+                    ;;
+                all)
+                    no_argument
+                    b=true && f=true && m=true
                     ;;
                 user*)
                     require_argument
