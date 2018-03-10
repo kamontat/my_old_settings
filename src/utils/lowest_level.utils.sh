@@ -82,12 +82,36 @@ list_shell() {
 }
 
 choose() {
-    printf "Do you want %s? [Y|n]: " "$1"
-    read -rn 1 ans && 
-        echo && 
-        [ $ans != "n" ]
+    askone "Do you want $1? [Y|n]: "
+    # res="$(askone "Do you want $1? [Y|n]: ")"
+    echo && [ $ans != "n" ]
+}
+
+askone() {
+    unset ans
+    printf "%s" "$1" &&
+        read -rn 1 ans
+    export ans
+}
+
+ask() {
+    unset ans
+    printf "%s" "$1" &&
+        read -r ans
+    export ans
 }
 
 is_command_exist() {
     command -v "$1" >/dev/null
+}
+
+download_file() {
+    local f="${TEMP}/$1" &&
+        curl -sLo "${f}" "$2" &&
+        echo "${f}"
+}
+
+unzip_file() {
+    local f="${TEMP}/$1" o="${TEMP}"
+    unzip "$f" -d "$o" >/dev/null
 }
