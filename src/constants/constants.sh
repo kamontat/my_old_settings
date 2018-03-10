@@ -22,5 +22,7 @@
 # Constants
 # -------------------------------------------------
 
+export cache=false
+
 export user=""
 export shell=""
