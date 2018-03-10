@@ -14,6 +14,7 @@
 #/ -------------------------------------------------
 #/ Error code    1      -- unhandle error
 #/               2      -- file not found
+#/               3      -- wrong OS
 #/ -------------------------------------------------
 #/ Bug:          no exist
 #/ -------------------------------------------------
@@ -34,8 +35,7 @@ cd "$(dirname "$0")"
 
 [ -f "${SCRIPTS}/fonts.sh" ] && source "${SCRIPTS}/fonts.sh" || throw "font not found" 2
 [ -f "${SCRIPTS}/brew.sh" ] && source "${SCRIPTS}/brew.sh" || throw "brew not found" 2
-
-check_user # must be root
+[ -f "${SCRIPTS}/setting.sh" ] && source "${SCRIPTS}/setting.sh" || throw "setting not found" 2
 
 # -------------------------------------------------
 # Constants
@@ -43,17 +43,21 @@ check_user # must be root
 
 b=false
 f=false
+m=false
 
 # -------------------------------------------------
 # App logic
 # -------------------------------------------------
 
-while getopts 'bfhs:u:-:' flag; do
+while getopts 'bfhms:u:-:' flag; do
     case "${flag}" in
         b) b=true ;;
         f) f=true ;;
-        a) b=true && f=true ;;
-        h) help "$0" && exit 0 ;;
+        m) m=true ;;
+        a) b=true && 
+            f=true && 
+            m=true ;;
+        h) help "${SCRIPTS}/index.sh" && exit 0 ;;
         s) export shell="$OPTARG" ;;
         u) export user="$OPTARG" ;;
         -)
@@ -93,5 +97,8 @@ while getopts 'bfhs:u:-:' flag; do
     esac
 done
 
+check_user # must be root
+
+$m && only_mac_setting
 $f && only_font
 $b && only_brew 

@@ -22,13 +22,13 @@
 cd "$(dirname "$0")"
 
 only_font() {
-    choose "powerline font" && powerline_font
-    choose "fira code font" && firacode_font
+    choose "powerline font" && _powerline_font
+    choose "fira code font" && _firacode_font
 
     return 0
 }
 
-powerline_font() {
+_powerline_font() {
     file="${TEMP}/fonts"
     git clone https://github.com/powerline/fonts.git --depth=1 "$file"
     cd "$file"
@@ -36,7 +36,7 @@ powerline_font() {
     [ -n "$file" ] && rm -rf "$file"
 }
 
-firacode_font() {
+_firacode_font() {
     check_brew
     run_brew cask install font-fira-code
 }
