@@ -78,4 +78,5 @@ validate_brew() {
 
 list_brew() {
     run_brew list
+    run_brew cask list
 }
