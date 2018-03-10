@@ -9,12 +9,14 @@
 #/               Every subscript / subcommand must run by ths file first.
 #/ -------------------------------------------------
 #/ Options:      --help             | -h >> for help command
-#/               --user             | -u >> (required) specify user
-#/               --shell            | -s >> (optional) specify shell
+#/               --user             | -U >> (required) specify user
+#/               --shell            | -S >> (optional) specify shell
+#/               --use-cache        | -C >> don't download, if file exist
 #/               --all              | -a >> for every setting
 #/               --only-font        | -f >> for run 'font' setting only
 #/               --only-brew        | -n >> for run 'brew' setting only
 #/               --only-mac-setting | -m >> for run 'mac' setting only
+#/               --only-application | -p >> for run 'application' setting only
 #/               --all              | -a >> for every setting
 #/ -------------------------------------------------
 #/ Example:      ./index.sh --help                      >> for helping command
@@ -44,12 +46,13 @@ cd "$(dirname "$0")"
 [ -f "${UTILS}/opt.utils.sh" ] && source "${UTILS}/opt.utils.sh" || throw "opt utils not found" 2
 [ -f "${UTILS}/setting.utils.sh" ] && source "${UTILS}/setting.utils.sh" || throw "setting utils not found" 2
 [ -f "${UTILS}/command.utils.sh" ] && source "${UTILS}/command.utils.sh" || throw "command utils not found" 2
-[ -f "${UTILS}/installation.utils.sh" ] && source "${UTILS}/installation.utils.sh" || throw "install utils not found" 2
+[ -f "${UTILS}/installation.utils.sh" ] && source "${UTILS}/installation.utils.sh" || throw "installation utils not found" 2
 [ -f "${UTILS}/checker.utils.sh" ] && source "${UTILS}/checker.utils.sh" || throw "checker utils not found" 2
 
 [ -f "${SCRIPTS}/fonts.sh" ] && source "${SCRIPTS}/fonts.sh" || throw "font not found" 2
 [ -f "${SCRIPTS}/brew.sh" ] && source "${SCRIPTS}/brew.sh" || throw "brew not found" 2
 [ -f "${SCRIPTS}/setting.sh" ] && source "${SCRIPTS}/setting.sh" || throw "setting not found" 2
+[ -f "${SCRIPTS}/application.sh" ] && source "${SCRIPTS}/application.sh" || throw "application not found" 2
 
 # -------------------------------------------------
 # Constants
@@ -58,22 +61,26 @@ cd "$(dirname "$0")"
 b=false
 f=false
 m=false
+p=false
 
 # -------------------------------------------------
 # App logic
 # -------------------------------------------------
 
-while getopts 'bfhms:u:-:' flag; do
+while getopts 'CbfhmpS:U:-:' flag; do
     case "${flag}" in
         b) b=true ;;
         f) f=true ;;
         m) m=true ;;
+        p) p=true ;;
         a) b=true && 
             f=true && 
+            p=true &&
             m=true ;;
         h) help "${SCRIPTS}/index.sh" && exit 0 ;;
-        s) export shell="$OPTARG" ;;
-        u) export user="$OPTARG" ;;
+        C) export cache=true ;;
+        S) export shell="$OPTARG" ;;
+        U) export user="$OPTARG" ;;
         -)
             unset LONG_OPTARG LONG_OPTVAL
             NEXT_PARAMS="${!OPTIND}" # OPTIND -> pointer to next parameter
@@ -95,9 +102,13 @@ while getopts 'bfhms:u:-:' flag; do
                     no_argument
                     m=true
                     ;;
+                only-application)
+                    no_argument
+                    p=true
+                    ;;
                 all)
                     no_argument
-                    b=true && f=true && m=true
+                    b=true && f=true && m=true && p=true
                     ;;
                 user*)
                     require_argument
@@ -106,6 +117,10 @@ while getopts 'bfhms:u:-:' flag; do
                 shell*)
                     require_argument
                     export shell="$LONG_OPTVAL"
+                    ;;
+                use-cache)
+                    no_argument
+                    export cache=true
                     ;;
                 *)
                     if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
@@ -122,5 +137,6 @@ done
 check_user # must be root
 
 $m && only_mac_setting
+$p && only_application
 $f && only_font
 $b && only_brew 
