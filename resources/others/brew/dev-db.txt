@@ -1,0 +1,3 @@
+postgresql=advance open source database
+mongodb=document database with the scalability and flexibility
+sqlite=self-contained, high-reliability, full-featured, SQL database engine

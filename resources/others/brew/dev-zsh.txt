@@ -1,0 +1,3 @@
+zsh=version upgrade for bash
+zsh-completions=auto complete for zsh
+zplug=package management for zsh

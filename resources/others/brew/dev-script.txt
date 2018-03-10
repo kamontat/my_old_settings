@@ -1,0 +1,2 @@
+shellcheck=a shell script static analysis tool
+shfmt=a shell parser, formatter and interpreter
