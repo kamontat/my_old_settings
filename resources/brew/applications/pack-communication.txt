@@ -1,0 +1,2 @@
+skype=enhanced features for free calls and chat
+teamviewer=share screen and meeting

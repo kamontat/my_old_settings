@@ -19,10 +19,39 @@
 #/ -------------------------------------------------
 
 # -------------------------------------------------
-# Functions
+# BREW Functions
 # -------------------------------------------------
 
 run_brew() {
     [ "$user" == "root" ] || [ "$user" == "" ] && throw "To run brew, you must input username (-u <name>)" 1
     sudo -u "$user" brew "$@"
 }
+
+brew_install() {
+    run_brew install "$1"
+}
+
+brew_cask_install() {
+    run_brew cask install "$1"
+}
+
+validate_brew() {
+    run_brew doctor
+}
+
+list_all_brew() {
+    list_brew
+    list_cask_brew
+}
+
+list_brew() {
+    run_brew list
+}
+
+list_cask_brew() {
+    run_brew cask list
+}
+
+# -------------------------------------------------
+# <> Functions
+# -------------------------------------------------

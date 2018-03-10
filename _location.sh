@@ -27,9 +27,9 @@ export SCRIPTS="${SRC}/scripts"
 export CONSTANTS="${SRC}/constants"
 
 export RESOURCES="${ROOT}/resources"
-export RESOURCES_DMG="${RESOURCES}/dmg_files"
-export RESOURCES_DOT="${RESOURCES}/dot_files"
-export RESOURCES_OTH="${RESOURCES}/others"
+export RESOURCES_BREW="${RESOURCES}/brew"
+export RESOURCES_DOTF="${RESOURCES}/dot_files"
+export RESOURCES_OTHR="${RESOURCES}/others"
 
 export TMP="/tmp"
 export TMPDIR="/tmp"

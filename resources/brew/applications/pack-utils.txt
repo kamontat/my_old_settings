@@ -1,0 +1,5 @@
+itsycal=a good calender for macOS
+coconutbattery=battary reporter for macOS
+the-unarchiver=a best unarchiver for macOS
+vlc=a media player
+appcleaner=tools for uninstall application clearly

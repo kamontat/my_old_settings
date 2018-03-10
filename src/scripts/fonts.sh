@@ -4,22 +4,20 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
-#/ Description:  ...
-#/ Create by:    ...
-#/ Since:        ...
+#/ Title:        Font script
 #/ -------------------------------------------------
-#/ Version:      0.0.1  -- description
-#/               0.0.2b -- beta-format
+#/ Description:  Fonts installation
+#/               Support 'Powerline' and 'FiraCode' fonts
+#/ Create by:    Kamontat Chantrachirathumrong
+#/ Since:        11 Mar 2561
+#/ -------------------------------------------------
+#/ Version:      1.0.0  -- finish first version
 #/ -------------------------------------------------
 #/ Error code    1      -- error
 #/ -------------------------------------------------
-#/ Bug:          ...
+#/ Bug:          no exist
 #/ -------------------------------------------------
-
-
-cd "$(dirname "$0")"
 
 only_font() {
     choose "powerline font" && _powerline_font
@@ -27,6 +25,10 @@ only_font() {
 
     return 0
 }
+
+# -------------------------------------------------
+# Functions
+# -------------------------------------------------
 
 _powerline_font() {
     file="${TEMP}/fonts"

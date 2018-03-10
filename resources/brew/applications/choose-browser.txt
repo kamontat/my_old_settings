@@ -1,0 +1,12 @@
+firefox=firefox stable version (recommended)
+firefox-beta=firefox beta version
+firefox-developer-edition=firefox developer version
+firefox-nightly=firefox nightly version (not recommend)
+google-chrome=chrome stable version (recommended)
+google-chrome-beta=chrome beta version
+google-chrome-canary=chrome canary version
+google-chrome-dev=chrome dev version (not recommend)
+opera=opera stable version (recommended)
+opera-beta=opera beta version
+opera-developer=opera developer version (not recommend)
+opera-neon=new release opera version

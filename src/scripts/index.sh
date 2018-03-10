@@ -5,6 +5,8 @@
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
 #/ -------------------------------------------------
+#/ Title:        Index script
+#/ -------------------------------------------------
 #/ Description:  This is index of the setting script
 #/               Every subscript / subcommand must run by ths file first.
 #/ -------------------------------------------------
@@ -26,7 +28,7 @@
 #/ Create by:    Kamontat Chantrachirathumrong
 #/ Since:        10 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      0.0.1  -- alpha version
+#/ Version:      0.1.0  -- beta version
 #/ -------------------------------------------------
 #/ Error code    1      -- unhandle error
 #/               2      -- file not found
@@ -58,6 +60,8 @@ cd "$(dirname "$0")"
 # Constants
 # -------------------------------------------------
 
+h=false
+
 b=false
 f=false
 m=false
@@ -77,7 +81,7 @@ while getopts 'CbfhmpS:U:-:' flag; do
             f=true && 
             p=true &&
             m=true ;;
-        h) help "${SCRIPTS}/index.sh" && exit 0 ;;
+        h) h=true ;;
         C) export cache=true ;;
         S) export shell="$OPTARG" ;;
         U) export user="$OPTARG" ;;
@@ -88,7 +92,7 @@ while getopts 'CbfhmpS:U:-:' flag; do
             case "${OPTARG}" in
                 help)
                     no_argument
-                    help "${SCRIPTS}/index.sh" && exit 0
+                    h=true
                     ;;
                 only-font)
                     no_argument
@@ -133,6 +137,17 @@ while getopts 'CbfhmpS:U:-:' flag; do
         *) echo "Unexpected option ${flag}, run '-h' or '--help' for more information" >&2 ;;
     esac
 done
+
+if $h; then
+    file="${SCRIPTS}/index.sh"
+
+    $m && file="${SCRIPTS}/setting.sh"
+    $p && file="${SCRIPTS}/application.sh"
+    $f && file="${SCRIPTS}/fonts.sh"
+    $b && file="${SCRIPTS}/brew.sh"
+    
+    help "$file" && exit 0
+fi
 
 check_user # must be root
 

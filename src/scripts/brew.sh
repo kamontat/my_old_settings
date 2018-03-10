@@ -6,21 +6,16 @@
 
 
 #/ -------------------------------------------------
-#/ Description:  ...
-#/ Create by:    ...
-#/ Since:        ...
+#/ Description:  This script will setting only dependencies of brew
+#/               For install application in brew please see on '-p' option
+#/               You can found list of dependencies on 'resource' folders
+#/ Create by:    Kamontat Chantrachirathumrong
+#/ Since:        10 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      0.0.1  -- description
-#/               0.0.2b -- beta-format
+#/ Version:      1.0.0  -- finish first version
 #/ -------------------------------------------------
-#/ Error code    1      -- error
+#/ Bug:          no exist
 #/ -------------------------------------------------
-#/ Bug:          ...
-#/ -------------------------------------------------
-
-# -------------------------------------------------
-# Functions
-# -------------------------------------------------
 
 only_brew() {
     check_brew
@@ -29,12 +24,16 @@ only_brew() {
 
     validate_brew
     echo "List all installed dependencies..."
-    list_brew
+    list_all_brew
 }
+
+# -------------------------------------------------
+# Functions
+# -------------------------------------------------
 
 _load_multiple_dependencies() {
     local name 
-    for file in $(ls ${RESOURCES_OTH}/brew/*.txt); do
+    for file in $(ls ${RESOURCES_BREW}/dependencies/*.txt); do
         name="${file##*/}"
         name="${name%%.*}"
         _load_brew_dependencies "$file" "$name"
@@ -60,23 +59,6 @@ _brew_installation() {
     for lib in "$@"; do
         e="${lib%% *}"
         l="${lib##* }"
-        [ $e == $l ] && _brew_install "$l" || _brew_cask_install "$l"
+        [ $e == $l ] && brew_install "$l" || brew_cask_install "$l"
     done
-}
-
-_brew_install() {
-    run_brew install "$1"
-}
-
-_brew_cask_install() {
-    run_brew cask install "$1"
-}
-
-validate_brew() {
-    run_brew doctor
-}
-
-list_brew() {
-    run_brew list
-    run_brew cask list
 }

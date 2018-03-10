@@ -4,29 +4,23 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
-#/ Description:  ...
-#/ Create by:    ...
-#/ Since:        ...
+#/ Title:        Setting script
 #/ -------------------------------------------------
-#/ Version:      0.0.1  -- description
-#/               0.0.2b -- beta-format
+#/ Description:  This contains computer settings for mac user
+#/               - Key Mouse and Trackpad speed
+#/               - Dock size and other utilities
+#/               - Power setting (including both battery and AC power)
+#/               - Screen saver
+#/ Warning:      must run with 'index.sh' only
 #/ -------------------------------------------------
-#/ Error code    1      -- error
+#/ Create by:    Kamontat Chantrachirathumrong
+#/ Since:        11 Mar 2561
 #/ -------------------------------------------------
-#/ Bug:          ...
+#/ Version:      1.0.0  -- finish 1 version
 #/ -------------------------------------------------
-
-
-# -------------------------------------------------
-# Constants
-# -------------------------------------------------
-
-
-# -------------------------------------------------
-# Functions
-# -------------------------------------------------
+#/ Bug:          no exist
+#/ -------------------------------------------------
 
 only_mac_setting() {
     [ "$(check_os)" != "0" ] && throw "must run on macOS" 3
@@ -47,6 +41,8 @@ only_mac_setting() {
     _choose_power_management_setting "On battary" "b" 20 20 20
     
     choose "watch screen saver" && _download_screen_saver
+
+    ext_help
 }
 
 ext_help() {
@@ -61,6 +57,10 @@ To setup dark mode
     >> System Preferences -> General -> 'Use dark menu bar and Dock'
     "
 }
+
+# -------------------------------------------------
+# Functions
+# -------------------------------------------------
 
 _download_screen_saver() {
     local fullname name
