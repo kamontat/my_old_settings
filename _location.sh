@@ -32,7 +32,11 @@ export RESOURCES_DOT="${RESOURCES}/dot_files"
 export RESOURCES_OTH="${RESOURCES}/others"
 
 export TMP="/tmp"
+export TMPDIR="/tmp"
 export TEMP="/tmp/mysn" # my setting of net
-mkdir "$TEMP" &>/dev/null
+if ! mkdir "$TEMP" &>/dev/null; then
+    [ ! "$cache" ] && 
+        rm -rf "${TEMP}/**/*"
+fi
 
 return 0
