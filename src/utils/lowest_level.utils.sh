@@ -105,13 +105,38 @@ is_command_exist() {
     command -v "$1" >/dev/null
 }
 
+# 1 - filename
+# 2 - link
+# 3 - is_silent
 download_file() {
-    local f="${TEMP}/$1" &&
-        curl -sLo "${f}" "$2" &&
+    local f="${TEMP}/$1" opt="-sLo"
+    ! $3 && opt="-Lo"
+    $cache && [ -f "$f" ] || [ -d "$f" ] && echo "${f}" && return 0 # cache file
+    curl "$opt" "${f}" "$2" &&
         echo "${f}"
 }
 
 unzip_file() {
     local f="${TEMP}/$1" o="${TEMP}"
     unzip "$f" -d "$o" >/dev/null
+}
+
+get_harddrive_name() {
+    find /Volumes -type l -depth 1 -maxdepth 1 -mindepth 1
+}
+
+random() {
+    od -An -N8 -H < /dev/random | tr -d " " | tr -d "\n"
+}
+
+create_temp_file() {
+    file="${TEMP}/mysn.$(random)$1"
+    touch $file
+    echo "$file"
+}
+
+create_temp_folder() {
+    folder="${TEMP}/mysn.$(random)$1"
+    mkdir $folder
+    echo "$folder"
 }
