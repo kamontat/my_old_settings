@@ -4,7 +4,8 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
+#/ -------------------------------------------------
+#/ Title:        Application script
 #/ -------------------------------------------------
 #/ Description:  Application install with dmg files, brew cask and more...
 #/               You can found list of every application on 'resource' folders
@@ -50,18 +51,18 @@ only_brew_application() {
 # -------------------------------------------------
 
 _install_multiple_brew_application() {
-    loop_on_files "${RESOURCES_BREW}/applications/choose-*.txt" "_choose_to_install_brew_application"
+    loop_on_files "${RESOURCES_BREW}/applications/choose-*.txt" _choose_to_install_brew_application
 
-    loop_on_files "${RESOURCES_BREW}/applications/pack-*.txt" "_install_brew_application_pack"
+    loop_on_files "${RESOURCES_BREW}/applications/pack-*.txt" _install_brew_application_pack
 }
 
 _choose_to_install_brew_application() {
-    loop_show_library "$1" "brew_save_list" "is_cask_installed" true
+    loop_show_library "$1" "brew_save_list" is_cask_installed true
     choose_as_choice brew_cask_install ${SHOWED_LIBRARYS[@]}
 }
 
 _install_brew_application_pack() {
-    loop_show_library "$1" "brew_save_list" "is_cask_installed"
+    loop_show_library "$1" "brew_save_list" is_cask_installed
     choose_as_pack "${2##*-}" brew_cask_install "${SHOWED_LIBRARYS[@]}"
 }
 
