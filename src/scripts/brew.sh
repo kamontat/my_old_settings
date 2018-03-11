@@ -12,7 +12,7 @@
 #/ Create by:    Kamontat Chantrachirathumrong
 #/ Since:        10 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      1.0.0  -- finish first version
+#/ Version:      1.0.1  -- clean code
 #/ -------------------------------------------------
 #/ Bug:          no exist
 #/ -------------------------------------------------
@@ -23,7 +23,7 @@ only_brew() {
     _load_multiple_dependencies
 
     validate_brew
-    echo "List all installed dependencies..."
+    echo "$LIST_BREW_DEP"
     list_all_brew
 }
 
@@ -36,19 +36,6 @@ _load_multiple_dependencies() {
 }
 
 _load_brew_dependencies() {
-    local line file="$1" arr=()
-    local lib detail i=0
-
-    brew_save_list
-    while IFS='' read -r line || [[ -n "$line" ]]; do
-        i="$((i + 1))"
-        lib="${line%%=*}"
-        detail="${line##*=}"
-
-        is_installed "$lib" && installed="I" || installed="N"
-        printf "%3d) %-20s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
-        arr+=("$lib")
-    done < "$file"
-
-    choose "'$2' library" && brew_installation "${arr[@]}"
+    loop_show_library "$1" "brew_save_list" "is_installed"
+    choose_as_pack "$2" brew_installation "${SHOWED_LIBRARYS[@]}"
 }

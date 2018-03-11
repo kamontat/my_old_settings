@@ -63,14 +63,16 @@ brew_save_list() {
 }
 
 filter_is_cask() {
-    e="${1%% *}"
-    l="${1##* }"
+    local e l a="$1"
+    e="${a%% *}"
+    l="${a##* }"
+    export RAW_LIBRARY_NAME="$l"
     [ "$e" != "$l" ]
 }
 
 brew_installation() {
     for lib in "$@"; do
-        filter_is_cask "$1" && 
+        filter_is_cask "${lib##* }" && 
             brew_cask_install "${lib##* }" || 
             brew_install "${lib##* }"
     done
@@ -78,8 +80,8 @@ brew_installation() {
 
 is_installed() {
     filter_is_cask "$1" && 
-        _is_cask_installed || 
-        _is_brew_installed
+        is_cask_installed "$RAW_LIBRARY_NAME" || 
+        is_brew_installed "$RAW_LIBRARY_NAME"
 }
 
 is_brew_installed() {

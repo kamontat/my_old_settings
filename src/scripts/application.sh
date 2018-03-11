@@ -16,7 +16,7 @@
 #/ Create by:    Kamontat Chantrachirathumrong
 #/ Since:        11 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      1.0.0  -- finish first version
+#/ Version:      1.1.0  -- improve method of brew command
 #/ -------------------------------------------------
 #/ Bug:          no exist
 #/ -------------------------------------------------
@@ -56,41 +56,13 @@ _install_multiple_brew_application() {
 }
 
 _choose_to_install_brew_application() {
-    local line file="$1" arr=() 
-    local lib detail i=0 index
-
-    brew_save_list
-    printf "%3d) %-30s (N) - %s\n" -1 "$NONE" "$NOT_INSTALL_DESCRIPTION"
-    while IFS='' read -r line || [[ -n "$line" ]]; do
-        lib="${line%%=*}"
-        detail="${line##*=}"
-        is_cask_installed "$lib" && installed="I" || installed="N"
-        printf "%3d) %-30s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
-        arr+=("$lib")
-        i="$((i + 1))"
-    done < "$file"
-
-    ask "$CHOOSE_BY_NUMBER"
-    index="$ans"
-    [ $index -lt 0 ] && return 0
-    brew_cask_install "${arr[index]}"
+    loop_show_library "$1" "brew_save_list" "is_cask_installed" true
+    choose_as_choice brew_cask_install ${SHOWED_LIBRARYS[@]}
 }
 
 _install_brew_application_pack() {
-    local line file="$1" arr=()
-    local lib detail i=0
-
-    brew_save_list
-    while IFS='' read -r line || [[ -n "$line" ]]; do
-        i="$((i + 1))"
-        lib="${line%%=*}"
-        detail="${line##*=}"
-        is_cask_installed "$lib" && installed="I" || installed="N"
-        printf "%3d) %-30s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
-        arr+=("$lib")
-    done < "$file"
-
-    choose "'${2##*-}' pack" && brew_cask_install "${arr[@]}"
+    loop_show_library "$1" "brew_save_list" "is_cask_installed"
+    choose_as_pack "${2##*-}" brew_cask_install "${SHOWED_LIBRARYS[@]}"
 }
 
 # 1 - link

@@ -80,3 +80,44 @@ loop_on_files() {
         "$command" "$file" "$name"
     done
 }
+
+loop_show_library() {
+    local file="$1" pre_cmd="$2" check_cmd="$3" include_minus="$4" # post_cmd="$4" 
+    local line i lib detail installed
+
+    export SHOWED_LIBRARYS=()
+
+    "$pre_cmd"
+
+    [[ $include_minus == true ]] && 
+        printf "$DISPLAY_LIBRARY_FORMAT" -1 "$NONE" " " "$NOT_INSTALL_DESCRIPTION"
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        lib="${line%%=*}"
+        detail="${line##*=}"
+
+        "$check_cmd" "$lib" && installed="I" || installed="N"
+        printf "$DISPLAY_LIBRARY_FORMAT" "$i" "${lib##* }" "$installed" "$detail"
+        SHOWED_LIBRARYS+=("$lib")
+        i="$((i + 1))"
+    done < "$file"
+    # "$post_cmd"
+}
+
+choose_as_pack() {
+    local pack_name="$1" cmd="$2" 
+    shift 2
+    local else="$@"
+    
+    choose "'$pack_name' pack" && "$cmd" ${else[@]} # not quote to avoid array merging
+}
+
+choose_as_choice() {
+    local cmd="$1"
+    shift 1
+    local arr=($@)
+
+    ask "$CHOOSE_BY_NUMBER"
+    index="$ans"
+    [ $index -lt 0 ] && return 0
+    "$cmd" "${arr[index]}"
+}
