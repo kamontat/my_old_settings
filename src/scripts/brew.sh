@@ -50,24 +50,25 @@ _load_brew_dependencies() {
         lib="${line%%=*}"
         detail="${line##*=}"
 
-        _is_installed "$lib" && installed="I" || installed="N"
+        is_installed "$lib" && installed="I" || installed="N"
         printf "%3d) %-20s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
         arr+=("$lib")
     done < "$file"
 
-    choose "'$2' library" && _brew_installation "${arr[@]}"
+    choose "'$2' library" && brew_installation "${arr[@]}"
 }
 
-_is_installed() {
-    e="${lib%% *}"
-    l="${lib##* }"
-    [ $e == $l ] && is_installed "$l" || is_cask_installed "$l"
-}
+# is_installed() {
+#     e="${1%% *}"
+#     l="${1##* }"
+#     [ $e == $l ] && is_installed "$l" || is_cask_installed "$l"
+# }
 
-_brew_installation() {
-    for lib in "$@"; do
-        e="${lib%% *}"
-        l="${lib##* }"
-        [ $e == $l ] && brew_install "$l" || brew_cask_install "$l"
-    done
-}
+# _brew_installation() {
+#     local lib e l
+#     for lib in "$@"; do
+#         e="${lib%% *}"
+#         l="${lib##* }"
+#         [ $e == $l ] && brew_install "$l" || brew_cask_install "$l"
+#     done
+# }

@@ -23,7 +23,7 @@
 # -------------------------------------------------
 
 run_brew() {
-    [ "$user" == "root" ] || [ "$user" == "" ] && throw "To run brew, you must input username (-u <name>)" 1
+    [ "$user" == "root" ] || [ "$user" == "" ] && throw "$BREW_REQUIRE_USER" 1
     sudo -u "$user" brew "$@"
 }
 
@@ -62,7 +62,27 @@ brew_save_list() {
     export BREW_CASK_LIST="$(list_cask_brew)"
 }
 
+filter_is_cask() {
+    e="${1%% *}"
+    l="${1##* }"
+    [ "$e" != "$l" ]
+}
+
+brew_installation() {
+    for lib in "$@"; do
+        filter_is_cask "$1" && 
+            brew_cask_install "${lib##* }" || 
+            brew_install "${lib##* }"
+    done
+}
+
 is_installed() {
+    filter_is_cask "$1" && 
+        _is_cask_installed || 
+        _is_brew_installed
+}
+
+is_brew_installed() {
     [ -z "$BREW_LIST" ] && export BREW_LIST="$(list_brew)"
     echo "$BREW_LIST" | grep -q "$1"
 }

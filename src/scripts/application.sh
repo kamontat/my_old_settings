@@ -41,7 +41,7 @@ only_brew_application() {
     _install_multiple_brew_application
 
     validate_brew
-    echo "List all installed cask dependencies..."
+    echo "$LIST_CASK_BREW_DEP"
     list_cask_brew
 }
 
@@ -69,7 +69,7 @@ _choose_to_install_brew_application() {
     local lib detail i=0 index
 
     brew_save_list
-    printf "%3d) %-30s (N) - %s\n" -1 "none" "not install any application"
+    printf "%3d) %-30s (N) - %s\n" -1 "$NONE" "$NOT_INSTALL_DESCRIPTION"
     while IFS='' read -r line || [[ -n "$line" ]]; do
         lib="${line%%=*}"
         detail="${line##*=}"
@@ -79,7 +79,7 @@ _choose_to_install_brew_application() {
         i="$((i + 1))"
     done < "$file"
 
-    ask "Choose install by enter number [-1|0|1|..]? "
+    ask "$CHOOSE_BY_NUMBER"
     index="$ans"
     [ $index -lt 0 ] && return 0
     brew_cask_install "${arr[index]}"

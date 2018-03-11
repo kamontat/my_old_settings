@@ -50,7 +50,7 @@ check_user() {
     if [ $user != "root" ]; then
         echo "run as $user! ->
     I suggest you to run as root by add 'sudo' to the front of index"
-        printf "Do you sure? [y|n] "
+        printf "Do you sure? [Y|n] "
         read -rn 1 ans
         [[ $ans == "n" ]] && echo && exit 1 || echo
     else

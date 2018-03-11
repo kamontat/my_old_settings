@@ -43,6 +43,7 @@ cd "$(dirname "$0")"
 [ -f "../../_location.sh" ] && source "../../_location.sh" || exit 2
 [ -f "${UTILS}/lowest_level.utils.sh" ] && source "${UTILS}/lowest_level.utils.sh" || exit 2
 
+[ -f "${CONSTANTS}/command.constants.sh" ] && source "${CONSTANTS}/command.constants.sh" || throw "command constants not found" 2
 [ -f "${CONSTANTS}/constants.sh" ] && source "${CONSTANTS}/constants.sh" || throw "constants not found" 2
 
 [ -f "${UTILS}/opt.utils.sh" ] && source "${UTILS}/opt.utils.sh" || throw "opt utils not found" 2
