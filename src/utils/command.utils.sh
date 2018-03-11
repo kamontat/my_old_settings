@@ -28,11 +28,11 @@ run_brew() {
 }
 
 brew_install() {
-    run_brew install "$1"
+    run_brew install "$@"
 }
 
 brew_cask_install() {
-    run_brew cask install "$1"
+    run_brew cask install "$@"
 }
 
 validate_brew() {
