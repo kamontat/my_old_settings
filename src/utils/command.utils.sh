@@ -27,16 +27,21 @@ run_brew() {
     sudo -u "$user" brew "$@"
 }
 
+run_brew_cask() {
+    run_brew cask "$@"
+}
+
 brew_install() {
     run_brew install "$@"
 }
 
 brew_cask_install() {
-    run_brew cask install "$@"
+    run_brew_cask install "$@"
 }
 
 validate_brew() {
     run_brew doctor
+    run_brew_cask doctor
 }
 
 list_all_brew() {
@@ -49,7 +54,7 @@ list_brew() {
 }
 
 list_cask_brew() {
-    run_brew cask list
+    run_brew_cask list
 }
 
 # -------------------------------------------------
