@@ -44,15 +44,24 @@ _load_brew_dependencies() {
     local line file="$1" arr=()
     local lib detail i=0
 
+    brew_save_list
     while IFS='' read -r line || [[ -n "$line" ]]; do
         i="$((i + 1))"
         lib="${line%%=*}"
         detail="${line##*=}"
-        printf "%3d) %-20s - %s\n" "$i" "${lib##* }" "$detail"
+
+        _is_installed "$lib" && installed="I" || installed="N"
+        printf "%3d) %-20s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
         arr+=("$lib")
     done < "$file"
 
     choose "'$2' library" && _brew_installation "${arr[@]}"
+}
+
+_is_installed() {
+    e="${lib%% *}"
+    l="${lib##* }"
+    [ $e == $l ] && is_installed "$l" || is_cask_installed "$l"
 }
 
 _brew_installation() {

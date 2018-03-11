@@ -68,11 +68,13 @@ _choose_to_install_brew_application() {
     local line file="$1" arr=() 
     local lib detail i=0 index
 
-    printf "%3d) %-25s - %s\n" -1 "none" "not install any application"
+    brew_save_list
+    printf "%3d) %-30s (N) - %s\n" -1 "none" "not install any application"
     while IFS='' read -r line || [[ -n "$line" ]]; do
         lib="${line%%=*}"
         detail="${line##*=}"
-        printf "%3d) %-25s - %s\n" "$i" "${lib##* }" "$detail"
+        is_cask_installed "$lib" && installed="I" || installed="N"
+        printf "%3d) %-30s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
         arr+=("$lib")
         i="$((i + 1))"
     done < "$file"
@@ -87,11 +89,13 @@ _install_brew_application_pack() {
     local line file="$1" arr=()
     local lib detail i=0
 
+    brew_save_list
     while IFS='' read -r line || [[ -n "$line" ]]; do
         i="$((i + 1))"
         lib="${line%%=*}"
         detail="${line##*=}"
-        printf "%3d) %-20s - %s\n" "$i" "${lib##* }" "$detail"
+        is_cask_installed "$lib" && installed="I" || installed="N"
+        printf "%3d) %-30s (%s) - %s\n" "$i" "${lib##* }" "$installed" "$detail"
         arr+=("$lib")
     done < "$file"
 
