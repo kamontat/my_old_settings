@@ -71,3 +71,12 @@ _copy_if_pkg() {
     local pkg="$1"
     sudo installer -pkg "$pkg" -target "$(get_harddrive_name)"
 }
+
+loop_on_files() {
+    local files="$1" command="$2" name file
+    for file in $(ls $files); do
+        name="${file##*/}"
+        name="${name%%.*}"
+        "$command" "$file" "$name"
+    done
+}

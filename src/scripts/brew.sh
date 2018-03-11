@@ -32,12 +32,7 @@ only_brew() {
 # -------------------------------------------------
 
 _load_multiple_dependencies() {
-    local name 
-    for file in $(ls ${RESOURCES_BREW}/dependencies/*.txt); do
-        name="${file##*/}"
-        name="${name%%.*}"
-        _load_brew_dependencies "$file" "$name"
-    done
+    loop_on_files "${RESOURCES_BREW}/dependencies/*.txt" "_load_brew_dependencies"
 }
 
 _load_brew_dependencies() {
@@ -57,18 +52,3 @@ _load_brew_dependencies() {
 
     choose "'$2' library" && brew_installation "${arr[@]}"
 }
-
-# is_installed() {
-#     e="${1%% *}"
-#     l="${1##* }"
-#     [ $e == $l ] && is_installed "$l" || is_cask_installed "$l"
-# }
-
-# _brew_installation() {
-#     local lib e l
-#     for lib in "$@"; do
-#         e="${lib%% *}"
-#         l="${lib##* }"
-#         [ $e == $l ] && brew_install "$l" || brew_cask_install "$l"
-#     done
-# }

@@ -50,18 +50,9 @@ only_brew_application() {
 # -------------------------------------------------
 
 _install_multiple_brew_application() {
-    local name 
-    for file in $(ls ${RESOURCES_BREW}/applications/choose-*.txt); do
-        name="${file##*/}"
-        name="${name%%.*}"
-        _choose_to_install_brew_application "$file" "$name"
-    done
+    loop_on_files "${RESOURCES_BREW}/applications/choose-*.txt" "_choose_to_install_brew_application"
 
-    for file in $(ls ${RESOURCES_BREW}/applications/pack-*.txt); do
-        name="${file##*/}"
-        name="${name%%.*}"
-        _install_brew_application_pack "$file" "$name"
-    done
+    loop_on_files "${RESOURCES_BREW}/applications/pack-*.txt" "_install_brew_application_pack"
 }
 
 _choose_to_install_brew_application() {
