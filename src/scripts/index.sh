@@ -71,7 +71,7 @@ p=false
 # App logic
 # -------------------------------------------------
 
-while getopts 'CbfhmpS:U:-:' flag; do
+while getopts 'aCbfhmpS:U:-:' flag; do
     case "${flag}" in
         b) b=true ;;
         f) f=true ;;
