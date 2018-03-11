@@ -1,0 +1,4 @@
+mysql=the world's most popular open source database (recommend)
+postgresql=advance open source database
+sqlite=self-contained, high-reliability, full-featured, SQL database engine
+mariadb=one of the most popular database servers

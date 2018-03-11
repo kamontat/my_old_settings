@@ -1,0 +1,8 @@
+sourcetree=simplicity and power in a beautiful gui (recommend)
+sourcetree-beta=beta version of sourcetree
+sourcetree-alpha=alpha version of sourcetree (not recommend)
+gitkraken=the legendary git gui client for windows, macos and linux
+github=extend your gitHub workflow beyond your browser
+github-beta=github desktop beta version
+gitup=work quickly, safely, and without headaches
+ungit=user friendliness to git without sacrificing the versatility of git, web-based
