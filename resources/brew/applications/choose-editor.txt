@@ -1,0 +1,8 @@
+visual-studio-code=visual studio code stable version (recommend)
+visual-studio-code-insiders=visual studio code insiders version
+atom=atom editor stable version (recommend)
+atom-beta=atom beta version
+brackets=text editor that understands web design (recommend)
+sublime-text=sublime editor stable version (recommend)
+sublime-text-dev=sublime editor development version
+sublime-text2=outdated sublime editor (not recommend)

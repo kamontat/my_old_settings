@@ -1,0 +1,6 @@
+iterm2=latest stable version of iterm (recommend)
+iterm2-beta=beta version of iterm
+iterm2-nightly=nightly version of iterm (not recommend)
+hyper=beautiful and extensible experience for cli users
+hyper-canary=beta version of hyper
+upterm=an ide in the world of terminals
