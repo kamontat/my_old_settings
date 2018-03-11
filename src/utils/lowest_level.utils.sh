@@ -29,7 +29,7 @@ export cache_postfix=".${date}.my_setting_cache"
 # @params  1- error message
 #          2- error code
 throw() {
-    printf "%s\n" "$1" && exit $2
+    printf "%s\n" "$1" >&2 && exit $2
 }
 
 # @explain  - the help utils to generate help command of the script

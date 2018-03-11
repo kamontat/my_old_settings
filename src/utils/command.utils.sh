@@ -57,6 +57,21 @@ list_cask_brew() {
     run_brew_cask list
 }
 
+brew_save_list() {
+    export BREW_LIST="$(list_brew)"
+    export BREW_CASK_LIST="$(list_cask_brew)"
+}
+
+is_installed() {
+    [ -z "$BREW_LIST" ] && export BREW_LIST="$(list_brew)"
+    echo "$BREW_LIST" | grep -q "$1"
+}
+
+is_cask_installed() {
+    [ -z "$BREW_CASK_LIST" ] && export BREW_CASK_LIST="$(list_cask_brew)"
+    echo "$BREW_CASK_LIST" | grep -q "$1"
+}
+
 # -------------------------------------------------
 # <> Functions
 # -------------------------------------------------
