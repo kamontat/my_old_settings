@@ -1,2 +1,2 @@
 bash=bash newest version
-bash-completions=auto complete for bash
+bash-completion=auto complete for bash
