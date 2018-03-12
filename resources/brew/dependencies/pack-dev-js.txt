@@ -1,3 +1,0 @@
-node=javascript for backend
-yarn=node package management
-nvm=npm version management

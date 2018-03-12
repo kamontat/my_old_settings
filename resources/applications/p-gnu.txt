@@ -1,0 +1,2 @@
+brew coreutils=basic file, shell and text manipulation utilities of the GNU
+brew gcal=calculating and printing calendars

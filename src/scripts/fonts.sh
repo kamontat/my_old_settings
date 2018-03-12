@@ -31,11 +31,14 @@ only_font() {
 # -------------------------------------------------
 
 _powerline_font() {
+    local file location
     file="${TEMP}/fonts"
     git clone https://github.com/powerline/fonts.git --depth=1 "$file"
+    location="$PWD"
     cd "$file"
     ./install.sh
     [ -n "$file" ] && rm -rf "$file"
+    cd "$location"
 }
 
 _firacode_font() {

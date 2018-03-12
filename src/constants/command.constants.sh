@@ -26,8 +26,8 @@ export NOT_INSTALL_DESCRIPTION="not install any application"
 export CHOOSE_BY_NUMBER="Choose by enter number [-1|0|1|..]? "
 export CHOOSE_BY_YES_NO="Choose by enter [Y|n]? "
 
-export LIST_BREW_DEP="List all installed dependencies..."
-export LIST_CASK_BREW_DEP="List all installed cask dependencies..."
+export LIST_BREW_DEP="List all installed applications..."
+export LIST_CASK_BREW_DEP="List all installed cask applications..."
 
 # export SHORT_DISPLAY_LIBRARY_FORMAT="%3d) %-20s (%s) - %s\n"
 export DISPLAY_LIBRARY_FORMAT="%3d) %-30s (%s) - %s\n"

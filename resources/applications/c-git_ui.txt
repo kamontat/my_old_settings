@@ -1,0 +1,8 @@
+cask sourcetree=simplicity and power in a beautiful gui (recommend)
+cask sourcetree-beta=beta version of sourcetree
+cask sourcetree-alpha=alpha version of sourcetree (not recommend)
+cask gitkraken=the legendary git gui client for windows, macos and linux
+cask github=extend your gitHub workflow beyond your browser
+cask github-beta=github desktop beta version
+cask gitup=work quickly, safely, and without headaches
+cask ungit=user friendliness to git without sacrificing the versatility of git, web-based

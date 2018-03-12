@@ -1,0 +1,6 @@
+brew coconutbattery=battary reporter for macOS
+brew the-unarchiver=a best unarchiver for macOS
+brew vlc=a media player
+brew appcleaner=tools for uninstall application clearly
+brew itsycal=a good calender for macOS
+brew whatpulse=know everything about your computing habits

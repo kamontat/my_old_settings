@@ -1,0 +1,2 @@
+brew shellcheck=a shell script static analysis tool
+brew shfmt=a shell parser, formatter and interpreter

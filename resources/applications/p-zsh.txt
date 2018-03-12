@@ -1,0 +1,3 @@
+brew zsh=version upgrade for bash
+brew zsh-completions=auto complete for zsh
+brew zplug=package management for zsh

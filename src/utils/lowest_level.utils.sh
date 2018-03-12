@@ -4,7 +4,6 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
 #/ Description:  ...
 #/ Create by:    ...
@@ -29,13 +28,13 @@ export cache_postfix=".${date}.my_setting_cache"
 # @params  1- error message
 #          2- error code
 throw() {
-    printf "%s\n" "$1" >&2 && exit $2
+	printf "%s\n" "$1" >&2 && exit $2
 }
 
 # @explain  - the help utils to generate help command of the script
 # @params  1- file for run help command
 help() {
-  cat "$1" | grep "^#/" | tr -d "#/"
+	cat "$1" | grep "^#/" | tr -d "#/"
 }
 
 # @explain  - copy file to other location
@@ -43,8 +42,8 @@ help() {
 #          2- output location
 #          3- false, for non-root command
 copy() {
-    [ "$3" == "false" ] && cmd=("cp") ||  cmd=("sudo" "cp")
-    ${cmd[@]} -rf "$1" "$2"
+	[ "$3" == "false" ] && cmd=("cp") || cmd=("sudo" "cp")
+	${cmd[@]} -rf "$1" "$2"
 }
 
 # @explain  - move file to other location
@@ -52,14 +51,14 @@ copy() {
 #          2- output location
 #          3- false, for non-root command
 move() {
-    [ "$3" == "false" ] && cmd=("mv") ||  cmd=("sudo" "mv")
-    ${cmd[@]} -rf "$1" "$2"
+	[ "$3" == "false" ] && cmd=("mv") || cmd=("sudo" "mv")
+	${cmd[@]} -rf "$1" "$2"
 }
 
 # @explain  - save cache (as DayMonthYearHour)
 # @params  1- file or folder
 cache() {
-    move "$1" "$1$cache_postfix"
+	move "$1" "$1$cache_postfix"
 }
 
 # @explain  - copy file to other location, if exist cache it first
@@ -67,76 +66,87 @@ cache() {
 #          2- output location
 #          3- false, for non-root command
 save_copy() {
-    in="$1"
-    out="$2"
-    [ -f "$out" ] && cache "$2"
-    copy "$1" "$2" "$3"
+	in="$1"
+	out="$2"
+	[ -f "$out" ] && cache "$2"
+	copy "$1" "$2" "$3"
 }
 
 who() {
-    whoami
+	whoami
 }
 
 list_shell() {
-    grep -v "#" </etc/shells
+	grep -v "#" </etc/shells
 }
 
 choose() {
-    askone "Do you want $1? [Y|n]: "
-    # res="$(askone "Do you want $1? [Y|n]: ")"
-    echo && [ $ans != "n" ]
+	askone "Do you want $1? [Y|n]: "
+	# res="$(askone "Do you want $1? [Y|n]: ")"
+	echo && [ "$ans" != "n" ]
 }
 
 askone() {
-    unset ans
-    printf "%s" "$1" &&
-        read -rn 1 ans
-    export ans
+	unset ans
+	printf "%s" "$1" &&
+		read -rn 1 ans
+	export ans
 }
 
 ask() {
-    unset ans
-    printf "%s" "$1" &&
-        read -r ans
-    export ans
+	unset ans
+	printf "%s" "$1" &&
+		read -r ans
+	export ans
 }
 
 is_command_exist() {
-    command -v "$1" >/dev/null
+	command -v "$1" >/dev/null
 }
 
 # 1 - filename
 # 2 - link
 # 3 - is_silent
 download_file() {
-    local f="${TEMP}/$1" opt="-sLo"
-    ! $3 && opt="-Lo"
-    $cache && [ -f "$f" ] || [ -d "$f" ] && echo "${f}" && return 0 # cache file
-    curl "$opt" "${f}" "$2" &&
-        echo "${f}"
+	local f="${TEMP}/$1" opt="-sLo"
+	! $3 && opt="-Lo"
+	$cache && [ -f "$f" ] || [ -d "$f" ] && echo "${f}" && return 0 # cache file
+	curl "$opt" "${f}" "$2" &&
+		echo "${f}"
+}
+
+download_file_same_name() {
+	local location="$PWD"
+	cd ${TEMP} && curl -sLOJ -C - "$1" -w "${TEMP}/%{filename_effective}"
+	cd "$location"
 }
 
 unzip_file() {
-    local f="${TEMP}/$1" o="${TEMP}"
-    unzip "$f" -d "$o" >/dev/null
+	local f="${TEMP}/$1" o="${TEMP}"
+	unzip "$f" -d "$o" >/dev/null
 }
 
 get_harddrive_name() {
-    find /Volumes -type l -depth 1 -maxdepth 1 -mindepth 1
+	find /Volumes -type l -depth 1 -maxdepth 1 -mindepth 1
 }
 
 random() {
-    od -An -N8 -H < /dev/random | tr -d " " | tr -d "\n"
+	od -An -N8 -H </dev/random | tr -d " " | tr -d "\n"
 }
 
 create_temp_file() {
-    file="${TEMP}/mysn.$(random)$1"
-    touch $file
-    echo "$file"
+	file="${TEMP}/mysn.$(random)$1"
+	touch $file
+	echo "$file"
 }
 
 create_temp_folder() {
-    folder="${TEMP}/mysn.$(random)$1"
-    mkdir $folder
-    echo "$folder"
+	folder="${TEMP}/mysn.$(random)$1"
+	mkdir $folder
+	echo "$folder"
+}
+
+if_extension_of() {
+	local location="$1" extension="$2"
+	echo "${location##*.}" | grep -qi "^${extension}$"
 }

@@ -4,7 +4,6 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
 #/ Description:  ...
 #/ Create by:    ...
@@ -23,100 +22,138 @@
 # -------------------------------------------------
 
 check_volume() {
-    ls /Volumes
+	ls /Volumes
 }
 
 reset() {
-    unset MOUNT_VOLUME
+	unset MOUNT_VOLUME
 }
 
 mount_dmg() {
-    local o
-    o="$(create_temp_folder)"
-    hdiutil attach -mountpoint "$o" "$1" >/dev/null
-    export MOUNT_VOLUME="$o"
+	local o
+	o="$(create_temp_folder)"
+	hdiutil attach -mountpoint "$o" "$1" >/dev/null
+	export MOUNT_VOLUME="$o"
 }
 
 unmount_dmg() {
-    [ -z "$MOUNT_VOLUME" ] && export MOUNT_VOLUME="$1"
-    hdiutil detach "$MOUNT_VOLUME" >/dev/null
+	[ -z "$MOUNT_VOLUME" ] && export MOUNT_VOLUME="$1"
+	hdiutil detach "$MOUNT_VOLUME" >/dev/null
 }
 
 install_dmg() {
-    local app pkg
-    [ -z "$MOUNT_VOLUME" ] && export MOUNT_VOLUME="$1"
+	local app pkg
+	[ -z "$MOUNT_VOLUME" ] && export MOUNT_VOLUME="$1"
 
-    app="$(ls -1 "$MOUNT_VOLUME" | grep ".app")"
-    pkg="$(ls -1 "$MOUNT_VOLUME" | grep ".pkg")"
+	app="$(ls -1 "$MOUNT_VOLUME" | grep ".app")"
+	pkg="$(ls -1 "$MOUNT_VOLUME" | grep ".pkg")"
 
-    echo "app call -> $app"
-    echo "pkg call -> $pkg"
-    
-    if [[ "$app" != "" ]]; then
-        _copy_if_app "${MOUNT_VOLUME}/${app}"
-    elif [[ "$pkg" != "" ]]; then
-        _copy_if_pkg "${MOUNT_VOLUME}/${pkg}"
-    else
-        throw "unknown application format @$MOUNT_VOLUME"
-    fi
+	echo "app call -> $app"
+	echo "pkg call -> $pkg"
+
+	if [[ "$app" != "" ]]; then
+		_copy_if_app "${MOUNT_VOLUME}/${app}"
+	elif [[ "$pkg" != "" ]]; then
+		_copy_if_pkg "${MOUNT_VOLUME}/${pkg}"
+	else
+		throw "unknown application format @$MOUNT_VOLUME"
+	fi
+}
+
+install_link() {
+	local link="$1"
+	location=$(download_file_same_name "$link" false)
+
+	if_extension_of "$location" "sh" && bash "$location"
 }
 
 _copy_if_app() {
-    local app="$1"
-    sudo cp -R "$app" "/Applications" || throw "cannot install app {$app}"
+	local app="$1"
+	sudo cp -R "$app" "/Applications" || throw "cannot install app {$app}"
 }
 
 _copy_if_pkg() {
-    local pkg="$1"
-    sudo installer -pkg "$pkg" -target "$(get_harddrive_name)"
+	local pkg="$1"
+	sudo installer -pkg "$pkg" -target "$(get_harddrive_name)"
 }
 
-loop_on_files() {
-    local files="$1" command="$2" name file
-    for file in $(ls $files); do
-        name="${file##*/}"
-        name="${name%%.*}"
-        "$command" "$file" "$name"
-    done
+loop_each_files() {
+	local files="$1" command="$2" name file
+	for file in $(ls $files); do
+		name="${file##*/}"
+		name="${name%%.*}"
+		"$command" "$file" "$name"
+	done
 }
 
-loop_show_library() {
-    local file="$1" pre_cmd="$2" check_cmd="$3" include_minus="$4" # post_cmd="$4" 
-    local line i lib detail installed
+# @return  - array of triple key
+# 			 1 - library install type
+# 			 2 - library name
+# 			 3 - library extension
+loop_each_libraries() {
+	local file="$1" include_minus="$2"
+	local lib    # library name
+	local detail # description of library
+	local ext    # extension of library, like 'link'
+	local line i installed
 
-    export SHOWED_LIBRARYS=()
+	export SHOWED_LIBRARYS=()
 
-    "$pre_cmd"
+	[[ $include_minus == true ]] &&
+		printf "$DISPLAY_LIBRARY_FORMAT" -1 "$NONE" " " "$NOT_INSTALL_DESCRIPTION"
+	while IFS='' read -r line || [[ -n "$line" ]]; do
+		lib="${line%%=*}"
+		detail="${line##*=}"
+		ext="$(echo "$detail" | grep -o {.*})"
+		detail="${detail//$ext/ }"
+		ext="$(echo "$ext" | tr -d "{" | tr -d "}")" # remove "{", "}"
 
-    [[ $include_minus == true ]] && 
-        printf "$DISPLAY_LIBRARY_FORMAT" -1 "$NONE" " " "$NOT_INSTALL_DESCRIPTION"
-    while IFS='' read -r line || [[ -n "$line" ]]; do
-        lib="${line%%=*}"
-        detail="${line##*=}"
+		check_is_installed "$lib" && installed="I" || installed="N"
 
-        "$check_cmd" "$lib" && installed="I" || installed="N"
-        printf "$DISPLAY_LIBRARY_FORMAT" "$i" "${lib##* }" "$installed" "$detail"
-        SHOWED_LIBRARYS+=("$lib")
-        i="$((i + 1))"
-    done < "$file"
-    # "$post_cmd"
+		# printf "ext: %s\n" "$ext"
+		printf "$DISPLAY_LIBRARY_FORMAT" "$i" "${lib##* }" "$installed" "$detail"
+		[ -z "$ext" ] && SHOWED_LIBRARYS+=("$lib") || SHOWED_LIBRARYS+=("$lib $ext")
+		i="$((i + 1))"
+	done <"$file"
 }
 
-choose_as_pack() {
-    local pack_name="$1" cmd="$2" 
-    shift 2
-    local else="$@"
-    
-    choose "'$pack_name' pack" && "$cmd" ${else[@]} # not quote to avoid array merging
+ask_to_pack() {
+	local filename="$1"
+	local packname="$2"
+
+	loop_each_libraries "$filename"
+
+	choose "'$packname' pack" || return 0 # not choose this pack
+
+	local lib arr lib_type lib_name lib_extr
+	for lib in "${SHOWED_LIBRARYS[@]}"; do
+		before_check_txt "$lib"
+		install_applications
+	done
+
+	# choose "'$pack_name' pack" && "$install_cmd" ${else[@]} # not quote to avoid array merging
 }
 
-choose_as_choice() {
-    local cmd="$1"
-    shift 1
-    local arr=($@)
+ask_to_choose() {
+	local index filename="$1"
+	local packname="$2"
 
-    ask "$CHOOSE_BY_NUMBER"
-    index="$ans"
-    [ $index -lt 0 ] && return 0
-    "$cmd" "${arr[index]}"
+	loop_each_libraries "$1" true
+
+	ask "$CHOOSE_BY_NUMBER"
+	index="$ans"
+	[ -z "$index" ] && return 0
+	[ $index -lt 0 ] && return 0                        # minus index
+	[ $index -ge "${#SHOWED_LIBRARYS[@]}" ] && return 0 # exceed array
+
+	before_check_txt "${SHOWED_LIBRARYS[index]}"
+	install_applications
+}
+
+# use after method 'before_check_txt'
+# 1 = library type, 2 = library name, 3 = library extra information
+install_applications() {
+	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME"
+	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME"
+	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR"
 }

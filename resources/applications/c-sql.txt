@@ -1,0 +1,4 @@
+brew mysql=the world's most popular open source database (recommend)
+brew postgresql=advance open source database
+brew sqlite=self-contained, high-reliability, full-featured, SQL database engine
+brew mariadb=one of the most popular database servers

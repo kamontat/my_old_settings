@@ -1,2 +1,0 @@
-google-backup-and-sync=syncs and stores Drive content locally on your computer
-google-drive-file-stream=streams all files and folders from the cloud

@@ -4,7 +4,6 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
 #/ Description:  location of the project (source this file every first file)
 #/ Create by:    Kamontat Chantrachirathumrong
@@ -27,7 +26,8 @@ export SCRIPTS="${SRC}/scripts"
 export CONSTANTS="${SRC}/constants"
 
 export RESOURCES="${ROOT}/resources"
-export RESOURCES_BREW="${RESOURCES}/brew"
+export RESOURCES_APPL="${RESOURCES}/applications"
+export RESOURCES_EXTD="${RESOURCES}/ext_applications"
 export RESOURCES_DOTF="${RESOURCES}/dot_files"
 export RESOURCES_OTHR="${RESOURCES}/others"
 
@@ -35,8 +35,8 @@ export TMP="/tmp"
 export TMPDIR="/tmp"
 export TEMP="/tmp/mysn" # my setting of net
 if ! mkdir "$TEMP" &>/dev/null; then
-    [ ! "$cache" ] && 
-        rm -rf "${TEMP}/**/*"
+	[ ! "$cache" ] &&
+		rm -rf "${TEMP}/**/*"
 fi
 
 return 0

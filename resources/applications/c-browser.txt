@@ -1,0 +1,12 @@
+cask firefox=firefox stable version (recommended)
+cask firefox-beta=firefox beta version
+cask firefox-developer-edition=firefox developer version
+cask firefox-nightly=firefox nightly version (not recommend)
+cask google-chrome=chrome stable version (recommended)
+cask google-chrome-beta=chrome beta version
+cask google-chrome-canary=chrome canary version
+cask google-chrome-dev=chrome dev version (not recommend)
+cask opera=opera stable version (recommended)
+cask opera-beta=opera beta version
+cask opera-developer=opera developer version (not recommend)
+cask opera-neon=new release opera version

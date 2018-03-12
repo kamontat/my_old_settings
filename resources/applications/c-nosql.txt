@@ -1,0 +1,2 @@
+brew mongodb=document database with the scalability and flexibility
+brew redis=an open source, in-memory data structure store

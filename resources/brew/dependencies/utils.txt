@@ -1,7 +1,0 @@
-cloc=count line of code
-httpie=http request in cli
-jq=command-line json processor
-neovim=version upgrade of vim
-vim=vi improvement
-neofetch=system reporter
-mas=mac app store cli

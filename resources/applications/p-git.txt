@@ -1,0 +1,4 @@
+brew git=newest git version
+brew git-extras=git utilities
+brew git-lfs=git large file storage
+brew hub=github cli

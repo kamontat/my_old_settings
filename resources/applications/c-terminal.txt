@@ -1,0 +1,6 @@
+cask iterm2=latest stable version of iterm (recommend)
+cask iterm2-beta=beta version of iterm
+cask iterm2-nightly=nightly version of iterm (not recommend)
+cask hyper=beautiful and extensible experience for cli users
+cask hyper-canary=beta version of hyper
+cask upterm=an ide in the world of terminals

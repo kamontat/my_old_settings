@@ -4,7 +4,6 @@
 # set -v #VERBOSE - Display shell input lines as they are read.
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
-
 #/ -------------------------------------------------
 #/ Description:  ...
 #/ Create by:    ...
@@ -26,3 +25,8 @@ export cache=false
 
 export user=""
 export shell=""
+
+export choose="c"
+export choose_files="$choose-*.txt"
+export pack="p"
+export pack_files="$pack-*.txt"

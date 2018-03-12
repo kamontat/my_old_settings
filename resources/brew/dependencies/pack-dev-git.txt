@@ -1,4 +1,0 @@
-git=newest git version
-git-extras=git utilities
-git-lfs=git large file storage
-hub=github cli

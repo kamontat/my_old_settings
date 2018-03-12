@@ -1,0 +1,8 @@
+cask visual-studio-code=visual studio code stable version (recommend)
+cask visual-studio-code-insiders=visual studio code insiders version
+cask atom=atom editor stable version (recommend)
+cask atom-beta=atom beta version
+cask brackets=text editor that understands web design (recommend)
+cask sublime-text=sublime editor stable version (recommend)
+cask sublime-text-dev=sublime editor development version
+cask sublime-text2=outdated sublime editor (not recommend)

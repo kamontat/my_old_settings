@@ -1,2 +1,0 @@
-bash=bash newest version
-bash-completion=auto complete for bash

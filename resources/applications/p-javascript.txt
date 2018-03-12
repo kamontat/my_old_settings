@@ -1,0 +1,3 @@
+brew node=javascript for backend
+brew yarn=node package management
+brew nvm=npm version management

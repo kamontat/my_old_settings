@@ -1,0 +1,2 @@
+brew bash=bash newest version
+brew bash-completion=auto complete for bash

@@ -1,2 +1,0 @@
-coreutils=basic file, shell and text manipulation utilities of the GNU
-gcal=calculating and printing calendars
