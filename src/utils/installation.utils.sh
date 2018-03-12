@@ -135,19 +135,22 @@ ask_to_pack() {
 }
 
 ask_to_choose() {
-	local index filename="$1"
+	local list filename="$1"
 	local packname="$2"
 
 	loop_each_libraries "$1" true
 
 	ask "$CHOOSE_BY_NUMBER"
-	index="$ans"
-	[ -z "$index" ] && return 0
-	[ $index -lt 0 ] && return 0                        # minus index
-	[ $index -ge "${#SHOWED_LIBRARYS[@]}" ] && return 0 # exceed array
+	list=($ans)
+	[ -z "$list" ] && return 0                     # list not exist
+	[ "${#list[@]}" -lt 1 ] && return 0            # zero list
+	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0 # non number
 
-	before_check_txt "${SHOWED_LIBRARYS[index]}"
-	install_applications
+	for index in "${list[@]}"; do
+		[ "$index" -ge "${#SHOWED_LIBRARYS[@]}" ] && return 0 # exceed array
+		before_check_txt "${SHOWED_LIBRARYS[index]}"
+		install_applications
+	done
 }
 
 # use after method 'before_check_txt'
