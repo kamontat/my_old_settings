@@ -1,0 +1,3 @@
+cask postman=to build modern software for the api-first world
+cask wireshark=the world’s foremost and widely-used network protocol analyzer
+cask charles=an http proxy / http monitor / reverse proxy
