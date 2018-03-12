@@ -76,12 +76,12 @@ is_installed() {
 
 is_brew_installed() {
 	[ -z "$BREW_LIST" ] && export BREW_LIST="$(list_brew)"
-	echo "$BREW_LIST" | grep -q "$1"
+	echo "$BREW_LIST" | grep -q "^$1$"
 }
 
 is_cask_installed() {
 	[ -z "$BREW_CASK_LIST" ] && export BREW_CASK_LIST="$(list_cask_brew)"
-	echo "$BREW_CASK_LIST" | grep -q "$1"
+	echo "$BREW_CASK_LIST" | grep -q "^$1$"
 }
 
 is_app_installed() {
