@@ -147,6 +147,7 @@ ask_to_choose() {
 	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0 # non number
 
 	for index in "${list[@]}"; do
+		[ "$index" -lt 1 ] && return 0                        # minus input
 		[ "$index" -ge "${#SHOWED_LIBRARYS[@]}" ] && return 0 # exceed array
 		before_check_txt "${SHOWED_LIBRARYS[index]}"
 		install_applications

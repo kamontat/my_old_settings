@@ -2,4 +2,3 @@ brew cloc=count line of code
 brew httpie=http request in cli
 brew jq=command-line json processor
 brew neofetch=system reporter
-brew mas=mac app store cli
