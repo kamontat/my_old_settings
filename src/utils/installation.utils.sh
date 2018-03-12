@@ -60,11 +60,42 @@ install_dmg() {
 	fi
 }
 
+install_pkg() {
+	local location="$1"
+	_copy_if_pkg "$location"
+}
+
+# 1 - link
+# 2 - unique key of each installer
+download_and_install_dmg() {
+	local link="$1" name="installer.${2}.dmg" location
+
+	location=$(download_file "$name" "$link" false)
+
+	reset
+	mount_dmg "$location"
+	install_dmg
+	unmount_dmg
+}
+
+download_and_install_pkg() {
+	local link="$1" name="installer.${2}.pkg" location
+
+	location=$(download_file "$name" "$link" false)
+
+	install_pkg "$location"
+}
+
 install_link() {
 	local link="$1"
 	location=$(download_file_same_name "$link" false)
 
 	if_extension_of "$location" "sh" && bash "$location"
+}
+
+install_dict() {
+	local path="${RESOURCE_PKGA}/$1"
+	echo "$path"
 }
 
 _copy_if_app() {
@@ -160,4 +191,5 @@ install_applications() {
 	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME"
 	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME"
 	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR"
+	check_txt_is "dict" && install_dict "$RAW_LIBRARY_EXTR"
 }

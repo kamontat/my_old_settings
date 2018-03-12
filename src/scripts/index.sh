@@ -5,34 +5,44 @@
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
 #/ -------------------------------------------------
-#/ Title:        Index script
+#/ Title:
+#/      Index script
 #/ -------------------------------------------------
-#/ Description:  This is index of the setting script
-#/               Every subscript / subcommand must run by ths file first.
+#/ Description:
+#/		This is index of the setting script
+#/      Every subscript / subcommand must run by ths file first.
 #/ -------------------------------------------------
-#/ Options:      --help             | -h >> for help command
-#/               --user             | -U >> (required) specify user
-#/               --shell            | -S >> (optional) specify shell
-#/               --use-cache        | -C >> don't download, if file exist
-#/               --only-font        | -f >> for run 'font' setting only
-#/               --only-mac-setting | -m >> for run 'mac' setting only
-#/               --only-application | -d >> for run 'application' setting only
-#/               --all              | -a >> for every setting
+#/ Options:
+#/      --help             | -h        >> for help command
+#/      --user             | -U        >> (required) 'specify' user
+#/      --shell            | -S        >> (optional) 'specify' shell
+#/      --use-cache        | -C        >> don't download, if file exist
+#/      --font             | -f        >> for run 'font' setting only
+#/      --mac-setting      | -m        >> for run 'mac' setting only
+#/      --application      | -d        >> for run 'application' setting only
+#/      --only-application | -D        >> 'specify' txt file name for load application
+#/      --all              | -a        >> for every setting
 #/ -------------------------------------------------
-#/ Example:      ./index.sh --help                      >> for helping command
-#/               sudo ./index.sh --all --user $(whoami) >> run every setting
-#/               ./index.sh -bu $(whoami)               >> run only 'brew' setting
+#/ Example:
+#/      sudo ./index.sh -aU $(whoami)  >> run all settings with sudo
+#/      ./index.sh --help              >> for helping command
+#/      ./index.sh --font    		   >> run only 'font' setting
 #/ -------------------------------------------------
-#/ Create by:    Kamontat Chantrachirathumrong
-#/ Since:        10 Mar 2561
+#/ Create by:
+#/      Kamontat Chantrachirathumrong
+#/ Since:
+#/      10 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      0.1.0  -- beta version
+#/ Version:
+#/      0.1.0-b1  -- beta version
+#/      0.2.0     -- new application installer
 #/ -------------------------------------------------
-#/ Error code    1      -- unhandle error
-#/               2      -- file not found
-#/               3      -- wrong OS
+#/ Error code
+#/      1         -- unhandle error
+#/      2         -- file not found
+#/      3         -- wrong OS
 #/ -------------------------------------------------
-#/ Bug:          no exist
+#/ Bug:           no exist
 #/ -------------------------------------------------
 
 cd "$(dirname "$0")"
@@ -63,7 +73,7 @@ h=false
 d=false
 f=false
 m=false
-p=false
+p=false # p=0
 
 # -------------------------------------------------
 # App logic
@@ -90,15 +100,15 @@ while getopts 'aCfhmpS:U:-:' flag; do
 			no_argument
 			h=true
 			;;
-		only-font)
+		font)
 			no_argument
 			f=true
 			;;
-		only-mac-setting)
+		mac-setting)
 			no_argument
 			m=true
 			;;
-		only-application)
+		application)
 			no_argument
 			p=true
 			;;
