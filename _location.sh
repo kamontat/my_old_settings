@@ -27,7 +27,8 @@ export CONSTANTS="${SRC}/constants"
 
 export RESOURCES="${ROOT}/resources"
 export RESOURCES_APPL="${RESOURCES}/applications"
-export RESOURCES_EXTD="${RESOURCES}/ext_applications"
+export RESOURCES_PKGA="${RESOURCES}/pkg-applications"
+export RESOURCES_DMGA="${RESOURCES}/dmg-applications"
 export RESOURCES_DOTF="${RESOURCES}/dot_files"
 export RESOURCES_OTHR="${RESOURCES}/others"
 
