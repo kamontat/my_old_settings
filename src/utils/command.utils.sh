@@ -96,6 +96,10 @@ is_dict_installed() {
 	ls /Library/Dictionaries/* | grep -qi "$1"
 }
 
+is_directory_installed() {
+	ls ~/$1 &>/dev/null
+}
+
 # -------------------------------------------------
 # <> Functions
 # -------------------------------------------------

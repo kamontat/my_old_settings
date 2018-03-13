@@ -5,12 +5,10 @@
 # set -n #EVALUATE - Check syntax of the script but don't execute.
 
 #/ -------------------------------------------------
-#/ Title:
-#/      Index script
+#/ Title:        Index script
 #/ -------------------------------------------------
-#/ Description:
-#/		This is index of the setting script
-#/      Every subscript / subcommand must run by ths file first.
+#/ Description:  This is index of the setting script
+#/               Every subscript must run by this file.
 #/ -------------------------------------------------
 #/ Options:
 #/      --help             | -h        >> for help command
@@ -73,7 +71,7 @@ h=false
 d=false
 f=false
 m=false
-p=false # p=0
+p=false
 
 # -------------------------------------------------
 # App logic
@@ -111,6 +109,10 @@ while getopts 'aCfhmpS:U:-:' flag; do
 		application)
 			no_argument
 			p=true
+			;;
+		only-application*)
+			require_argument
+			p="$LONG_OPTVAL"
 			;;
 		all)
 			no_argument
@@ -154,4 +156,5 @@ check_user # must be root
 
 $m && only_mac_setting
 $f && only_font
-$p && only_applications
+[[ $p == true ]] && only_applications
+[[ $p != true ]] && [[ $p != false ]] && specify_applications "$p"

@@ -1,0 +1,4 @@
+brew zsh=version upgrade for bash
+brew zsh-completions=auto complete for zsh
+brew zplug=package management for zsh
+link .oh-my-zsh=an open source, community-driven framework for managing your zsh configuration {https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh}

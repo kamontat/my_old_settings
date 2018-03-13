@@ -23,30 +23,30 @@
 #/ -------------------------------------------------
 
 only_mac_setting() {
-    [ "$(check_os)" != "0" ] && throw "must run on macOS" 3
+	[ "$(check_os)" != "0" ] && throw "must run on macOS" 3
 
-    echo "Speed setting.."
-    _choose_default_setting "key repeat rate"           "-g" "KeyRepeat" "int" 2
-    _choose_default_setting "delay before key repeat"   "-g" "DelayUntilRepeat" "int" 3
-    _choose_default_setting "mouse speed"               "-g" "com.apple.mouse.scaling" "int" "2"
-    _choose_default_setting "trackpad speed"            "-g" "com.apple.trackpad.scaling" "int" "2"
-    echo "Dock settings.."
-    _choose_default_setting "dock size"                 "" "com.apple.dock tilesize" "int" 70
-    _choose_default_setting "scroll mouse to open app"  "" "com.apple.dock scroll-to-open" "bool" "TRUE"
-    # not available in HighSierra MacOS
-    # _choose_default_setting "run dark mode theme" "-g" "AppleInterfaceTheme" "string" "Dark" 
-    killall Dock
-    echo "Power setting.."
-    _choose_power_management_setting "On ac power" "c" 0 15 0
-    _choose_power_management_setting "On battary" "b" 20 20 20
-    
-    choose "watch screen saver" && _download_screen_saver
+	echo "Speed setting.."
+	_choose_default_setting "key repeat rate" "-g" "KeyRepeat" "int" 2
+	_choose_default_setting "delay before key repeat" "-g" "DelayUntilRepeat" "int" 3
+	_choose_default_setting "mouse speed" "-g" "com.apple.mouse.scaling" "int" "2"
+	_choose_default_setting "trackpad speed" "-g" "com.apple.trackpad.scaling" "int" "2"
+	echo "Dock settings.."
+	_choose_default_setting "dock size" "" "com.apple.dock tilesize" "int" 70
+	_choose_default_setting "scroll mouse to open app" "" "com.apple.dock scroll-to-open" "bool" "TRUE"
+	# not available in HighSierra MacOS
+	# _choose_default_setting "run dark mode theme" "-g" "AppleInterfaceTheme" "string" "Dark"
+	killall Dock
+	echo "Power setting.."
+	_choose_power_management_setting "On ac power" "c" 0 15 0
+	_choose_power_management_setting "On battary" "b" 20 20 20
 
-    ext_help
+	choose "watch screen saver" && _download_screen_saver
+
+	setting_ext_help
 }
 
-ext_help() {
-    echo "
+setting_ext_help() {
+	echo "
 To setup mouse..
     >> System Preferences -> Mouse
 To setup trackpad..
@@ -63,47 +63,46 @@ To setup dark mode
 # -------------------------------------------------
 
 _download_screen_saver() {
-    local fullname name
-    local link="http://www.rasmusnielsen.dk/download.php?type=applewatch-screensaver"
-    name="WatchOSX"
-    fullname="$(download_file "$name" "$link")"
-    [ -f "$fullname" ] && unzip_file "$name" 
+	local fullname name
+	local link="http://www.rasmusnielsen.dk/download.php?type=applewatch-screensaver"
+	name="WatchOSX"
+	fullname="$(download_file "$name" "$link")"
+	[ -f "$fullname" ] && unzip_file "$name"
 
-    # -W => Causes open to wait until the applications it opens (or that were already open) have exited.
-    # -n => Open a new instance of the application(s) even if one is already running.
-    open -Wn "${TEMP}/WatchOSX.saver/" 
+	# -W => Causes open to wait until the applications it opens (or that were already open) have exited.
+	# -n => Open a new instance of the application(s) even if one is already running.
+	open -Wn "${TEMP}/WatchOSX.saver/"
 }
 
 _choose_default_setting() {
-    _raw_choose_default_setting "Setting '$1' [default=$5]? " "$3" "$5" "$2" "-$4"
+	_raw_choose_default_setting "Setting '$1' [default=$5]? " "$3" "$5" "$2" "-$4"
 }
 
 _raw_choose_default_setting() {
-    local desc="$1" name="$2" def="$3" g="$4" type="$5"
+	local desc="$1" name="$2" def="$3" g="$4" type="$5"
 
-    ask "$desc"
-    [ -n "$ans" ] && def="$ans"
+	ask "$desc"
+	[ -n "$ans" ] && def="$ans"
 
-    defaults write "$g" "$name" "$type" "$def"
+	defaults write "$g" "$name" "$type" "$def"
 }
 
 _choose_power_management_setting() {
-    local desc="$1" type="$2" syst="$3" disk="$4" disp="$5"
-    echo "$1"
-    ask "  system-sleep [default=$syst]? "
-    [ -n "$ans" ] && syst="$ans"
-    ask "  disk-sleep [default=$disk]? "
-    [ -n "$ans" ] && disk="$ans"
-    ask "  display-sleep [default=$disp]? "
-    [ -n "$ans" ] && disp="$ans"
+	local desc="$1" type="$2" syst="$3" disk="$4" disp="$5"
+	echo "$1"
+	ask "  system-sleep [default=$syst]? "
+	[ -n "$ans" ] && syst="$ans"
+	ask "  disk-sleep [default=$disk]? "
+	[ -n "$ans" ] && disk="$ans"
+	ask "  display-sleep [default=$disp]? "
+	[ -n "$ans" ] && disp="$ans"
 
-    sudo pmset -"$type" \
-	    sleep "$syst" \
-	    disksleep "$disk" \
-	    displaysleep "$disp"
+	sudo pmset -"$type" \
+		sleep "$syst" \
+		disksleep "$disk" \
+		displaysleep "$disp"
 }
 
 # -------------------------------------------------
 # App logic
 # -------------------------------------------------
-

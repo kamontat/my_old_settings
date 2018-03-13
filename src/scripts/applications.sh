@@ -12,14 +12,19 @@
 #/ Create by:    Kamontat Chantrachirathumrong
 #/ Since:        10 Mar 2561
 #/ -------------------------------------------------
-#/ Version:      2.0.1  -- new application decoding
+#/ Version:      2.1.1  -- remove pack application
 #/ -------------------------------------------------
 #/ Bug:          no exist
 #/ -------------------------------------------------
 
 only_applications() {
 	_only_choose_applications
-	_only_pack_applications
+	# _only_pack_applications
+}
+
+specify_applications() {
+	local name="$1"
+	ask_to_choose "${RESOURCES_APPL}/${name}.txt" "$name"
 }
 
 # -------------------------------------------------
@@ -30,6 +35,6 @@ _only_choose_applications() {
 	loop_each_files "${RESOURCES_APPL}/$choose_files" ask_to_choose
 }
 
-_only_pack_applications() {
-	loop_each_files "${RESOURCES_APPL}/$pack_files" ask_to_pack
-}
+# _only_pack_applications() {
+# 	loop_each_files "${RESOURCES_APPL}/$pack_files" ask_to_pack
+# }

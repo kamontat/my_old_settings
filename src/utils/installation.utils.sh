@@ -41,15 +41,18 @@ unmount_dmg() {
 	hdiutil detach "$MOUNT_VOLUME" >/dev/null
 }
 
-install_dmg() {
-	local app pkg
+install() {
+	local app pkg installer_type
 	[ -z "$MOUNT_VOLUME" ] && export MOUNT_VOLUME="$1"
+	[ -n "$2" ] && installer_type="$2"
+	[ "$installer_type" == "app" ] && app="$3"
+	[ "$installer_type" == "pkg" ] && pkg="$3"
 
-	app="$(ls -1 "$MOUNT_VOLUME" | grep ".app")"
-	pkg="$(ls -1 "$MOUNT_VOLUME" | grep ".pkg")"
+	[ -z "$app" ] && app="$(ls -1 "$MOUNT_VOLUME" | grep ".app$")"
+	[ -z "$pkg" ] && pkg="$(ls -1 "$MOUNT_VOLUME" | grep ".pkg$")"
 
-	echo "app call -> $app"
-	echo "pkg call -> $pkg"
+	# echo "app call -> $app"
+	# echo "pkg call -> $pkg"
 
 	if [[ "$app" != "" ]]; then
 		_copy_if_app "${MOUNT_VOLUME}/${app}"
@@ -58,11 +61,6 @@ install_dmg() {
 	else
 		throw "unknown application format @$MOUNT_VOLUME"
 	fi
-}
-
-install_pkg() {
-	local location="$1"
-	_copy_if_pkg "$location"
 }
 
 # 1 - link
@@ -74,7 +72,7 @@ download_and_install_dmg() {
 
 	reset
 	mount_dmg "$location"
-	install_dmg
+	install
 	unmount_dmg
 }
 
@@ -83,7 +81,7 @@ download_and_install_pkg() {
 
 	location=$(download_file "$name" "$link" false)
 
-	install_pkg "$location"
+	install "$location" ""
 }
 
 install_link() {
@@ -94,8 +92,8 @@ install_link() {
 }
 
 install_dict() {
-	local path="${RESOURCE_PKGA}/$1"
-	echo "$path"
+	# local path="${RESOURCES_PKGA}/$1"
+	install "${RESOURCES_PKGA}" "pkg" "$1"
 }
 
 _copy_if_app() {
@@ -148,22 +146,23 @@ loop_each_libraries() {
 	done <"$file"
 }
 
-ask_to_pack() {
-	local filename="$1"
-	local packname="$2"
+# @deprecated
+# ask_to_pack() {
+# 	local filename="$1"
+# 	local packname="$2"
 
-	loop_each_libraries "$filename"
+# 	loop_each_libraries "$filename"
 
-	choose "'$packname' pack" || return 0 # not choose this pack
+# 	choose "'$packname' pack" || return 0 # not choose this pack
 
-	local lib arr lib_type lib_name lib_extr
-	for lib in "${SHOWED_LIBRARYS[@]}"; do
-		before_check_txt "$lib"
-		install_applications
-	done
+# 	local lib
+# 	for lib in "${SHOWED_LIBRARYS[@]}"; do
+# 		before_check_txt "$lib"
+# 		install_applications
+# 	done
 
-	# choose "'$pack_name' pack" && "$install_cmd" ${else[@]} # not quote to avoid array merging
-}
+# 	# choose "'$pack_name' pack" && "$install_cmd" ${else[@]} # not quote to avoid array merging
+# }
 
 ask_to_choose() {
 	local list filename="$1"
@@ -173,12 +172,13 @@ ask_to_choose() {
 
 	ask "$CHOOSE_BY_NUMBER"
 	list=($ans)
-	[ -z "$list" ] && return 0                     # list not exist
-	[ "${#list[@]}" -lt 1 ] && return 0            # zero list
-	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0 # non number
+	[ -z "$list" ] && return 0                            # list not exist
+	[ "${#list[@]}" -lt 1 ] && return 0                   # zero list
+	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0        # non number
+	[[ "${list[*]}" =~ "a" ]] && install_all_applications # install every application in pack
 
 	for index in "${list[@]}"; do
-		[ "$index" -lt 1 ] && return 0                        # minus input
+		[ "$index" -lt 0 ] && return 0                        # minus input
 		[ "$index" -ge "${#SHOWED_LIBRARYS[@]}" ] && return 0 # exceed array
 		before_check_txt "${SHOWED_LIBRARYS[index]}"
 		install_applications
@@ -192,4 +192,12 @@ install_applications() {
 	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME"
 	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR"
 	check_txt_is "dict" && install_dict "$RAW_LIBRARY_EXTR"
+}
+
+install_all_applications() {
+	local lib
+	for lib in "${SHOWED_LIBRARYS[@]}"; do
+		before_check_txt "$lib"
+		install_applications
+	done
 }
