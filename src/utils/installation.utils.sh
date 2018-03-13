@@ -172,10 +172,12 @@ ask_to_choose() {
 
 	ask "$CHOOSE_BY_NUMBER"
 	list=($ans)
-	[ -z "$list" ] && return 0                                        # list not exist
-	[ "${#list[@]}" -lt 1 ] && return 0                               # zero list
-	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0                    # non number
-	[[ "${list[*]}" =~ "a" ]] && install_all_applications && return 0 # install every application in pack
+	[ -z "$list" ] && return 0                                              # list not exist
+	[ "${#list[@]}" -lt 1 ] && return 0                                     # zero list
+	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0                          # non number
+	[[ "${list[*]}" =~ "n" ]] && return 0                                   # not install
+	[[ "${list[*]}" =~ "a" ]] && install_all_applications false && return 0 # install every application
+	[[ "${list[*]}" =~ "e" ]] && install_all_applications false && return 0 # install not installed application
 
 	for index in "${list[@]}"; do
 		[ "$index" -lt 0 ] && return 0                        # minus input
@@ -188,6 +190,7 @@ ask_to_choose() {
 # use after method 'before_check_txt'
 # 1 = library type, 2 = library name, 3 = library extra information
 install_applications() {
+	[[ $1 == true ]] && check_is_installed "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME"
 	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME"
 	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR"
@@ -198,6 +201,6 @@ install_all_applications() {
 	local lib
 	for lib in "${SHOWED_LIBRARYS[@]}"; do
 		before_check_txt "$lib"
-		install_applications
+		install_applications "$1"
 	done
 }

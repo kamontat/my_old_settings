@@ -23,7 +23,10 @@ export MYSN_DATE="12 Mar 2561"
 export BREW_REQUIRE_USER="To run brew, you must input username (-U <name>)"
 export NONE="none"
 export NOT_INSTALL_DESCRIPTION="not install any application"
-export CHOOSE_BY_NUMBER="Choose by enter number? [a|-1|0|1...]: "
+export CHOOSE_BY_NUMBER="Choose by enter? [a    => all]
+                 [e    => except installed]
+                 [-1|n => not install anything]
+                 [0..n => index of application]: "
 export CHOOSE_BY_YES_NO="Choose by enter? [Y|n]: "
 
 export LIST_BREW_DEP="List all installed applications..."

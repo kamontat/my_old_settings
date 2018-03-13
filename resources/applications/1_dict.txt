@@ -1,1 +1,0 @@
-dict thai-dict=thai dict in macos %{mac-thai-dict-1.0.1.pkg}

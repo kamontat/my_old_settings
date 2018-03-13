@@ -1,0 +1,2 @@
+cask android-studio=the official ide for android
+cask android-studio-preview=beta version of android studio

@@ -1,0 +1,1 @@
+mas xcode=everything you need to create amazing apps for Apple platforms
