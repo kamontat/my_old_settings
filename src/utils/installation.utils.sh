@@ -172,10 +172,10 @@ ask_to_choose() {
 
 	ask "$CHOOSE_BY_NUMBER"
 	list=($ans)
-	[ -z "$list" ] && return 0                            # list not exist
-	[ "${#list[@]}" -lt 1 ] && return 0                   # zero list
-	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0        # non number
-	[[ "${list[*]}" =~ "a" ]] && install_all_applications # install every application in pack
+	[ -z "$list" ] && return 0                                        # list not exist
+	[ "${#list[@]}" -lt 1 ] && return 0                               # zero list
+	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0                    # non number
+	[[ "${list[*]}" =~ "a" ]] && install_all_applications && return 0 # install every application in pack
 
 	for index in "${list[@]}"; do
 		[ "$index" -lt 0 ] && return 0                        # minus input
