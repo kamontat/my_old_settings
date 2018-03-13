@@ -77,7 +77,7 @@ p=false
 # App logic
 # -------------------------------------------------
 
-while getopts 'aCfhmpS:U:-:' flag; do
+while getopts 'aCfhmpS:U:xy-:' flag; do
 	case "${flag}" in
 	p) p=true ;;
 	f) f=true ;;
@@ -89,6 +89,8 @@ while getopts 'aCfhmpS:U:-:' flag; do
 	C) export cache=true ;;
 	S) export shell="$OPTARG" ;;
 	U) export user="$OPTARG" ;;
+	x) set -x && DEBUG=true ;;
+	y) DEBUG=true ;;
 	-)
 		unset LONG_OPTARG LONG_OPTVAL
 		NEXT_PARAMS="${!OPTIND}" # OPTIND -> pointer to next parameter
@@ -129,6 +131,14 @@ while getopts 'aCfhmpS:U:-:' flag; do
 		use-cache)
 			no_argument
 			export cache=true
+			;;
+		verbose)
+			no_argument
+			set -x && DEBUG=true
+			;;
+		debug)
+			no_argument
+			DEBUG=true
 			;;
 		*)
 			if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then

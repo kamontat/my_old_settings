@@ -22,6 +22,7 @@
 # -------------------------------------------------
 
 export cache=false
+export DEBUG=false
 
 export user=""
 export shell=""
