@@ -77,8 +77,8 @@ check_is_installed() {
 		check_txt_is "link" && is_app_installed "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "dmg" ||
 		check_txt_is "link" && is_command_installed "$RAW_LIBRARY_NAME" && return 0
-
 	check_txt_is "link" && is_directory_installed "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "dict" && is_dict_installed "$RAW_LIBRARY_NAME" && return 0
+
 	return 1
 }

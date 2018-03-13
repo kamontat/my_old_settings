@@ -93,7 +93,7 @@ is_command_installed() {
 }
 
 is_dict_installed() {
-	ls /Library/Dictionaries/* | grep -qi "$1"
+	ls /Library/Dictionaries | grep -qi "$1"
 }
 
 is_directory_installed() {
