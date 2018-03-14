@@ -1,0 +1,6 @@
+mas slack=slack creates alignment and shared understanding across your team {803453959}
+mas line=a new communication app which allows you to make FREE voice calls and send FREE messages {539883307}
+mas wechat=free messaging & calling app across all smartphones and desktop {836500024}
+mas tweetdeck=your personal browser for staying in touch with what's happening now {485812721}
+mas tweetbot=native twitter client for the mac, price 349฿ {557168941}
+mas whatsapp=free and offers simple, secure, reliable messaging and calling {1147396723}
