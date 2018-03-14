@@ -92,8 +92,11 @@ install_link() {
 }
 
 install_dict() {
-	# local path="${RESOURCES_PKGA}/$1"
 	install "${RESOURCES_PKGA}" "pkg" "$1"
+}
+
+install_mas() {
+	mas_install "$1"
 }
 
 _copy_if_app() {
@@ -177,7 +180,7 @@ ask_to_choose() {
 	[[ "${list[*]}" =~ "^[^0-9 ]+$" ]] && return 0                          # non number
 	[[ "${list[*]}" =~ "n" ]] && return 0                                   # not install
 	[[ "${list[*]}" =~ "a" ]] && install_all_applications false && return 0 # install every application
-	[[ "${list[*]}" =~ "e" ]] && install_all_applications false && return 0 # install not installed application
+	[[ "${list[*]}" =~ "e" ]] && install_all_applications true && return 0  # install not installed application
 
 	for index in "${list[@]}"; do
 		[ "$index" -lt 0 ] && return 0                        # minus input
@@ -190,11 +193,14 @@ ask_to_choose() {
 # use after method 'before_check_txt'
 # 1 = library type, 2 = library name, 3 = library extra information
 install_applications() {
-	[[ $1 == true ]] && check_is_installed "$RAW_LIBRARY_NAME" && return 0
-	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME"
-	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME"
-	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR"
-	check_txt_is "dict" && install_dict "$RAW_LIBRARY_EXTR"
+	[[ "$1" == true ]] && check_is_installed "$RAW_LIBRARY_NAME" && return 0
+	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME" && return 0
+	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME" && return 0
+	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR" && return 0
+	check_txt_is "dict" && install_dict "$RAW_LIBRARY_EXTR" && return 0
+	check_txt_is "mas" && install_mas "$RAW_LIBRARY_EXTR" && return 0
+
+	# echo "Installation not exist!" >&2
 }
 
 install_all_applications() {
@@ -203,4 +209,6 @@ install_all_applications() {
 		before_check_txt "$lib"
 		install_applications "$1"
 	done
+
+	return 0
 }

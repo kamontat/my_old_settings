@@ -22,7 +22,11 @@
 # -------------------------------------------------
 
 run_brew() {
-	[ "$user" == "root" ] || [ "$user" == "" ] && throw "$BREW_REQUIRE_USER" 1
+	[ "$user" == "root" ] || [ "$user" == "" ] &&
+		throw "$BREW_REQUIRE_USER" &&
+		ask "$ASK_USERNAME" &&
+		export user="$ans"
+
 	sudo -u "$user" brew "$@"
 }
 
@@ -36,6 +40,25 @@ brew_install() {
 
 brew_cask_install() {
 	run_brew_cask install "$@"
+}
+
+# install only 1 app at a time
+# 1 - appID
+mas_install() {
+	is_command_exist "mas" || throw "$MAS_NOT_EXIST" 5
+	mas install "$1"
+}
+
+# install finded 1 app at a time
+# 1 - app name
+mas_install_by_name() {
+	is_command_exist "mas" || throw "$MAS_NOT_EXIST" 5
+	mas lucky "$1"
+}
+
+mas_list() {
+	is_command_exist "mas" || throw "$MAS_NOT_EXIST" 5
+	mas list
 }
 
 validate_brew() {
@@ -56,17 +79,16 @@ list_cask_brew() {
 	run_brew_cask list
 }
 
-# brew_save_list() {
-# 	export BREW_LIST="$(list_brew)"
-# 	export BREW_CASK_LIST="$(list_cask_brew)"
-# }
-
 brew_installation() {
 	for lib in "$@"; do
 		check_txt_is_cask "${lib##* }" && brew_cask_install "${lib##* }" && break
 		brew_install "${lib##* }"
 	done
 }
+
+# -------------------------------------------------
+# <> Functions
+# -------------------------------------------------
 
 is_installed() {
 	check_txt_is_cask "$1" &&
@@ -100,6 +122,6 @@ is_directory_installed() {
 	ls ~/$1 &>/dev/null
 }
 
-# -------------------------------------------------
-# <> Functions
-# -------------------------------------------------
+is_mas_installed() {
+	mas_list | grep -qi "$1"
+}

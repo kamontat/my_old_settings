@@ -34,3 +34,7 @@ export LIST_CASK_BREW_DEP="List all installed cask applications..."
 
 # export SHORT_DISPLAY_LIBRARY_FORMAT="%3d) %-20s (%s) - %s\n"
 export DISPLAY_LIBRARY_FORMAT="%3d) %-30s (%s) - %s\n"
+
+export MAS_NOT_EXIST="Mas command not exist, install by brew"
+export ASK_EMAIL="Input your email? "
+export ASK_USERNAME="Input current username? "

@@ -27,8 +27,23 @@ export cache_postfix=".${date}.my_setting_cache"
 # @explain  - exit non zero code with message
 # @params  1- error message
 #          2- error code
+# throw() {
+# 	printf "%s\n" "$1" >&2 && exit $2
+# }
+
+# @explain  - check is input is integer?
+# @params  1- variable to check
+# @return   - 0 if is a boolean; otherwise, return 1
+is_integer() {
+	[[ $1 =~ ^[0-9]+$ ]] 2>/dev/null && return 0 || return 1
+}
+
+# @explain  - exit non zero code with message
+# @params  1- error message
+#          2- error code (optional) -- if don't have error log only not exit
 throw() {
-	printf "%s\n" "$1" >&2 && exit $2
+	printf '%s\n' "$1" >&2 && is_integer "$2" && exit "$2"
+	return 0
 }
 
 # @explain  - the help utils to generate help command of the script
@@ -98,6 +113,10 @@ ask() {
 	printf "%s" "$1" &&
 		read -r ans
 	export ans
+}
+
+tell() {
+	echo "$@"
 }
 
 is_command_exist() {
