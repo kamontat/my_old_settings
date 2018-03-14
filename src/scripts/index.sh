@@ -17,8 +17,8 @@
 #/      --use-cache        | -C        >> don't download, if file exist
 #/      --font             | -f        >> for run 'font' setting only
 #/      --mac-setting      | -m        >> for run 'mac' setting only
-#/      --application      | -d        >> for run 'application' setting only
-#/      --only-application | -D        >> 'specify' txt file name for load application
+#/      --application      | -p        >> for run 'application' setting only
+#/      --only-application | -P        >> 'specify' txt file name for load application
 #/      --all              | -a        >> for every setting
 #/ -------------------------------------------------
 #/ Example:
@@ -39,6 +39,7 @@
 #/      1         -- unhandle error
 #/      2         -- file not found
 #/      3         -- wrong OS
+#/      5         -- required command not exist
 #/ -------------------------------------------------
 #/ Bug:           no exist
 #/ -------------------------------------------------
@@ -72,19 +73,23 @@ d=false
 f=false
 m=false
 p=false
+s=false
 
 # -------------------------------------------------
 # App logic
 # -------------------------------------------------
 
-while getopts 'aCfhmpS:U:xy-:' flag; do
+while getopts 'aCfhmpP:S:U:xy-:' flag; do
 	case "${flag}" in
 	p) p=true ;;
+	P) p="$OPTARG" ;;
 	f) f=true ;;
 	m) m=true ;;
+	s) s=true ;;
 	a) p=true &&
 		f=true &&
-		m=true ;;
+		m=true &&
+		s=true ;;
 	h) h=true ;;
 	C) export cache=true ;;
 	S) export shell="$OPTARG" ;;
@@ -104,6 +109,10 @@ while getopts 'aCfhmpS:U:xy-:' flag; do
 			no_argument
 			f=true
 			;;
+		setting)
+			no_argument
+			s=true
+			;;
 		mac-setting)
 			no_argument
 			m=true
@@ -118,7 +127,7 @@ while getopts 'aCfhmpS:U:xy-:' flag; do
 			;;
 		all)
 			no_argument
-			p=true && f=true && m=true
+			p=true && f=true && m=true && s=true
 			;;
 		user*)
 			require_argument
@@ -164,7 +173,8 @@ fi
 
 check_user # must be root
 
+[[ $p == true ]] && only_applications
+$s && only_other_setting
 $m && only_mac_setting
 $f && only_font
-[[ $p == true ]] && only_applications
 [[ $p != true ]] && [[ $p != false ]] && specify_applications "$p"
