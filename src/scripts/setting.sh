@@ -45,6 +45,10 @@ only_mac_setting() {
 	setting_ext_help
 }
 
+only_other_setting() {
+	choose "keygen for github" && add_keygen_for_github
+}
+
 setting_ext_help() {
 	echo "
 To setup mouse..
@@ -103,6 +107,18 @@ _choose_power_management_setting() {
 		displaysleep "$disp"
 }
 
-# -------------------------------------------------
-# App logic
-# -------------------------------------------------
+add_keygen_for_github() {
+	ask "$ASK_EMAIL" &&
+		ssh-keygen -f "${HOME}/.ssh/github_rsa" -b 4096 -t rsa -C "$ans" &&
+		tell "
+Keygen for github setting...
+run 
+    $ eval \"\$(ssh-agent -s)\"
+    $ ssh-add -K $HOME/.ssh/github_rsa
+add to github
+    $ pbcopy < ~/.ssh/github_rsa.pub
+    1. Click your profile photo, then click Settings
+    2. Click SSH and GPG keys
+    3. \"Title\" field, add a descriptive label
+    4. Paste your key into the \"Key\" field"
+}
