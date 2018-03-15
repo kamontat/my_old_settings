@@ -30,9 +30,13 @@ only_mac_setting() {
 	_choose_default_setting "delay before key repeat" "-g" "DelayUntilRepeat" "int" 3
 	_choose_default_setting "mouse speed" "-g" "com.apple.mouse.scaling" "int" "2"
 	_choose_default_setting "trackpad speed" "-g" "com.apple.trackpad.scaling" "int" "2"
+	# defaults write -g ApplePressAndHoldEnabled -bool false
+	_choose_default_setting "press and hold key" "-g" "bool" true
+
 	echo "Dock settings.."
 	_choose_default_setting "dock size" "" "com.apple.dock tilesize" "int" 70
 	_choose_default_setting "scroll mouse to open app" "" "com.apple.dock scroll-to-open" "bool" "TRUE"
+
 	# not available in HighSierra MacOS
 	# _choose_default_setting "run dark mode theme" "-g" "AppleInterfaceTheme" "string" "Dark"
 	killall Dock
