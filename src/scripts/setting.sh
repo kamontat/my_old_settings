@@ -31,7 +31,7 @@ only_mac_setting() {
 	_choose_default_setting "mouse speed" "-g" "com.apple.mouse.scaling" "int" "2"
 	_choose_default_setting "trackpad speed" "-g" "com.apple.trackpad.scaling" "int" "2"
 	# defaults write -g ApplePressAndHoldEnabled -bool false
-	_choose_default_setting "press and hold key" "-g" "bool" true
+	_choose_default_setting "press and hold key" "-g" "bool" false
 
 	echo "Dock settings.."
 	_choose_default_setting "dock size" "" "com.apple.dock tilesize" "int" 70
