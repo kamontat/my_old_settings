@@ -70,7 +70,7 @@ check_txt_is() {
 }
 
 check_is_installed() {
-	before_check_txt "$1"
+	[ -n "$1" ] && before_check_txt "$1"
 	check_txt_is "cask" && is_cask_installed "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "brew" && is_brew_installed "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "dmg" ||

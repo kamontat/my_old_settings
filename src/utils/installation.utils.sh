@@ -129,7 +129,7 @@ loop_each_libraries() {
 	local ext    # extension of library, like 'link'
 	local line i installed
 
-	export SHOWED_LIBRARYS=()
+	SHOWED_LIBRARYS=()
 
 	[[ $include_minus == true ]] &&
 		printf "$DISPLAY_LIBRARY_FORMAT" -1 "$NONE" " " "$NOT_INSTALL_DESCRIPTION"
@@ -147,6 +147,8 @@ loop_each_libraries() {
 		[ -z "$ext" ] && SHOWED_LIBRARYS+=("$lib") || SHOWED_LIBRARYS+=("$lib $ext")
 		i="$((i + 1))"
 	done <"$file"
+
+	export SHOWED_LIBRARYS
 }
 
 # @deprecated
@@ -193,7 +195,7 @@ ask_to_choose() {
 # use after method 'before_check_txt'
 # 1 = library type, 2 = library name, 3 = library extra information
 install_applications() {
-	[[ "$1" == true ]] && check_is_installed "$RAW_LIBRARY_NAME" && return 0
+	[[ "$1" == true ]] && check_is_installed && return 0
 	check_txt_is "cask" && brew_cask_install "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "brew" && brew_install "$RAW_LIBRARY_NAME" && return 0
 	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR" && return 0
