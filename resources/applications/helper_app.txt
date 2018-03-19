@@ -1,0 +1,2 @@
+mas annotate= the simplest way to capture, annotate and share screenshots {918207447}
+mas magnet=one drag to the edge, you size a window into half of your screen {441258766}
