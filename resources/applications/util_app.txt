@@ -5,3 +5,4 @@ cask appcleaner=tools for uninstall application clearly
 cask itsycal=a good calender for macOS
 cask whatpulse=know everything about your computing habits
 cask iexplorer=ultimate iphone manager
+link numi=beautiful calculator app for mac {http://numi.io/static/dev/Numi.zip}
