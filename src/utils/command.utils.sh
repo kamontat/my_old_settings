@@ -42,10 +42,16 @@ brew_cask_install() {
 	run_brew_cask install "$@"
 }
 
+is_mas_need_sign_in() {
+	mas account | grep -q "Not signed in"
+}
+
 # install only 1 app at a time
 # 1 - appID
 mas_install() {
 	is_command_exist "mas" || throw "$MAS_NOT_EXIST" 5
+	is_mas_need_sign_in && mas reset && mas signin --dialog "$account"
+
 	mas install "$1"
 }
 
@@ -53,6 +59,8 @@ mas_install() {
 # 1 - app name
 mas_install_by_name() {
 	is_command_exist "mas" || throw "$MAS_NOT_EXIST" 5
+	is_mas_need_sign_in && mas reset && mas signin --dialog "$account"
+
 	mas lucky "$1"
 }
 

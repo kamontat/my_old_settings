@@ -102,13 +102,18 @@ choose() {
 }
 
 askone() {
+	[[ $ALWAYS_YES == true ]] && ans="Y" && return 0
+
 	unset ans
 	printf "%s" "$1" &&
 		read -rn 1 ans
 	export ans
+
 }
 
 ask() {
+	[[ $ALWAYS_YES == true ]] && ans="e" && return 0
+
 	unset ans
 	printf "%s" "$1" &&
 		read -r ans

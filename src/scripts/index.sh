@@ -13,6 +13,7 @@
 #/ Options:
 #/      --help             | -h        >> for help command
 #/      --user             | -U        >> (required) 'specify' user
+#/      --mail             | -M        >> (required) 'specify' mail
 #/      --shell            | -S        >> (optional) 'specify' shell
 #/      --use-cache        | -C        >> don't download, if file exist
 #/      --font             | -f        >> for run 'font' setting only
@@ -20,6 +21,7 @@
 #/      --application      | -p        >> for run 'application' setting only
 #/      --only-application | -P        >> 'specify' txt file name for load application
 #/      --all              | -a        >> for every setting
+#/      --yes              | -y        >> always install every thing
 #/ -------------------------------------------------
 #/ Example:
 #/      sudo ./index.sh -aU $(whoami)  >> run all settings with sudo
@@ -75,11 +77,14 @@ m=false
 p=false
 s=false
 
+export ALWAYS_YES=false
+export account
+
 # -------------------------------------------------
 # App logic
 # -------------------------------------------------
 
-while getopts 'aCfhmpP:S:U:xy-:' flag; do
+while getopts 'aCfhmM:pP:S:U:wxy-:' flag; do
 	case "${flag}" in
 	p) p=true ;;
 	P) p="$OPTARG" ;;
@@ -94,8 +99,10 @@ while getopts 'aCfhmpP:S:U:xy-:' flag; do
 	C) export cache=true ;;
 	S) export shell="$OPTARG" ;;
 	U) export user="$OPTARG" ;;
-	x) set -x && DEBUG=true ;;
-	y) DEBUG=true ;;
+	M) export account="$OPTARG" ;;
+	w) set -x && DEBUG=true ;;
+	x) DEBUG=true ;;
+	y) ALWAYS_YES=true ;;
 	-)
 		unset LONG_OPTARG LONG_OPTVAL
 		NEXT_PARAMS="${!OPTIND}" # OPTIND -> pointer to next parameter
@@ -133,6 +140,10 @@ while getopts 'aCfhmpP:S:U:xy-:' flag; do
 			require_argument
 			export user="$LONG_OPTVAL"
 			;;
+		mail*)
+			require_argument
+			export account="$LONG_OPTVAL"
+			;;
 		shell*)
 			require_argument
 			export shell="$LONG_OPTVAL"
@@ -148,6 +159,10 @@ while getopts 'aCfhmpP:S:U:xy-:' flag; do
 		debug)
 			no_argument
 			DEBUG=true
+			;;
+		yes)
+			no_argument
+			ALWAYS_YES=true
 			;;
 		*)
 			if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
