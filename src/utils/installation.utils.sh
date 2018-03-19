@@ -66,7 +66,9 @@ install() {
 # 1 - link
 # 2 - unique key of each installer
 download_and_install_dmg() {
-	local link="$1" name="installer.${2}.dmg" location
+	local link="$1" unique_key="$2"
+	test -z "$unique_key" && unique_key="$(uuidgen | tr -d "-")"
+	name="installer.${unique_key}.dmg" location
 
 	location=$(download_file "$name" "$link" false)
 
@@ -201,6 +203,7 @@ install_applications() {
 	check_txt_is "link" && install_link "$RAW_LIBRARY_EXTR" && return 0
 	check_txt_is "dict" && install_dict "$RAW_LIBRARY_EXTR" && return 0
 	check_txt_is "mas" && install_mas "$RAW_LIBRARY_EXTR" && return 0
+	check_txt_is "dmg" && download_and_install_dmg "$RAW_LIBRARY_EXTR" && return 0
 
 	# echo "Installation not exist!" >&2
 }
