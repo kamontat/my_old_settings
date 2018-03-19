@@ -1,2 +1,3 @@
 brew neovim=version upgrade of vim
 brew vim=vi improvement
+link spacevim=a community-driven modular vim distribution. It manages collections of plugins in layers {https://spacevim.org/install.sh}
