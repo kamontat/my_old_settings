@@ -187,6 +187,7 @@ if $h; then
 fi
 
 check_user # must be root
+valid_user # if sudo, must call `--user`
 
 [[ $p == true ]] && only_applications
 $s && only_other_setting

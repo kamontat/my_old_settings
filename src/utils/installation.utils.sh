@@ -68,7 +68,8 @@ install() {
 download_and_install_dmg() {
 	local link="$1" unique_key="$2"
 	test -z "$unique_key" && unique_key="$(uuidgen | tr -d "-")"
-	name="installer.${unique_key}.dmg" location
+
+	local name="installer.${unique_key}.dmg" location
 
 	location=$(download_file "$name" "$link" false)
 
@@ -83,7 +84,7 @@ download_and_install_pkg() {
 
 	location=$(download_file "$name" "$link" false)
 
-	install "$location" ""
+	install "$location" "pkg" "$name"
 }
 
 install_link() {
@@ -91,6 +92,9 @@ install_link() {
 	location=$(download_file_same_name "$link" false)
 
 	if_extension_of "$location" "sh" && bash "$location"
+	if if_extension_of "$location" "zip" && unzip_file "${location##*/}"; then
+		echo "install manually -- $location" >&2
+	fi # TODO: not finish
 }
 
 install_dict() {

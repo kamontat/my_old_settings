@@ -141,7 +141,7 @@ download_file() {
 
 download_file_same_name() {
 	local location="$PWD"
-	cd ${TEMP} && curl -sLOJ -C - "$1" -w "${TEMP}/%{filename_effective}"
+	cd ${TEMP} && curl -LOJ -C - "$1" -w "${TEMP}/%{filename_effective}"
 	cd "$location"
 }
 

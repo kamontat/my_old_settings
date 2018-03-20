@@ -57,6 +57,14 @@ check_user() {
 	fi
 }
 
+valid_user() {
+	local u="$(who)"
+	if [ "$u" != "root" ]; then
+		export user="$u"
+	fi
+
+}
+
 before_check_txt() {
 	local a="$1"
 	local arr=($a)
