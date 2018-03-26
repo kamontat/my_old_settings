@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+# maintain: Kamontat Chantrachirathumrong
+# version:  1.0.0
+# since:    26/03/2018
+
+# new key
+alias c='clear'
+if_command_exist "gls" 2>&1 && alias ls='gls --hyperlink=always --indicator-style=classify --color=auto' # brew coreutils
+alias l='ls'
+alias s='source'
+alias srm='sudo rm -rf'
+alias la='ls --almost-all --no-group --human-readable --sort=time --format=verbose --time-style="+%d/%m/%Y-%H:%M:%S"'
+alias rmf='rm -rf'
+if_command_exist "cat-syntax" 2>&1 && alias cat='cat-syntax'
+
+# git alias
+if $MYZS_USE_GIT; then
+	if_command_exist "hub" && alias git='hub'
+	alias g='git'
+	alias gs='git status'
+	alias gd='git diff'
+	alias ga='git add'
+	alias gc='git commit'
+	alias gcm='gc -m'
+	alias gcm-sign='gc -S -m'
+	alias gt='git tag'
+	alias gta='git tag -a'
+	alias gt-sign='git tag -s'
+	alias gco='git checkout'
+	alias gcod='git checkout dev'
+	alias gcom='git checkout master'
+
+	# git branch
+	alias gb='git branch'
+	alias gba='git branch -a'
+	alias gbD='git branch -D'
+	alias gbm='git branch --merged'
+	alias gbnm='git branch --no-merged'
+	alias gbr='git fetch --all --prune' # remove remote branch, If not exist
+	alias gp='git push'
+	alias gP='git pull'
+
+	# git log
+	alias gl='git log --graph'          # log with graph and format in git config
+	alias gl-sign='gl --show-signature' # log with show sign information
+	alias gla='gl --all'                # log all branch and commit
+	alias glo='gl --oneline'            # log with oneline format
+	alias glao='gla --oneline'          # log all in oneline format
+	alias glss='gl --stat --summary'    # log with stat and summary
+fi
+
+# gitmoji
+if $MYZS_USE_GITMOJI && if_command_exist "gitmoji"; then
+	alias gj='gitmoji'
+	alias gji='git init; gj -i'
+	alias gj_remove='gj --remove'
+	alias gjc='gj --commit'
+	alias gj_list='gj --list'
+	alias gj_update='gj --update'
+fi
+
+# vim
+if if_command_exist "nvim"; then
+	alias v='nvim'
+	alias vi='nvim'
+	alias vim='nvim'
+	alias vis='sudo nvim'
+	alias svim='sudo nvim'
+else
+	alias v='vim'
+	alias vi='vim'
+	alias vim='vim'
+	alias vis='sudo vim'
+	alias svim='sudo vim'
+fi
+
+# beta application
+! if_command_exist "atom" && alias atom='atom-beta'
+! if_command_exist "code" && alias code='code-insiders'

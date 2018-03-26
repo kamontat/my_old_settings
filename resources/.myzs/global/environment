@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# maintain: Kamontat Chantrachirathumrong
+# version:  1.0.0
+# since:    26/03/2018
+
+# default path
+# set bin library location
+export PATH="$PATH:/usr/local/bin"  # local user bin
+export PATH="$PATH:/usr/bin"        # user bin
+export PATH="$PATH:/bin"            # bin
+export PATH="$PATH:/usr/local/sbin" # local user sbin
+export PATH="$PATH:/usr/sbin"       # user sbin
+export PATH="$PATH:/sbin"           # sbin

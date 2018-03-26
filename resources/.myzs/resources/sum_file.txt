@@ -1,0 +1,12 @@
+c5308adbd6f841436f02fa6cc391e5d0a80098b8  /Users/kamontat/.myzs/custom-libs/correction.zsh
+5115b0f4c216bf75ddb5c96f17b4988d784cacf7  /Users/kamontat/.myzs/custom-libs/history.zsh
+f0a71c6ea2f7b7c631df4c281fb59557bfee843d  /Users/kamontat/.myzs/global/alias
+b809d1ee5ec92af42713741b0d0ac56fca995b85  /Users/kamontat/.myzs/global/custom_command_line_interface
+393f9e95fc742bdf3490d0201f13a098044f0458  /Users/kamontat/.myzs/global/settings
+abf3c0f6f7fd2752e84499ea17e71ab776c85ccd  /Users/kamontat/.myzs/global/utils.func.zsh
+b477a7d9c6256fd05c95c0aa9cb728ebb028d558  /Users/kamontat/.myzs/src/config.zsh
+cd09642ec5cb6188db3be395ba07af07f97595c6  /Users/kamontat/.myzs/src/plugin.zsh
+3db6d4d4a308aaf08e29e9b2144d297929aeeaf8  /Users/kamontat/.myzs/src/plugin_zgen.zsh
+4e71c65664ac9ebf0f4c07962ca8b93f9b1d1fb4  /Users/kamontat/.myzs/src/post_install.zsh
+2f6412dfb83c800761b274a86035549bee9a2595  /Users/kamontat/.myzs/src/sourcing.zsh
+f7a0464b80c479c24239274da4895a5129d81c1a  /Users/kamontat/.myzs/src/theme.zsh

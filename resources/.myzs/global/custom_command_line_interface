@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# maintain: Kamontat Chantrachirathumrong
+# version:  1.0.0
+# since:    26/03/2018
+
+if_command_exist "neofetch" &&
+	if_file_exist "$HOME/.config/neofetch/config" &&
+	alias sysinfo='neofetch --config ~/.config/neofetch/config'
+if_command_exist "ranger" &&
+	alias ui='ranger'
+if_command_exist "gnomon" &&
+	alias atime='gnomon'
+if_command_exist "gnomon" &&
+	alias stime='gnomon'
+if_command_exist "system_profiler" &&
+	alias batt='system_profiler SPPowerDataType'
+
+# my dot template (https://github.com/kamontat/dot-github-mini)
+alias dotgithub='~/.github/dotgithub'
+# bash template (https://github.com/Template-Generating/script-genrating)
+alias template='bash <(curl -sL https://github.com/Template-Generating/script-genrating/raw/master/template.sh)'
+alias color-test='bash <(curl -sL https://raw.githubusercontent.com/kamontat/bash-color/master/color_test.sh)'
+alias split='bash <(curl -sL https://gist.github.com/kamontat/97ea3378c5d323b9b430aeda8b5f80df/raw/f1f0e3c2a2712c74a30c33d3247deb3f5dd96724/sep.sh)'
+# angular custom
+alias ngg='git clone https://github.com/Template-Generating/angular-4-browser-sync.git'
