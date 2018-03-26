@@ -1,0 +1,1 @@
+brew gpg=allows you to encrypt and sign your data and communications
