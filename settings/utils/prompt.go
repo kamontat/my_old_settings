@@ -22,6 +22,25 @@ func PromptYesNo(defaultValue bool, msg string, help string) (result bool) {
 	return
 }
 
+// PromptYesNoWithValue to prompt yes/no question, and save result to input variable
+func PromptYesNoWithValue(result *string, defaultValue bool, msg string, help string) {
+	comfirm := false
+	comfirmAsString := "false"
+	prompt := &survey.Confirm{
+		Message: fmt.Sprintf("Do you want '%-26s'? : ", msg),
+		Default: defaultValue,
+		Help:    help,
+	}
+	err := survey.AskOne(prompt, &comfirm, nil)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(127)
+	}
+	comfirmAsString = fmt.Sprintf("%t", comfirm)
+	*result = comfirmAsString
+	return
+}
+
 // PromptWithValue input result variable, and prompt to user and than save result to variable
 //    This title should be Enter <key>: (<default>)
 func PromptWithValue(result *string, defaultValue string, msg string, help string) {

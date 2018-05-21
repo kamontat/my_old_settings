@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
@@ -20,7 +21,7 @@ func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
 
 func rawCommandWithReturn(name string, arg ...string) (strout string, strerr string, err error) {
 	var stdout, stderr bytes.Buffer
-	// fmt.Println(name, strings.Join(arg, " "))
+	fmt.Println(name, strings.Join(arg, " "))
 	cmd := exec.Command(name, arg...)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
