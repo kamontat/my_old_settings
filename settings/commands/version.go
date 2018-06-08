@@ -28,10 +28,11 @@ import (
 
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "show command version",
+	Use:     "version",
+	Aliases: []string{"v"},
+	Short:   "show command version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("settings version: " + version)
+		fmt.Printf("settings version: %s (%s)\n", version, build)
 	},
 }
 

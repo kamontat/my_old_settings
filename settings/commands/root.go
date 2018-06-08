@@ -36,6 +36,7 @@ var email string
 var noInternet bool
 var os string
 
+var build = "2"
 var version = "1.0.0"
 
 // 1. settings quick-setup|quick [--opt]
@@ -65,7 +66,7 @@ This allow you to quick setup your new computer within 3 second or even have ful
 
 To setting configuration, you able to use any flag that available or configuration file at '$HOME/.mys/config.properties'
   `,
-	Version: version,
+	Version: fmt.Sprintf("%s (%s)", version, build),
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
