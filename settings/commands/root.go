@@ -63,7 +63,7 @@ var rootCmd = &cobra.Command{
 For command usage, I built follow cobra concept (https://github.com/spf13/cobra#concepts).
 This allow you to quick setup your new computer within 3 second or even have full setup in your computer.
 
-To setting configuration, you able to use any flag that available or configuration file at '$HOME/.settings'
+To setting configuration, you able to use any flag that available or configuration file at '$HOME/.mys/config.properties'
   `,
 	Version: version,
 }
