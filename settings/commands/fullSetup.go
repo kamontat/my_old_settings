@@ -31,7 +31,7 @@ import (
 var fullSetupCmd = &cobra.Command{
 	Use:     "full-setup",
 	Aliases: []string{"fs", "f"},
-	Short:   "",
+	Short:   "full setup the computer [WIP 10%]",
 	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("fullSetup called on " + os)
