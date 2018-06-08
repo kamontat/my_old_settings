@@ -30,7 +30,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
 var username string
 var shellname string
 var email string
@@ -63,6 +62,8 @@ var rootCmd = &cobra.Command{
 	Long: `This script made by golang, which able to compile cross-platform. 
 For command usage, I built follow cobra concept (https://github.com/spf13/cobra#concepts).
 This allow you to quick setup your new computer within 3 second or even have full setup in your computer.
+
+To setting configuration, you able to use any flag that available or configuration file at '$HOME/.settings'
   `,
 	Version: version,
 }
@@ -96,27 +97,41 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			// os.Exit(1)
-		}
-
-		// Search config in home directory with name ".settings" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".settings")
+	// Find home directory.
+	home, err := homedir.Dir()
+	if err != nil {
+		fmt.Println(err)
+		// os.Exit(1)
 	}
+
+	// Search config in home directory with name ".settings" (without extension).
+	viper.SetConfigType("properties")
+	viper.SetConfigName("config")
+
+	viper.AddConfigPath(home + "/.mys")
+	viper.AddConfigPath("./.mys")
 
 	viper.SetEnvPrefix("mys")
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
+	err = viper.ReadInConfig()
+	if err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	} else {
+		fmt.Println(err)
+	}
+
+	if username == "" {
+		username = viper.GetString("username")
+	}
+	if shellname == "" {
+		shellname = viper.GetString("shellname")
+	}
+	if email == "" {
+		email = viper.GetString("email")
+	}
+	if os == "" {
+		os = viper.GetString("os")
 	}
 }
