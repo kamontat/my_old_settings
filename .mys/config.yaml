@@ -1,0 +1,14 @@
+username: kamontat
+email: kamontat.c@hotmail.com
+level: info
+formatter:
+  name: text
+  disable_timestamp: false
+# hooks:
+#   - name: file
+#     options:
+#       filename: log/test.log
+#       daily: true
+#       rotate: true
+#       maxDays: 15
+#       perm: '0660'
