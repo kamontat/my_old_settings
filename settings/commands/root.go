@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"os/user"
 
+	util "github.com/kamontat/my_settings/settings/utils"
 	"github.com/matishsiao/goInfo"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -69,21 +70,22 @@ To setting configuration, you able to use any flag that available or configurati
 	Version: fmt.Sprintf("%s (%s)", version, build),
 }
 
+var vp = viper.New()
+
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		util.Error("Execute", err)
 		// os.Exit(1)
 	}
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
+	cobra.OnInitialize(initConfig, initLogger)
 	user, err := user.Current()
 	if err != nil {
-		fmt.Println(err)
+		util.Error("User", err)
 		// os.Exit(1)
 	}
 
@@ -101,38 +103,42 @@ func initConfig() {
 	// Find home directory.
 	home, err := homedir.Dir()
 	if err != nil {
-		fmt.Println(err)
+		util.Error("Directory", err)
 		// os.Exit(1)
 	}
 
 	// Search config in home directory with name ".settings" (without extension).
-	viper.SetConfigType("properties")
-	viper.SetConfigName("config")
+	vp.SetConfigType("yaml")
+	vp.SetConfigName("config")
 
-	viper.AddConfigPath(home + "/.mys")
-	viper.AddConfigPath("./.mys")
+	vp.AddConfigPath(home + "/.mys")
+	vp.AddConfigPath("./.mys")
 
-	viper.SetEnvPrefix("mys")
-	viper.AutomaticEnv() // read in environment variables that match
+	vp.SetEnvPrefix("mys")
+	vp.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	err = viper.ReadInConfig()
+	err = vp.ReadInConfig()
 	if err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		util.Debug("Using config file", vp.ConfigFileUsed())
 	} else {
 		fmt.Println(err)
 	}
 
 	if username == "" {
-		username = viper.GetString("username")
+		username = vp.GetString("username")
 	}
 	if shellname == "" {
-		shellname = viper.GetString("shellname")
+		shellname = vp.GetString("shellname")
 	}
 	if email == "" {
-		email = viper.GetString("email")
+		email = vp.GetString("email")
 	}
 	if os == "" {
-		os = viper.GetString("os")
+		os = vp.GetString("os")
 	}
+}
+
+func initLogger() {
+	util.Init(vp)
 }
