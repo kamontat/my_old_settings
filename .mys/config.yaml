@@ -1,6 +1,6 @@
 username: kamontat
 email: kamontat.c@hotmail.com
-level: info
+level: debug
 formatter:
   name: text
   disable_timestamp: false

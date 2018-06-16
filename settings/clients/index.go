@@ -2,26 +2,25 @@ package client
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"os/exec"
-	"strings"
+
+	util "github.com/kamontat/my_settings/settings/utils"
 )
 
 func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
 	out, stderr, err := rawCommandWithReturn(name, arg...)
 	if err == nil {
-		fmt.Printf(out)
+		util.GetLogger().Log(name, out)
 	} else {
-		fmt.Printf(stderr)
-		// log.Fatal()
+		util.GetLogger().WithError(err).Error(name, stderr)
 	}
 	return
 }
 
 func rawCommandWithReturn(name string, arg ...string) (strout string, strerr string, err error) {
 	var stdout, stderr bytes.Buffer
-	fmt.Println(name, strings.Join(arg, " "))
+	// fmt.Println(name, strings.Join(arg, " "))
 	cmd := exec.Command(name, arg...)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

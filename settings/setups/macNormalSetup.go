@@ -1,14 +1,14 @@
 package setup
 
 import (
-	"fmt"
-
 	client "github.com/kamontat/my_settings/settings/clients"
 	util "github.com/kamontat/my_settings/settings/utils"
 )
 
 // MacWithoutInternet called to setup mac without internet
 func MacWithoutInternet() {
+	util.GetLogger().Debug("Setup", "setting without network")
+
 	if util.PromptYesNo(true, "Setup Dock", "dock setting set") {
 		MacDockSetup(true)
 	}
@@ -16,7 +16,11 @@ func MacWithoutInternet() {
 
 // MacWithInternet called to setup mac which require internet
 func MacWithInternet() {
-	fmt.Println("setup with net")
+	if b, e := util.CheckConnection(); !b {
+		util.GetLogger().WithError(e).Error("Setup", "setting with network").Exit(1)
+		return
+	}
+	util.GetLogger().Debug("Setup", "setting with network")
 }
 
 // MacDockSetup @noNetwork @dock @basic

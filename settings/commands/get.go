@@ -23,6 +23,8 @@ package command
 import (
 	"fmt"
 
+	"github.com/sirupsen/logrus"
+
 	util "github.com/kamontat/my_settings/settings/utils"
 	"github.com/spf13/cobra"
 )
@@ -113,7 +115,7 @@ Available arguments list
 				result = fmt.Sprintf("Available list: %s", mainArgument)
 			}
 
-			fmt.Printf("#%03d [%-10s]: %s\n", index+1, element, result)
+			util.GetLogger().WithField(logrus.Fields{"index": index + 1}).Log(element, result)
 		}
 	},
 }

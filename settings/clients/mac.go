@@ -34,8 +34,6 @@ package client
 //      DefaultWrite("some", "command")
 
 import (
-	"fmt"
-
 	util "github.com/kamontat/my_settings/settings/utils"
 )
 
@@ -187,8 +185,6 @@ func (mac macClient) DefaultRead(args ...string) callBack {
 		}
 	}
 
-	fmt.Println(mac.short)
-
 	var arr = []string{"read"}
 	arr = append(arr, args...)
 
@@ -212,6 +208,6 @@ func (mac macClient) R(args ...string) callBack {
 }
 
 func (mac macClient) Reset(application string) {
-	fmt.Println(mac.long)
+	// fmt.Println(mac.long)
 	rawCommandWithDefaultSTD("killall", application)
 }

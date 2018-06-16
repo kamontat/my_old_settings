@@ -1,6 +1,9 @@
 package util
 
 import (
+	"os"
+	"strings"
+
 	"github.com/heirko/go-contrib/logrusHelper"
 	_ "github.com/heralight/logrus_mate/hooks/file"
 	"github.com/sirupsen/logrus"
@@ -8,6 +11,10 @@ import (
 )
 
 type LOGTYPE int8
+
+type Logger struct {
+	entry logrus.Entry
+}
 
 const (
 	PANIC = -4
@@ -20,55 +27,68 @@ const (
 )
 
 const (
-	FORMAT = "[%7s]: %s \n"
+	FORMAT              = "[%-12s]: %s \n"
+	FORMAT_WITHOUT_LINE = "[%-12s]: %s "
 )
 
 func Init(viper *viper.Viper) {
 	c := logrusHelper.UnmarshalConfiguration(viper)
 	logrusHelper.SetConfig(logrus.StandardLogger(), c)
-
-	Log("", "")
 }
 
-func _log(entry *logrus.Entry, logType LOGTYPE, title string, message string) {
+func _log(entry logrus.Entry, logType LOGTYPE, title string, message string) {
+	var currentFormat = FORMAT_WITHOUT_LINE
+	var newTitle = strings.ToUpper(title)
+	// if len(message) == 0 {
+	// 	currentFormat = FORMAT
+	// }
 	switch logType {
 	case PANIC:
-		entry.Panicf(FORMAT, title, message)
+		entry.Panicf(currentFormat, newTitle, message)
 	case FATAL:
-		entry.Fatalf(FORMAT, title, message)
+		entry.Fatalf(currentFormat, newTitle, message)
 	case ERROR:
-		entry.Errorf(FORMAT, title, message)
+		entry.Errorf(currentFormat, newTitle, message)
 	case WARN:
-		entry.Warnf(FORMAT, title, message)
+		entry.Warnf(currentFormat, newTitle, message)
 	case LOG:
-		entry.Printf(FORMAT, title, message)
+		entry.Printf(currentFormat, newTitle, message)
 	case DEBUG:
-		entry.Debugf(FORMAT, title, message)
+		entry.Debugf(currentFormat, newTitle, message)
 	case INFO:
-		entry.Infof(FORMAT, title, message)
+		entry.Infof(currentFormat, newTitle, message)
 	}
 }
 
-func _logOnField(fields logrus.Fields) *logrus.Entry {
-	return logrus.WithFields(fields)
+func (logger Logger) WithError(err error) Logger {
+	logger.entry = *logrus.WithError(err)
+	return logger
 }
 
-func _justLog() *logrus.Entry {
-	return logrus.WithFields(logrus.Fields{})
+func (logger Logger) WithField(fields logrus.Fields) Logger {
+	logger.entry = *logrus.WithFields(fields)
+	return logger
 }
 
-func _error(err error) *logrus.Entry {
-	return logrus.WithError(err)
+func GetLogger() Logger {
+	return Logger{
+		entry: *logrus.WithFields(logrus.Fields{}),
+	}
 }
 
-func Log(title string, message string) {
-	_log(_justLog(), LOG, title, message)
+func (logger Logger) Log(title string, message string) {
+	_log(logger.entry, LOG, title, message)
 }
 
-func Debug(title string, message string) {
-	_log(_justLog(), DEBUG, title, message)
+func (logger Logger) Debug(title string, message string) {
+	_log(logger.entry, DEBUG, title, message)
 }
 
-func Error(title string, err error) {
-	_log(_error(err), ERROR, title, "")
+func (logger Logger) Error(title string, message string) Logger {
+	_log(logger.entry, ERROR, title, message)
+	return logger
+}
+
+func (logger Logger) Exit(exitCode int) {
+	os.Exit(exitCode)
 }

@@ -32,7 +32,11 @@ var quickSetupCmd = &cobra.Command{
 	Use:     "quick-setup",
 	Aliases: []string{"qs", "q"},
 	Short:   "quick setup the computer [WIP 40%]",
-	Long:    ``,
+	Long: `Quick setup computer, 
+This contains several component
+1. Computer settings (internet not require)
+2. Application settings (internet require)
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("quickSetup called on " + os)
 		if os == "Darwin" {
