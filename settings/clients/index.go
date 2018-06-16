@@ -5,15 +5,23 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/sirupsen/logrus"
+
 	util "github.com/kamontat/my_settings/settings/utils"
 )
 
 func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
 	out, stderr, err := rawCommandWithReturn(name, arg...)
 	if err == nil {
-		util.GetLogger().Log(name, out)
+		util.GetLogger().WithField(logrus.Fields{
+			"1.command": name,
+			"2.args":    arg,
+		}).Log("Execute", out)
 	} else {
-		util.GetLogger().WithError(err).Error(name, stderr)
+		util.GetLogger().WithError(err).WithField(logrus.Fields{
+			"command": name,
+			"args":    arg,
+		}).Error("Execute", stderr)
 	}
 	return
 }
