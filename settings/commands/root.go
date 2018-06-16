@@ -37,9 +37,6 @@ var email string
 var noInternet bool
 var os string
 
-var build = "2"
-var version = "1.0.0"
-
 // 1. settings quick-setup|quick [--opt]
 // 2. settings full-setup|full [--opt]
 
@@ -67,7 +64,7 @@ This allow you to quick setup your new computer within 3 second or even have ful
 
 To setting configuration, you able to use any flag that available or configuration file at '$HOME/.mys/config.properties'
   `,
-	Version: fmt.Sprintf("%s (%s)", version, build),
+	Version: util.VERSION_DEFAULT_FORMAT.GetResult(),
 }
 
 var vp = viper.New()
@@ -76,7 +73,7 @@ var vp = viper.New()
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		util.Error("Execute", err)
+		util.GetLogger().WithError(err).Error("Execute", "root command execute error")
 		// os.Exit(1)
 	}
 }
@@ -85,7 +82,7 @@ func init() {
 	cobra.OnInitialize(initConfig, initLogger)
 	user, err := user.Current()
 	if err != nil {
-		util.Error("User", err)
+		util.GetLogger().WithError(err).Error("User", "cannot get current user")
 		// os.Exit(1)
 	}
 
@@ -103,7 +100,7 @@ func initConfig() {
 	// Find home directory.
 	home, err := homedir.Dir()
 	if err != nil {
-		util.Error("Directory", err)
+		util.GetLogger().WithError(err).Error("Directory", "cannot get directory")
 		// os.Exit(1)
 	}
 
@@ -120,7 +117,7 @@ func initConfig() {
 	// If a config file is found, read it in.
 	err = vp.ReadInConfig()
 	if err == nil {
-		util.Debug("Using config file", vp.ConfigFileUsed())
+		util.GetLogger().Debug("Config file", vp.ConfigFileUsed())
 	} else {
 		fmt.Println(err)
 	}

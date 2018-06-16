@@ -21,8 +21,7 @@
 package command
 
 import (
-	"fmt"
-
+	util "github.com/kamontat/my_settings/settings/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +31,7 @@ var versionCmd = &cobra.Command{
 	Aliases: []string{"v"},
 	Short:   "show command version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("settings version: %s (%s)\n", version, build)
+		util.VERSION_DEFAULT_FORMAT.PrintResult()
 	},
 }
 
