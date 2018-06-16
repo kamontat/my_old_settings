@@ -1,6 +1,6 @@
 username: kamontat
 email: kamontat.c@hotmail.com
-level: debug
+level: debug # (debug, info, warn, error, fatal, panic)
 formatter:
   name: text
   disable_timestamp: false
