@@ -4,24 +4,32 @@ import (
 	"fmt"
 )
 
-const BUILD = "2"
-const VERSION = "1.0.0"
+// BUILD is a command build number
+const BUILD = "3"
 
-var VERSION_SIMPLE_FORMAT = VersionFormat{
+// VERSION is a command version
+const VERSION = "1.1.0"
+
+// SimpleVersionFormat is a format of command version
+// This will create by the template: %s %s
+var SimpleVersionFormat = VersionFormat{
 	code:   1,
 	title:  "version: ",
 	format: "%s %s",
-	result: []string{BUILD, VERSION},
+	result: []string{VERSION, BUILD},
 }
 
-var VERSION_NORMAL_FORMAT = VersionFormat{
+// NormalVersionFormat is a format of command version
+// This will create by the template: %s (%s)
+var NormalVersionFormat = VersionFormat{
 	code:   2,
 	title:  "mys version: ",
 	format: "%s (%s)",
 	result: []string{VERSION, BUILD},
 }
 
-var VERSION_DEFAULT_FORMAT = VERSION_NORMAL_FORMAT
+// DefaultVersionFormat is the format that use in command
+var DefaultVersionFormat = NormalVersionFormat
 
 type VersionFormat struct {
 	code   int

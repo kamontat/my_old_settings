@@ -31,7 +31,7 @@ var versionCmd = &cobra.Command{
 	Aliases: []string{"v"},
 	Short:   "show command version",
 	Run: func(cmd *cobra.Command, args []string) {
-		util.VERSION_DEFAULT_FORMAT.PrintResult()
+		util.DefaultVersionFormat.PrintResult()
 	},
 }
 

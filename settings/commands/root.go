@@ -65,7 +65,7 @@ This allow you to quick setup your new computer within 3 second or even have ful
 
 To setting configuration, you able to use any flag that available or configuration file at '$HOME/.mys/config.properties'
   `,
-	Version: util.VERSION_DEFAULT_FORMAT.GetResult(),
+	Version: util.DefaultVersionFormat.GetResult(),
 }
 
 var vp = viper.New()
