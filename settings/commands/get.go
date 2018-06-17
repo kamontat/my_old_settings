@@ -115,7 +115,7 @@ Available arguments list
 				result = fmt.Sprintf("Available list: %s", mainArgument)
 			}
 
-			util.GetLogger().WithField(logrus.Fields{"index": index + 1}).Log(element, result)
+			util.GetLogger().WithField(logrus.Fields{"index": index + 1}).Info(element, result)
 		}
 	},
 }

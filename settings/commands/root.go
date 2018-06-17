@@ -36,6 +36,7 @@ var shellname string
 var email string
 var noInternet bool
 var os string
+var alwayYes bool
 
 // 1. settings quick-setup|quick [--opt]
 // 2. settings full-setup|full [--opt]
@@ -93,6 +94,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&email, "email", "E", "", "Apple ID Email for install app mac store")
 	rootCmd.PersistentFlags().StringVarP(&os, "os", "P", gi.OS, "Current OS/Platform")
 	rootCmd.PersistentFlags().BoolVarP(&noInternet, "no-internet", "n", false, "Bypass all command that require internet")
+	rootCmd.PersistentFlags().BoolVarP(&alwayYes, "always-yes", "y", false, "Bypass user prompt to by default value without asking")
 }
 
 // initConfig reads in config file and ENV variables if set.

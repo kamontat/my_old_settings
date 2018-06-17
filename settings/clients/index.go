@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -13,10 +14,10 @@ import (
 func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
 	out, stderr, err := rawCommandWithReturn(name, arg...)
 	if err == nil {
-		util.GetLogger().WithField(logrus.Fields{
-			"1.command": name,
-			"2.args":    arg,
-		}).Log("Execute", out)
+		util.GetLogger().Debug("execute", fmt.Sprintf("%s %s", name, arg))
+		if len(out) > 0 {
+			util.GetLogger().Debug("out", out)
+		}
 	} else {
 		util.GetLogger().WithError(err).WithField(logrus.Fields{
 			"command": name,

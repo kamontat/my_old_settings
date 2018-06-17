@@ -21,9 +21,8 @@
 package command
 
 import (
-	"fmt"
-
 	setup "github.com/kamontat/my_settings/settings/setups"
+	util "github.com/kamontat/my_settings/settings/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -34,12 +33,11 @@ var fullSetupCmd = &cobra.Command{
 	Short:   "full setup the computer [WIP 10%]",
 	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("fullSetup called on " + os)
-		if os == "Darwin" {
-			setup.Mac(true, noInternet)
-		} else {
-			fmt.Println("Not support (" + os + ") yet!")
-		}
+		setupObj := setup.Initial(os, !noInternet, alwayYes)
+
+		util.GetLogger().Debug("Full-setup", "called on "+setupObj.ToString())
+
+		setupObj.StartAdvance()
 	},
 }
 

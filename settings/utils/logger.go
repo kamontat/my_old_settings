@@ -1,7 +1,6 @@
 package util
 
 import (
-	"os"
 	"strings"
 
 	"github.com/heirko/go-contrib/logrusHelper"
@@ -76,7 +75,7 @@ func GetLogger() Logger {
 	}
 }
 
-func (logger Logger) Log(title string, message string) {
+func (logger Logger) Info(title string, message string) {
 	_log(logger.entry, LOG, title, message)
 }
 
@@ -89,6 +88,12 @@ func (logger Logger) Error(title string, message string) Logger {
 	return logger
 }
 
-func (logger Logger) Exit(exitCode int) {
-	os.Exit(exitCode)
+func (logger Logger) Fatal(title string, message string) Logger {
+	_log(logger.entry, FATAL, title, message)
+	return logger
+}
+
+func (logger Logger) Panic(title string, message string) Logger {
+	_log(logger.entry, PANIC, title, message)
+	return logger
 }

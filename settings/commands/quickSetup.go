@@ -21,9 +21,8 @@
 package command
 
 import (
-	"fmt"
-
 	setup "github.com/kamontat/my_settings/settings/setups"
+	util "github.com/kamontat/my_settings/settings/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -38,12 +37,11 @@ This contains several component
 2. Application settings (internet require)
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("quickSetup called on " + os)
-		if os == "Darwin" {
-			setup.Mac(false, noInternet)
-		} else {
-			fmt.Println("Not support (" + os + ") yet!")
-		}
+		setupObj := setup.Initial(os, !noInternet, alwayYes)
+
+		util.GetLogger().Debug("Quick-setup", "called on "+setupObj.ToString())
+
+		setupObj.StartSimple()
 	},
 }
 
