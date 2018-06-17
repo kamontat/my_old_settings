@@ -11,6 +11,10 @@ import (
 	util "github.com/kamontat/my_settings/settings/utils"
 )
 
+func ExecShellScript(filepath string) error {
+	return rawCommandWithDefaultSTD("bash", filepath)
+}
+
 func rawCommandWithDefaultSTD(name string, arg ...string) (err error) {
 	out, stderr, err := rawCommandWithReturn(name, arg...)
 	if err == nil {

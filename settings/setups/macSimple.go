@@ -11,6 +11,8 @@ func (ms MacSetup) SimpleWithoutInternet() {
 	if util.PromptYesNo(true, "Setup Dock", "dock setting set") {
 		MacDockSetup(SIMPLE)
 	}
+
+	// TODO: Add more simple setup without internet
 }
 
 // SimpleWithInternet called to setup mac which require internet
@@ -20,4 +22,6 @@ func (ms MacSetup) SimpleWithInternet() {
 		return
 	}
 	util.GetLogger().Debug("Setup", "setting with network")
+
+	// TODO: Add more simple setup with internet
 }

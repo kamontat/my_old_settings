@@ -14,6 +14,8 @@ func (ms MacSetup) AdvanceWithoutInternet() {
 	if util.PromptYesNo(true, "Setup System", "system setting set") {
 		MacSystemSetup(ADVANCE)
 	}
+
+	// TODO: Add more advance setup without internet
 }
 
 // AdvanceWithInternet called to setup advance mac which require internet
@@ -23,4 +25,10 @@ func (ms MacSetup) AdvanceWithInternet() {
 		return
 	}
 	util.GetLogger().Debug("Setup (ADV)", "setting with network")
+
+	if util.PromptYesNo(true, "Setup zsh", "install myzs setup (https://github.com/kamontat/myzs)") {
+		ZshSetup()
+	}
+
+	// TODO: Add more advance setup with internet
 }
