@@ -2,7 +2,9 @@ package setup
 
 import client "github.com/kamontat/my_settings/settings/clients"
 
-func MacSystemSetup(mode SetupMode) {
+// MacSystemSetup is the command able to interact to outer package
+// this using parameter to define which type of setup
+func MacSystemSetup(mode Mode) {
 	if mode == ADVANCE {
 		macAdvanceSystemSetup()
 	}

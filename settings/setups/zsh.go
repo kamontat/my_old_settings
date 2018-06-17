@@ -5,17 +5,19 @@ import (
 	util "github.com/kamontat/my_settings/settings/utils"
 )
 
-const MYZS_PATH = "/tmp/myzs.zip"
-const MYZS_RESULT = "/tmp/myzs.temp"
-const MYZS_LINK = "https://github.com/kamontat/myzs/archive/master.zip"
+const myzsPath = "/tmp/myzs.zip"
+const myzsTemp = "/tmp/myzs.temp"
+const myzsLink = "https://github.com/kamontat/myzs/archive/master.zip"
 
+// ZshSetup is a method that will download myzs repository and install it in current computer
+// @network @zsh @advance
 func ZshSetup() {
 	util.GetLogger().Debug("Zsh", "starting setup")
-	util.Download(MYZS_PATH, MYZS_LINK)
-	_, err := util.Unzip(MYZS_PATH, MYZS_RESULT)
+	util.Download(myzsPath, myzsLink)
+	_, err := util.Unzip(myzsPath, myzsTemp)
 	if err != nil {
 		util.GetLogger().WithError(err).Fatal("unzip", "err")
 	}
 
-	client.ExecShellScript(MYZS_RESULT + "/myzs-master/install.sh")
+	client.ExecShellScript(myzsTemp + "/myzs-master/install.sh")
 }

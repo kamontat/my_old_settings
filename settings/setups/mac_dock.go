@@ -2,7 +2,9 @@ package setup
 
 import client "github.com/kamontat/my_settings/settings/clients"
 
-func MacDockSetup(mode SetupMode) {
+// MacDockSetup is the command able to interact to outer package
+// this using parameter to define which type of setup
+func MacDockSetup(mode Mode) {
 	macSimpleDockSetup(mode == ADVANCE)
 	if mode == ADVANCE {
 		macAdvanceDockSetup()
