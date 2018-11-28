@@ -1,4 +1,6 @@
-# My settings
+# My settings [NOT MAINTAINS]
+
+Please use https://github.com/kamontat/my_settings instead.
 
 ## Usage
 
